@@ -38,6 +38,9 @@ app.get('/', (req: Request, res: Response) => {
 // app.use('/api/v1/pay', payRoute);
 // app.use('/api/v1/payroll', payrollRoute);
 
-app.listen(port, () => {
+
+
+app.listen(port || 3001, () => {
   console.log(`⚡️[server]: Server is running at ${port}`);
 });
+
