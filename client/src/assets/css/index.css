@@ -1,0 +1,107 @@
+@media only screen and (min-width: 1024px) {
+  body {
+    text-align: center;
+    overflow: hidden;
+  }
+  /* iframe {
+    width: 75vw;
+    height: 84vh;
+    margin: 20px auto;
+    overflow-x: hidden;
+    outline: unset;
+    border: unset;
+  } */
+  h1 {
+    font-family: "Inter", sans-serif;
+    font-weight: 600;
+    font-size: 30px;
+  }
+  .logo-heading-text {
+    margin-bottom: 40px;
+    color: var(--ip-white);
+  }
+  .grid-container {
+    display: -ms-grid;
+    display: grid;
+    -ms-grid-columns: 0.5fr 4fr;
+    grid-template-columns: 0.5fr 4fr;
+    height: auto;
+    overflow: scroll;
+  }
+  .side-nav {
+    height: 100%;
+    width: 280px;
+    background-color: var(--ip-dark-primary);
+    padding: 10px;
+    color: var(--ip-white);
+    text-align: center;
+  }
+  img.nav-menu-icon {
+    width: 30px;
+    height: 30px;
+  }
+  .nav-menu-item-list > li {
+    width: 80%;
+    list-style: none;
+    margin: 22px;
+    padding-left: 20px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+  }
+  .nav-menu-item-list > li > a {
+    color: var(--light-grey);
+    text-decoration: none;
+    padding: 10px;
+    font-size: 14px;
+  }
+  .content-section {
+    background-color: var(--ip-light-grey);
+  }
+  .welcome-status-bar {
+    width: 100%;
+    height: 60px;
+    background-color: var(--ip-white);
+  }
+  .nav-menu-item-list > li {
+    border-radius: 20px;
+    -webkit-transition: 0.6s background-color;
+    transition: 0.6s background-color;
+    font-size: 14px;
+  }
+  .contact-support > a {
+    color: var(--ip-white);
+    font-size: 12px;
+  }
+  .ip-status-grid-container {
+    display: -ms-grid;
+    display: grid;
+    -ms-grid-columns: 1fr 1fr 0.2fr;
+    grid-template-columns: 1fr 1fr 0.2fr;
+  }
+  .ip-status-grid-container > div {
+    width: 100%;
+    height: 60px;
+    padding: 20px 10px;
+  }
+  .ip-status-grid-container > div:nth-child(1) {
+    text-align: left;
+    padding-left: 40px;
+  }
+  .ip-status-grid-container > div:nth-child(2) {
+    text-align: right;
+  }
+  .ip-status-grid-container > div:nth-child(3) {
+    text-align: left;
+  }
+  .ip-status-grid-container > div:nth-child(3) > img {
+    width: 20px;
+    height: 20px;
+  }
+  .nav-menu-item-list > li:hover {
+    background-color: var(--ip-medium-blue);
+  }
+}
