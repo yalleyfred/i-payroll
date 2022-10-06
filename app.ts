@@ -8,6 +8,7 @@ dotenv.config();
 export const app: Express = express();
 
 import employeeRoute from './routes/employeeRoute';
+import userRoute from './routes/userRoute';
 
 
 
@@ -21,3 +22,4 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 
 app.use('/api/v1/employees', employeeRoute);
+app.use('/api/v1/users', userRoute);
