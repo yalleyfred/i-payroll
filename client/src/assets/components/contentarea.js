@@ -12,7 +12,7 @@ export default function Contentarea() {
   return (
     <main className="grid-container">
       <Navbar />
-      <section role="presentation" class="content-section">
+      <section role="presentation" className="content-section">
         <Profilebar />
         <div className="dashboard">
           <Outlet />

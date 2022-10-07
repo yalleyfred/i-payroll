@@ -2,13 +2,7 @@
   body {
     background-color: var(--ip-light-grey);
   }
-  .employees-detail-section {
-    width: 95%;
-    background-color: var(--ip-white);
-    height: 100%;
-    overflow: scroll;
-    margin: 40px auto;
-  }
+
   .payroll-heading-text {
     font-size: 40px;
     padding: 20px 0;
