@@ -8,6 +8,8 @@ import { Barchart } from "../components/chart";
 import moment from "moment-timezone/builds/moment-timezone-with-data-2012-2022";
 import { employees_url } from "../js/api/requests";
 
+import Table from "react-bootstrap/Table";
+
 const axios = require("axios").default;
 
 export default function Employees() {
@@ -90,7 +92,7 @@ export default function Employees() {
 
       <section className="employees-detail-section">
         <div>
-          <table id="" className="display">
+          <Table striped hover>
             <thead>
               <tr>
                 <th>No.</th>
@@ -117,51 +119,8 @@ export default function Employees() {
                     );
                   })
                 : "Loading.."}
-
-              {/* <tr>
-                    <td>2</td>
-                    <td>03/06/2004</td>
-                    <td>Fredrick Yalley</td>
-                    <td>fredrick.yalley@amalitech.org</td>
-                    <td>Backend Developer</td>
-                    <td>Information Technology</td>
-                  </tr>
-
-
-                  <tr>
-                    <td>3</td>
-                    <td>03/04/2006</td>
-                    <td>Emmanuel Mensah</td>
-                    <td>emmanuel.mensah@amalitech.org</td>
-                    <td>Frontend Developer</td>
-                    <td>Information Technology</td>
-                  </tr>
-                  <tr>
-                    <td>4</td>
-                    <td>03/04/2006</td>
-                    <td>Theophilus Gordon</td>
-                    <td>theophilus.gordon@amalitech.org</td>
-                    <td>FullStack Developer</td>
-                    <td>Information Technology</td>
-                  </tr>
-                  <tr>
-                    <td>5</td>
-                    <td>03/04/2006</td>
-                    <td>Edward Djirakor</td>
-                    <td>edward.djirakor@amalitech.org</td>
-                    <td>Backend Developer</td>
-                    <td>Information Technology</td>
-                  </tr>
-                  <tr>
-                    <td>6</td>
-                    <td>03/04/2006</td>
-                    <td>Nicolas Ocran</td>
-                    <td>nicolas.ocran@amalitech.org</td>
-                    <td>Frontend Developer</td>
-                    <td>Information Technology</td>
-                  </tr> */}
             </tbody>
-          </table>
+          </Table>
         </div>
         <div id="chart">
           <Barchart />

@@ -29,7 +29,7 @@ export default function LoginForm() {
           />
           <p className="form-medium-text">
             &nbsp;
-            <Link to="#" className="link">
+            <Link to={"/signup"} className="link">
               Register a new account
             </Link>
           </p>
