@@ -1,0 +1,18 @@
+@media only screen and (min-width: 1024px) {
+  body {
+    background-color: var(--ip-light-grey);
+  }
+
+  .payroll-heading-text {
+    font-size: 40px;
+    padding: 20px 0;
+  }
+  .payroll-heading-text + hr {
+    width: 340px;
+    margin: 0 auto;
+  }
+  #table_id_wrapper {
+    padding: 10px;
+    overflow: scroll;
+  }
+}
