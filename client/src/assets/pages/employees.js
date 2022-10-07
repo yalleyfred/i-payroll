@@ -1,18 +1,35 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import "../css/common_styles.css";
 import "../css/index.css";
 // import $ from "jquery";
 import "datatables.net";
 import { Barchart } from "../components/chart";
+import moment from "moment-timezone/builds/moment-timezone-with-data-2012-2022";
+import { employees_url } from "../js/api/requests";
 
-// $(document).ready(function () {
-//   $("#table_id").DataTable();
-// });
+const axios = require("axios").default;
 
 export default function Employees() {
+  const [employeeInfo, setEmployeeInfo] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get(employees_url)
+      .then((response) => {
+        // console.log(response);
+        if (response.status === 200) {
+          setEmployeeInfo(response.data.employee);
+          // console.log(response.data.employee);
+        }
+      })
+      .catch((error) => {
+        throw new Error(error);
+      });
+  }, [employeeInfo]);
+
   return (
-    <div>
+    <div style={{ height: "100%", marginBottom: "40px" }}>
       <section className="employees-summary-section">
         <div role="presentation">
           <NavLink to="#modal-full" uk-toggle className="navlink">
@@ -73,7 +90,7 @@ export default function Employees() {
 
       <section className="employees-detail-section">
         <div>
-          <table id="table_id" className="display">
+          <table id="" className="display">
             <thead>
               <tr>
                 <th>No.</th>
@@ -85,54 +102,64 @@ export default function Employees() {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>1</td>
-                <td>02/09/2001</td>
-                <td>Enoch Boison</td>
-                <td>enochboison@amalitech.org</td>
-                <td>Frontend Developer</td>
-                <td>Information Technology</td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td>03/06/2004</td>
-                <td>Fredrick Yalley</td>
-                <td>fredrick.yalley@amalitech.org</td>
-                <td>Backend Developer</td>
-                <td>Information Technology</td>
-              </tr>
-              <tr>
-                <td>3</td>
-                <td>03/04/2006</td>
-                <td>Emmanuel Mensah</td>
-                <td>emmanuel.mensah@amalitech.org</td>
-                <td>Frontend Developer</td>
-                <td>Information Technology</td>
-              </tr>
-              <tr>
-                <td>4</td>
-                <td>03/04/2006</td>
-                <td>Theophilus Gordon</td>
-                <td>theophilus.gordon@amalitech.org</td>
-                <td>FullStack Developer</td>
-                <td>Information Technology</td>
-              </tr>
-              <tr>
-                <td>5</td>
-                <td>03/04/2006</td>
-                <td>Edward Djirakor</td>
-                <td>edward.djirakor@amalitech.org</td>
-                <td>Backend Developer</td>
-                <td>Information Technology</td>
-              </tr>
-              <tr>
-                <td>6</td>
-                <td>03/04/2006</td>
-                <td>Nicolas Ocran</td>
-                <td>nicolas.ocran@amalitech.org</td>
-                <td>Frontend Developer</td>
-                <td>Information Technology</td>
-              </tr>
+              {employeeInfo.length > 0
+                ? employeeInfo.map((value, index) => {
+                    // console.log(value.date_hired);
+                    return (
+                      <tr key={index}>
+                        <td>{value.id}</td>
+                        <td>{moment(value.hire_date).format("MM-DD-YYYY")};</td>
+                        <td>{value.name}</td>
+                        <td>{value.email}</td>
+                        <td>{value.job_title}</td>
+                        <td>{value.department}</td>
+                      </tr>
+                    );
+                  })
+                : "Loading.."}
+
+              {/* <tr>
+                    <td>2</td>
+                    <td>03/06/2004</td>
+                    <td>Fredrick Yalley</td>
+                    <td>fredrick.yalley@amalitech.org</td>
+                    <td>Backend Developer</td>
+                    <td>Information Technology</td>
+                  </tr>
+
+
+                  <tr>
+                    <td>3</td>
+                    <td>03/04/2006</td>
+                    <td>Emmanuel Mensah</td>
+                    <td>emmanuel.mensah@amalitech.org</td>
+                    <td>Frontend Developer</td>
+                    <td>Information Technology</td>
+                  </tr>
+                  <tr>
+                    <td>4</td>
+                    <td>03/04/2006</td>
+                    <td>Theophilus Gordon</td>
+                    <td>theophilus.gordon@amalitech.org</td>
+                    <td>FullStack Developer</td>
+                    <td>Information Technology</td>
+                  </tr>
+                  <tr>
+                    <td>5</td>
+                    <td>03/04/2006</td>
+                    <td>Edward Djirakor</td>
+                    <td>edward.djirakor@amalitech.org</td>
+                    <td>Backend Developer</td>
+                    <td>Information Technology</td>
+                  </tr>
+                  <tr>
+                    <td>6</td>
+                    <td>03/04/2006</td>
+                    <td>Nicolas Ocran</td>
+                    <td>nicolas.ocran@amalitech.org</td>
+                    <td>Frontend Developer</td>
+                    <td>Information Technology</td>
+                  </tr> */}
             </tbody>
           </table>
         </div>
