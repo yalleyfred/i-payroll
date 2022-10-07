@@ -22,7 +22,7 @@ export const sendEmail = async (options: Email) => {
 
       const mailOptions: {} = {
         from: '"ipayroll" <fredrick.yalley@outlook.com>', 
-        to: "yalleyfred@gmail.com", 
+        to: options.email, 
         subject: "Payslip", 
         text: options.text, 
         html: options.message, 

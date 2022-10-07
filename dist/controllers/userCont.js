@@ -41,9 +41,9 @@ const userModel_1 = __importStar(require("../model/userModel"));
 const userServices = __importStar(require("../service/userService"));
 const Database_1 = __importDefault(require("../Database"));
 const dotenv = __importStar(require("dotenv"));
-const email_1 = require("../utils/email");
 const crypto_1 = __importDefault(require("crypto"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const bcrypt_1 = __importDefault(require("bcrypt"));
 exports.SECRET_KEY = "howcanyoutellmethisstory";
 dotenv.config();
 const getAllUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -104,12 +104,12 @@ const forgotPassword = (req, res) => __awaiter(void 0, void 0, void 0, function*
         const user = yield userServices.forgotPassword(req.body);
         const resetURL = `${req.protocol}://${req.get('host')}/api/v1/users/resetPassword/${user === null || user === void 0 ? void 0 : user.resetToken}`;
         const message = `Forgot your password? Submit a PATCH request with your new password and passwordConfirm to: ${resetURL}.\nIf you did'nt forget your password, please ignore this email!`;
-        yield (0, email_1.sendEmail)({
-            email: "yalleyfred@gmail.com",
-            subject: "ipayroll",
-            text: 'Your password reset token (valid for 10 min)',
-            message: message
-        });
+        //  await sendEmail({
+        //   email: "piperleaches@gmail.com",
+        //   subject: "ipayroll",
+        //   text: 'Your password reset token (valid for 10 min)',
+        //   message: message
+        //  })
         res.status(200).json({
             status: 'success',
             result: resetURL
@@ -134,25 +134,30 @@ const resetPassword = (req, res, next) => __awaiter(void 0, void 0, void 0, func
             passwordResetToken: passwordToken
         }
     });
-    console.log(user);
-    // const myUser: {
-    //   email: string | null;
-    //   password: string | null;
-    //   passwordResetToken: string | null;
-    //   passwordResetExpires: string | null;
-    // } = user;
+    console.log(user === null || user === void 0 ? void 0 : user.passwordResetExpires);
     if ((!user) || user == null) {
         res.send("oops");
         return new Error('Token is invalid or has expired');
     }
     ;
-    // user.password = req.body.password;
-    // user.passwordResetToken = null;
-    // user.passwordResetExpires = null;
+    const salt = 10;
+    console.log(req.body.password);
+    const hashedPassword = yield bcrypt_1.default.hash(req.body.password, salt);
+    console.log(hashedPassword);
+    yield userModel_1.default.update({
+        passwordResetExpires: null,
+        passwordResetToken: null,
+        password: hashedPassword
+    }, {
+        where: {
+            email: user.email
+        }
+    });
     const token = jsonwebtoken_1.default.sign({ id: user.id, email: user.email }, exports.SECRET_KEY, {
         expiresIn: "1h",
     });
-    next();
+    console.log(token);
+    next(res.send("ok"));
 });
 exports.resetPassword = resetPassword;
 //# sourceMappingURL=userCont.js.map

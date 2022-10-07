@@ -7,6 +7,8 @@ import * as dotenv from 'dotenv';
 import {sendEmail} from "../utils/email";
 import crypto from 'crypto';
 import jwt, {Secret} from 'jsonwebtoken';
+import bcrypt  from "bcrypt";
+
 
 
 
@@ -80,12 +82,12 @@ export const forgotPassword = async(req:Request, res: Response) => {
 
         const message = `Forgot your password? Submit a PATCH request with your new password and passwordConfirm to: ${resetURL}.\nIf you did'nt forget your password, please ignore this email!`;
 
-       await sendEmail({
-        email: "yalleyfred@gmail.com",
-        subject: "ipayroll",
-        text: 'Your password reset token (valid for 10 min)',
-        message: message
-       })
+      //  await sendEmail({
+      //   email: "piperleaches@gmail.com",
+      //   subject: "ipayroll",
+      //   text: 'Your password reset token (valid for 10 min)',
+      //   message: message
+      //  })
         res.status(200).json({
           status: 'success',
           result: resetURL
@@ -112,25 +114,35 @@ export const resetPassword = async(req:Request, res: Response, next: NextFunctio
      
     }
   })
-  console.log(user);
-  // const myUser: {
-  //   email: string | null;
-  //   password: string | null;
-  //   passwordResetToken: string | null;
-  //   passwordResetExpires: string | null;
-  // } = user;
+  console.log(user?.passwordResetExpires);
+  
   if((!user) || user == null) {
     res.send("oops")
     return new Error('Token is invalid or has expired');
     
   };
-  // user.password = req.body.password;
-  // user.passwordResetToken = null;
-  // user.passwordResetExpires = null;
+
+  const salt: number = 10
+  console.log(req.body.password);
+  
+  const hashedPassword = await bcrypt.hash(req.body.password, salt);
+  console.log(hashedPassword);
+
+ await User.update({
+    passwordResetExpires: null,
+    passwordResetToken: null,
+    password: hashedPassword
+  }, {
+    where: {
+      email: user.email
+    }
+  }); 
+
 
   const token = jwt.sign({id: user.id, email:user.email}, SECRET_KEY, {
                 expiresIn: "1h",
               });
+         console.log(token);
           
-              next();
+        next(res.send("ok"));
 }

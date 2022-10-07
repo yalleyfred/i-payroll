@@ -123,8 +123,8 @@ function forgotPassword(user) {
             const reset = (0, resetToken_1.createPasswordResetToken)();
             console.log(reset);
             yield userModel_1.default.update({
-                theUser, passwordResetToken: reset.passwordResetToken,
-                theUser, passwordResetExpires: reset.passwordResetExpires
+                passwordResetToken: reset.passwordResetToken,
+                passwordResetExpires: reset.passwordResetExpires
             }, {
                 where: {
                     email: user.email
