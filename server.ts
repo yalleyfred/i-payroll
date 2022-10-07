@@ -9,7 +9,7 @@ const port = process.env.PORT;
 
 sequelize.authenticate().then(() => {
     console.log('connected to database successfully!'); 
-  }).catch(err => {
+  }).catch(error => {
     console.log('DB connection failed');
     
   })

@@ -10,7 +10,7 @@ dotenv_1.default.config();
 const port = process.env.PORT;
 Database_1.default.authenticate().then(() => {
     console.log('connected to database successfully!');
-}).catch(err => {
+}).catch(error => {
     console.log('DB connection failed');
 });
 app_1.app.listen(port, () => {
