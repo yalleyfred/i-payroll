@@ -126,8 +126,8 @@ export async function forgotPassword(user: E) {
     console.log(reset);
 
     await User.update({
-      theUser?.passwordResetToken: reset.passwordResetToken,
-      theUser?.passwordResetExpires: reset.passwordResetExpires
+      passwordResetToken: reset.passwordResetToken,
+      passwordResetExpires: reset.passwordResetExpires
     }, {
       where: {
         email: user.email
