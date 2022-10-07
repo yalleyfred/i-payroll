@@ -10,6 +10,8 @@ import Loans from "./assets/pages/loans";
 import Allowances from "./assets/pages/allowances";
 import Contentarea from "./assets/components/contentarea";
 import Tax from "./assets/pages/tax";
+import LoginForm from "./assets/forms/login";
+import Signup from "./assets/forms/signup";
 
 function Index() {
   return (
@@ -25,6 +27,10 @@ function Index() {
         </Route>
       </Routes>
       {/* </Contentarea> */}
+      <Routes>
+        <Route path="/login" element={<LoginForm />} />
+        <Route path="/signup" element={<Signup />} />
+      </Routes>
     </Router>
   );
 }

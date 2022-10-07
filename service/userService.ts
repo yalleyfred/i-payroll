@@ -2,8 +2,9 @@ import User, {UserMap} from "../model/userModel";
 import Database from "../Database";
 import bcrypt  from "bcrypt";
 import jwt, { Secret, JwtPayload } from 'jsonwebtoken';
-import crypto from 'crypto';
 
+
+import crypto from 'crypto';
 
 import {createPasswordResetToken} from "../utils/resetToken";
 
@@ -58,10 +59,10 @@ export async function register(user: U) {
             }
         
             
-            const registeredUser = await User.create(user);
-            const token = jwt.sign({id: user.id, email:user.email}, SECRET_KEY, {
-                expiresIn: "1h",
-              });
+             const registeredUser = await User.create(user);
+             const token = jwt.sign({id: user.id, email:user.email}, SECRET_KEY, {
+                 expiresIn: "1h",
+               });
               return {user: registeredUser, token: token}
           }
       

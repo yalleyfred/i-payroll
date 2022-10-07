@@ -1,35 +1,37 @@
-import { NavLink } from "react-router-dom";
-import "../css/common_styles";
+import { Link } from "react-router-dom";
+import "../css/common_styles.css";
 import "../css/form.css";
 
-export function LoginForm() {
+export default function LoginForm() {
   return (
-    <section ClassName="login-section">
+    <section className="login-section">
       <div>
-        <h1 ClassName="login-heading-text">iPayroll</h1>
+        <h1 className="login-heading-text">iPayroll</h1>
         <h6>A MODERN PAYROLL SYSTEM</h6>
-        <div ClassName="login-illustration">
+        <div className="login-illustration">
           <img
-            src={require("../../img/icons/visualization.svg").default}
+            src={require("../img/icons/visualization.svg").default}
             alt="an illustration representing data visualization"
           />
         </div>
       </div>
       <div>
-        <form ClassName="login-form">
-          <label for="email">Email</label>
-          <input type="email" id="login_email" ClassName="form-input" />
+        <form className="login-form">
+          <label htmlFor="email">Email</label>
+          <input type="email" id="login_email" className="form-input" />
 
-          <label for="password">Password</label>
-          <input type="password" id="login_password" ClassName="form-input" />
+          <label htmlFor="password">Password</label>
+          <input type="password" id="login_password" className="form-input" />
           <input
             type="button"
             value="Login now"
-            ClassName="login_button form-input"
+            className="login_button form-input"
           />
-          <p ClassName=" form-medium-text">
+          <p className="form-medium-text">
             &nbsp;
-            <NavLink href="#">Register a new account</NavLink>
+            <Link to="#" className="link">
+              Register a new account
+            </Link>
           </p>
         </form>
       </div>

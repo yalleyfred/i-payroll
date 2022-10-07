@@ -41,6 +41,7 @@ const userModel_1 = __importStar(require("../model/userModel"));
 const userServices = __importStar(require("../service/userService"));
 const Database_1 = __importDefault(require("../Database"));
 const dotenv = __importStar(require("dotenv"));
+const email_1 = require("../utils/email");
 const crypto_1 = __importDefault(require("crypto"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
@@ -102,14 +103,15 @@ exports.logIn = logIn;
 const forgotPassword = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const user = yield userServices.forgotPassword(req.body);
+        console.log(user);
         const resetURL = `${req.protocol}://${req.get('host')}/api/v1/users/resetPassword/${user === null || user === void 0 ? void 0 : user.resetToken}`;
         const message = `Forgot your password? Submit a PATCH request with your new password and passwordConfirm to: ${resetURL}.\nIf you did'nt forget your password, please ignore this email!`;
-        //  await sendEmail({
-        //   email: "piperleaches@gmail.com",
-        //   subject: "ipayroll",
-        //   text: 'Your password reset token (valid for 10 min)',
-        //   message: message
-        //  })
+        yield (0, email_1.sendEmail)({
+            email: req.body.email,
+            subject: "ipayroll",
+            text: 'Your password reset token (valid for 10 min)',
+            message: message
+        });
         res.status(200).json({
             status: 'success',
             result: resetURL

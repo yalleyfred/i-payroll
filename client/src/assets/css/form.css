@@ -37,7 +37,7 @@
     -ms-flex-align: center;
     align-items: center;
     background-color: var(--ip-dark-secondary);
-    background-image: url("../../../img/blur.jpg");
+    background-image: url("../img/blur.jpg");
     background-blend-mode: multiply;
   }
   .login-form,
@@ -114,6 +114,7 @@
     outline: unset;
     color: var(--ip-white);
     font-size: 20px;
+    cursor: pointer;
   }
   .signup_button {
     width: 360px;
@@ -123,7 +124,7 @@
   .form-medium-text {
     font-size: 16px;
     color: var(--ip-white);
-    padding: 20px 0;
+    text-align: center;
   }
   .login-illustration {
     height: 90%;
@@ -149,5 +150,10 @@
   }
   .input-group > div > label {
     margin: 20px 0;
+  }
+
+  .link {
+    color: var(--ip-white) !important;
+    text-decoration: underline;
   }
 }

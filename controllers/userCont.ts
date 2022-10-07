@@ -76,18 +76,19 @@ export const logIn = async(req:Request, res: Response) => {
 export const forgotPassword = async(req:Request, res: Response) => {
     try {
       const user = await userServices.forgotPassword(req.body);
-
+      console.log(user);
+      
   
       const resetURL = `${req.protocol}://${req.get('host')}/api/v1/users/resetPassword/${user?.resetToken}`;
 
         const message = `Forgot your password? Submit a PATCH request with your new password and passwordConfirm to: ${resetURL}.\nIf you did'nt forget your password, please ignore this email!`;
 
-      //  await sendEmail({
-      //   email: "piperleaches@gmail.com",
-      //   subject: "ipayroll",
-      //   text: 'Your password reset token (valid for 10 min)',
-      //   message: message
-      //  })
+       await sendEmail({
+        email: req.body.email,
+        subject: "ipayroll",
+        text: 'Your password reset token (valid for 10 min)',
+        message: message
+       })
         res.status(200).json({
           status: 'success',
           result: resetURL
