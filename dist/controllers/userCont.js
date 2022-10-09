@@ -41,7 +41,6 @@ const userModel_1 = __importStar(require("../model/userModel"));
 const userServices = __importStar(require("../service/userService"));
 const Database_1 = __importDefault(require("../Database"));
 const dotenv = __importStar(require("dotenv"));
-const crypto_1 = __importDefault(require("crypto"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const config_1 = require("../config");
 const createToken_1 = require("../utils/createToken");
@@ -78,7 +77,7 @@ const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         res.status(200).json({
             message: 'User created',
             token: user.token,
-            data: user.user,
+            data: user.user
         });
     }
     catch (error) {
@@ -91,7 +90,7 @@ const logIn = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const foundUser = yield userServices.login(req.body);
         res.cookie('jwt', foundUser.token, foundUser.cookie);
         res.status(200).json({
-            results: 'success',
+            status: 'success',
             token: foundUser.token,
             cookie: foundUser.cookie
         });
@@ -124,41 +123,59 @@ const forgotPassword = (req, res) => __awaiter(void 0, void 0, void 0, function*
 });
 exports.forgotPassword = forgotPassword;
 const resetPassword = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    (0, userModel_1.UserMap)(Database_1.default);
-    const passwordToken = req.params.token;
-    console.log(passwordToken);
-    const hashedToken = crypto_1.default
-        .createHash('sha256')
-        .update(passwordToken)
-        .digest('hex');
-    console.log(hashedToken);
-    const user = yield userModel_1.default.findOne({
-        where: {
-            passwordResetToken: passwordToken
+    try {
+        (0, userModel_1.UserMap)(Database_1.default);
+        const passwordToken = req.params.token;
+        console.log(passwordToken);
+        const { oldPassword, newPassword, confirmPassword } = req.body;
+        // const hashedToken = crypto
+        // .createHash('sha256')
+        // .update(passwordToken)
+        // .digest('hex');
+        // console.log(hashedToken);
+        const user = yield userModel_1.default.findOne({
+            where: {
+                passwordResetToken: passwordToken
+            }
+        });
+        console.log(user === null || user === void 0 ? void 0 : user.password);
+        const isMatch = yield bcrypt_1.default.compareSync(oldPassword, user.password);
+        console.log(isMatch);
+        if (!isMatch) {
+            throw new Error("old password is not correct");
         }
-    });
-    console.log(user === null || user === void 0 ? void 0 : user.passwordResetExpires);
-    if ((!user) || user == null) {
-        res.send("oops");
-        return new Error('Token is invalid or has expired');
+        if (oldPassword == newPassword) {
+            throw new Error("you can not use old password, Please set new password");
+        }
+        if (newPassword == confirmPassword) {
+            throw new Error("password does not match");
+        }
+        if ((!user) || user == null) {
+            res.send("oops");
+            return new Error('Token is invalid or has expired');
+        }
+        ;
+        const salt = 10;
+        console.log(newPassword);
+        const hashedPassword = yield bcrypt_1.default.hash(newPassword, salt);
+        console.log(hashedPassword);
+        yield userModel_1.default.update({
+            passwordResetExpires: null,
+            passwordResetToken: null,
+            password: hashedPassword
+        }, {
+            where: {
+                email: user.email
+            }
+        });
+        const credentials = (0, createToken_1.createSendToken)(user);
+        console.log(credentials);
+        next(res.send("success"));
+    }
+    catch (error) {
+        return res.status(500).send((0, errorUtils_1.getErrorMessage)(error));
     }
     ;
-    const salt = 10;
-    console.log(req.body.password);
-    const hashedPassword = yield bcrypt_1.default.hash(req.body.password, salt);
-    console.log(hashedPassword);
-    yield userModel_1.default.update({
-        passwordResetExpires: null,
-        passwordResetToken: null,
-        password: hashedPassword
-    }, {
-        where: {
-            email: user.email
-        }
-    });
-    const credentials = (0, createToken_1.createSendToken)(user);
-    console.log(credentials);
-    next(res.send("ok"));
 });
 exports.resetPassword = resetPassword;
 //# sourceMappingURL=userCont.js.map
