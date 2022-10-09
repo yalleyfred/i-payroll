@@ -3,6 +3,11 @@ import { Link } from "react-router-dom";
 import "../css/common_styles.css";
 import "../css/form.css";
 
+import "react-toastify/dist/ReactToastify.css";
+
+import { notification } from "../js/script";
+import { ToastContainer } from "react-toastify";
+
 const axios = require("axios").default;
 
 export default function Signup() {
@@ -17,11 +22,12 @@ export default function Signup() {
   const [formerrors, setFormErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
 
+  const successAlert = new notification();
+  const errorAlert = new notification();
+
   const formHandler = (e) => {
-    // console.log(e.target.value);
     const { name, value } = e.target;
     setLoginCredentials({ ...loginCredentials, [name]: value });
-    // console.log(loginCredentials);
   };
 
   const submitHandler = (e) => {
@@ -34,40 +40,55 @@ export default function Signup() {
   // useEffect(() => {
 
   const submit = () => {
-    if (Object.keys(formerrors).length === 0 && isSubmit) {
+    if (isSubmit) {
       axios
         .post("http://localhost:3001/api/v1/users/register", loginCredentials)
         .then(function (response) {
           if (response.status === 200) {
-            console.log("sent Successfully");
+            successAlert.notifySuccess(response.data);
           }
         })
         .catch(function (error) {
-          console.log(error);
+          errorAlert.notifySuccess(error.response.data);
         });
     }
   };
   // });
 
   const validate = (values) => {
-    const errors = {};
+    if (
+      !values.email &&
+      !values.name &&
+      !values.password &&
+      !values.confirmPassword &&
+      !values.password < 6
+    ) {
+      errorAlert.notifyError("All fields required!");
+      return;
+    }
+
     if (!values.email) {
-      errors.email = "Email is required";
+      errorAlert.notifyError("Email is required");
+      return;
     }
     if (!values.name) {
-      errors.name = "Username is required";
+      errorAlert.notifyError("Username is required");
+      return;
     }
 
     if (!values.password) {
-      errors.password = "Password is required";
+      errorAlert.notifyError("Password is required");
+      return;
     }
     if (values.password !== values.confirmPassword) {
-      errors.password = "Confirm password must match";
+      errorAlert.notifyError("Confirm password must match");
+      return;
     }
     if (values.password.length < 6) {
-      errors.password = "Password is required";
+      errorAlert.notifyError("Password must be at least 6 characters");
+      return;
     }
-    return errors;
+    return formerrors;
   };
 
   return (
@@ -84,7 +105,7 @@ export default function Signup() {
       </div>
       <div>
         <form className="signup-form" onSubmit={submitHandler}>
-          <pre>{JSON.stringify(loginCredentials)}</pre>
+          <ToastContainer />
           <div className="input-group">
             <div>
               <label htmlFor="signup_email">Email</label>
@@ -138,7 +159,9 @@ export default function Signup() {
           <input type="submit" value="Signup now" className="signup_button" />
           <p className="form-medium-text">
             &nbsp;
-            <Link className="link">Register a new account</Link>
+            <Link to={"/login"} className="link">
+              Login existing account
+            </Link>
           </p>
         </form>
       </div>

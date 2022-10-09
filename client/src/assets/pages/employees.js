@@ -1,35 +1,41 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import "../css/common_styles.css";
 import "../css/index.css";
-// import $ from "jquery";
 import "datatables.net";
 import { Barchart } from "../components/chart";
 import moment from "moment-timezone/builds/moment-timezone-with-data-2012-2022";
-import { employees_url } from "../js/api/requests";
+
+import "bootstrap/dist/css/bootstrap.min.css";
+import Table from "react-bootstrap/Table";
 
 const axios = require("axios").default;
+export let titles = [];
 
 export default function Employees() {
   const [employeeInfo, setEmployeeInfo] = useState([]);
+  const [noEmployees, setNoEmployees] = useState(0);
 
   useEffect(() => {
-    axios
-      .get(employees_url)
-      .then((response) => {
-        // console.log(response);
-        if (response.status === 200) {
-          setEmployeeInfo(response.data.employee);
-          // console.log(response.data.employee);
-        }
-      })
-      .catch((error) => {
-        throw new Error(error);
-      });
-  }, [employeeInfo]);
-
+    const handle_employeeData = async () => {
+      setTimeout(() => {
+        axios
+          .get("http://localhost:3001/api/v1/employees")
+          .then((response) => {
+            if (response.status === 200) {
+              setEmployeeInfo(response.data.employee);
+              setNoEmployees(response.data.employee.length);
+            }
+          })
+          .catch((error) => {
+            throw new Error(error);
+          });
+      }, 5000);
+    };
+    handle_employeeData();
+  }, []);
   return (
-    <div style={{ height: "100%", marginBottom: "40px" }}>
+    <div id="employee-summary-presentation">
       <section className="employees-summary-section">
         <div role="presentation">
           <NavLink to="#modal-full" uk-toggle className="navlink">
@@ -42,7 +48,7 @@ export default function Employees() {
           <div className="employee-summary-card">
             <div>
               <p>NO. OF EMPLOYEES</p>
-              <h3>250</h3>
+              <h3>{noEmployees}</h3>
             </div>
             <div>
               <img
@@ -89,77 +95,35 @@ export default function Employees() {
       </section>
 
       <section className="employees-detail-section">
-        <div>
-          <table id="" className="display">
+        <div class="uk-overflow-auto">
+          <table class="uk-table uk-table-small uk-table-striped">
             <thead>
               <tr>
-                <th>No.</th>
-                <th>Date Hired</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Job title</th>
-                <th>Department</th>
+                <th className="uk-text-lead">No.</th>
+                <th className="uk-text-lead">Date Hired</th>
+                <th className="uk-text-lead">Name</th>
+                <th className="uk-text-lead">Email</th>
+                <th className="uk-text-lead">Job title</th>
+                <th className="uk-text-lead">Department</th>
               </tr>
             </thead>
             <tbody>
               {employeeInfo.length > 0
                 ? employeeInfo.map((value, index) => {
-                    // console.log(value.date_hired);
                     return (
-                      <tr key={index}>
-                        <td>{value.id}</td>
-                        <td>{moment(value.hire_date).format("MM-DD-YYYY")};</td>
-                        <td>{value.name}</td>
-                        <td>{value.email}</td>
-                        <td>{value.job_title}</td>
-                        <td>{value.department}</td>
+                      <tr className="uk-text-default" key={index}>
+                        <td className="uk-text-default">{value.id}</td>
+                        <td className="uk-text-default">
+                          {moment(value.hire_date).format("MMMM, YYYY")}
+                        </td>
+                        <td className="uk-text-default">{value.name}</td>
+                        <td className="uk-text-default">{value.email}</td>
+                        <td className="uk-text-default">{value.job_title}</td>
+                        <td className="uk-text-default">{value.department}</td>
                       </tr>
                     );
                   })
                 : "Loading.."}
-
-              {/* <tr>
-                    <td>2</td>
-                    <td>03/06/2004</td>
-                    <td>Fredrick Yalley</td>
-                    <td>fredrick.yalley@amalitech.org</td>
-                    <td>Backend Developer</td>
-                    <td>Information Technology</td>
-                  </tr>
-
-
-                  <tr>
-                    <td>3</td>
-                    <td>03/04/2006</td>
-                    <td>Emmanuel Mensah</td>
-                    <td>emmanuel.mensah@amalitech.org</td>
-                    <td>Frontend Developer</td>
-                    <td>Information Technology</td>
-                  </tr>
-                  <tr>
-                    <td>4</td>
-                    <td>03/04/2006</td>
-                    <td>Theophilus Gordon</td>
-                    <td>theophilus.gordon@amalitech.org</td>
-                    <td>FullStack Developer</td>
-                    <td>Information Technology</td>
-                  </tr>
-                  <tr>
-                    <td>5</td>
-                    <td>03/04/2006</td>
-                    <td>Edward Djirakor</td>
-                    <td>edward.djirakor@amalitech.org</td>
-                    <td>Backend Developer</td>
-                    <td>Information Technology</td>
-                  </tr>
-                  <tr>
-                    <td>6</td>
-                    <td>03/04/2006</td>
-                    <td>Nicolas Ocran</td>
-                    <td>nicolas.ocran@amalitech.org</td>
-                    <td>Frontend Developer</td>
-                    <td>Information Technology</td>
-                  </tr> */}
             </tbody>
           </table>
         </div>
