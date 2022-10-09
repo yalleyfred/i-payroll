@@ -43,9 +43,10 @@ const Database_1 = __importDefault(require("../Database"));
 const dotenv = __importStar(require("dotenv"));
 const email_1 = require("../utils/email");
 const crypto_1 = __importDefault(require("crypto"));
-const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
-exports.SECRET_KEY = "howcanyoutellmethisstory";
+const config_1 = require("../config");
+const createToken_1 = require("../utils/createToken");
+exports.SECRET_KEY = config_1.jwt_secret;
 dotenv.config();
 const getAllUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -72,9 +73,14 @@ const getUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 exports.getUser = getUser;
 const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield userServices.register(req.body);
+        const user = yield userServices.register(req.body);
         console.log(req.body);
-        res.status(200).send('Inserted successfully');
+        res.cookie('jwt', user.token, user.cookie);
+        res.status(200).json({
+            status: 'User created',
+            data: user
+        });
+        console.log(res);
     }
     catch (error) {
         return res.status(500).send((0, errorUtils_1.getErrorMessage)(error));
@@ -84,15 +90,7 @@ exports.register = register;
 const logIn = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const foundUser = yield userServices.login(req.body);
-        console.log(foundUser);
-        const cookieOptions = {
-            expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
-            secure: true,
-            httpOnly: true
-        };
-        if (process.env.NODE_ENV === 'production')
-            cookieOptions.secure = true;
-        res.cookie('jwt', foundUser.token, cookieOptions);
+        res.cookie('jwt', foundUser.token, foundUser.cookie);
         res.status(200).send(foundUser);
     }
     catch (error) {
@@ -155,10 +153,8 @@ const resetPassword = (req, res, next) => __awaiter(void 0, void 0, void 0, func
             email: user.email
         }
     });
-    const token = jsonwebtoken_1.default.sign({ id: user.id, email: user.email }, exports.SECRET_KEY, {
-        expiresIn: "1h",
-    });
-    console.log(token);
+    const credentials = (0, createToken_1.createSendToken)(user);
+    console.log(credentials);
     next(res.send("ok"));
 });
 exports.resetPassword = resetPassword;

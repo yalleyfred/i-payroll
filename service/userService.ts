@@ -2,11 +2,15 @@ import User, {UserMap} from "../model/userModel";
 import Database from "../Database";
 import bcrypt  from "bcrypt";
 import jwt, { Secret, JwtPayload } from 'jsonwebtoken';
+import { jwt_secret } from '../config';
+import { createSendToken } from "../utils/createToken";
 
 
-import crypto from 'crypto';
 
 import {createPasswordResetToken} from "../utils/resetToken";
+
+export const SECRET_KEY: Secret = jwt_secret;
+
 
 type U = {
     id: number;
@@ -25,7 +29,7 @@ type U = {
     email: string;
     }
 
-  export const SECRET_KEY: Secret = "howcanyoutellmethisstory";
+
 
 export async function register(user: U) {
     try {
@@ -60,12 +64,16 @@ export async function register(user: U) {
         
             
              const registeredUser = await User.create(user);
-             const token = jwt.sign({id: user.id, email:user.email}, SECRET_KEY, {
-                 expiresIn: "1h",
-               });
-              return {user: registeredUser, token: token}
+            
+             
+             const userCredentials = createSendToken(registeredUser);
+             console.log(userCredentials.token);
+             
+             
+             
+              return {user: registeredUser, token: userCredentials.token, cookie: userCredentials.cookieOptions}
           }
-      
+    
     } catch (error) {
       throw error;
     }
@@ -86,12 +94,9 @@ export async function login(user: loginU) {
       const isMatch = bcrypt.compareSync(user.password, foundUser?.password);
    
       if (isMatch) {
-        const token = jwt.sign({id: foundUser.id, email:foundUser.email}, SECRET_KEY, {
-            expiresIn: "1h",
-          });
-          console.log(token);
+        const userCredentials = createSendToken(foundUser);
           
-          return { user: foundUser.email, token: token };
+          return { user: foundUser, token: userCredentials.token, cookie: userCredentials.cookieOptions };
       } else {
         throw new Error('Password is not correct');
       }
@@ -146,6 +151,3 @@ export async function forgotPassword(user: E) {
 
 
 
-export async function resetPassword() {
- 
-}

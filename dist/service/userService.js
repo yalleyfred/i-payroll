@@ -35,13 +35,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.resetPassword = exports.forgotPassword = exports.login = exports.register = exports.SECRET_KEY = void 0;
+exports.forgotPassword = exports.login = exports.register = exports.SECRET_KEY = void 0;
 const userModel_1 = __importStar(require("../model/userModel"));
 const Database_1 = __importDefault(require("../Database"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
-const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const config_1 = require("../config");
+const createToken_1 = require("../utils/createToken");
 const resetToken_1 = require("../utils/resetToken");
-exports.SECRET_KEY = "howcanyoutellmethisstory";
+exports.SECRET_KEY = config_1.jwt_secret;
 function register(user) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -66,10 +67,9 @@ function register(user) {
                     password: hashedPassword
                 };
                 const registeredUser = yield userModel_1.default.create(user);
-                const token = jsonwebtoken_1.default.sign({ id: user.id, email: user.email }, exports.SECRET_KEY, {
-                    expiresIn: "1h",
-                });
-                return { user: registeredUser, token: token };
+                const userCredentials = (0, createToken_1.createSendToken)(registeredUser);
+                console.log(userCredentials.token);
+                return { user: registeredUser, token: userCredentials.token, cookie: userCredentials.cookieOptions };
             }
         }
         catch (error) {
@@ -90,11 +90,8 @@ function login(user) {
             }
             const isMatch = bcrypt_1.default.compareSync(user.password, foundUser === null || foundUser === void 0 ? void 0 : foundUser.password);
             if (isMatch) {
-                const token = jsonwebtoken_1.default.sign({ id: foundUser.id, email: foundUser.email }, exports.SECRET_KEY, {
-                    expiresIn: "1h",
-                });
-                console.log(token);
-                return { user: foundUser.email, token: token };
+                const userCredentials = (0, createToken_1.createSendToken)(foundUser);
+                return { user: foundUser, token: userCredentials.token, cookie: userCredentials.cookieOptions };
             }
             else {
                 throw new Error('Password is not correct');
@@ -139,9 +136,4 @@ function forgotPassword(user) {
     });
 }
 exports.forgotPassword = forgotPassword;
-function resetPassword() {
-    return __awaiter(this, void 0, void 0, function* () {
-    });
-}
-exports.resetPassword = resetPassword;
 //# sourceMappingURL=userService.js.map
