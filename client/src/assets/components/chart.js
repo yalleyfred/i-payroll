@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 import {
   Chart as ChartJS,
@@ -10,13 +10,6 @@ import {
   Legend,
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
-
-// import type { ChartData, ChartOptions } from 'chart.js';
-
-// interface LineProps {
-//   options: ChartOptions<'bar'>;
-//   data: ChartData<'bar'>;
-// }
 
 ChartJS.register(
   CategoryScale,
@@ -37,29 +30,68 @@ export const options = {
     },
     title: {
       display: true,
-      text: "Chart.js Bar Chart",
+      text: "",
     },
   },
 };
-
-const labels = ["Frondend", "Backend", "Testing", "Fullstack", "Data Science"];
-
-export const data = {
-  labels,
-  datasets: [
-    {
-      label: "Dataset 1",
-      data: labels.map(() => [200, 399, 300, 120, 432]),
-      backgroundColor: "rgba(255, 99, 132, 0.5)",
-    },
-    // {
-    //   label: "Dataset 2",
-    //   data: labels.map(() => [300, 429, 120, 620, 500, 121, 100]),
-    //   backgroundColor: "rgba(53, 162, 235, 0.5)",
-    // }
-  ],
-};
+const axios = require("axios").default;
 
 export function Barchart() {
+  const [employeeData, setEmployeeData] = useState([]);
+
+  useEffect(() => {
+    const handleChartData = async () => {
+      //get remote data after every 25 minutes
+      setTimeout(() => {
+        axios.get("http://localhost:3001/api/v1/employees").then((response) => {
+          if (response.status === 200) {
+            setEmployeeData(response.data.employee);
+          }
+        }, 900000);
+      });
+    };
+    handleChartData();
+  }, []);
+  let labels;
+
+  labels = [];
+  function iterateChartLabelData() {
+    for (let i = 0; i < employeeData.length; i++) {
+      labels.push(employeeData[i].job_title);
+    }
+    // console.log(labels);
+    return labels;
+  }
+  iterateChartLabelData();
+
+  let dataNum;
+
+  dataNum = [];
+  function iterateChartData() {
+    for (let i = 0; i < employeeData.length; i++) {
+      employeeData.filter((item) => {
+        if (item.job_title === labels[i]) {
+          dataNum.push(item.job_title.length);
+        }
+        return dataNum;
+      });
+    }
+    // return console.log(dataNum);
+    return dataNum;
+  }
+
+  iterateChartData();
+
+  const data = {
+    labels: labels,
+    datasets: [
+      {
+        label: "Job titles",
+        backgroundColor: "rgb(255, 99, 132)",
+        borderColor: "rgb(255, 99, 132)",
+        data: dataNum,
+      },
+    ],
+  };
   return <Bar options={options} data={data} />;
 }

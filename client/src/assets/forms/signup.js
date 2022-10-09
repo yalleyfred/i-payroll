@@ -88,6 +88,7 @@ export default function Signup() {
       errorAlert.notifyError("Password must be at least 6 characters");
       return;
     }
+    return formerrors;
   };
 
   return (
