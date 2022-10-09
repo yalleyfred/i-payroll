@@ -46,6 +46,7 @@ export function Barchart() {
         axios.get("http://localhost:3001/api/v1/employees").then((response) => {
           if (response.status === 200) {
             setEmployeeData(response.data.employee);
+            // console.log(response.data.employee);
           }
         }, 900000);
       });
@@ -54,15 +55,26 @@ export function Barchart() {
   }, []);
   let labels;
 
-  labels = [];
-  function iterateChartLabelData() {
-    for (let i = 0; i < employeeData.length; i++) {
-      labels.push(employeeData[i].job_title);
-    }
-    // console.log(labels);
-    return labels;
-  }
-  iterateChartLabelData();
+  // labels = [];
+  // function iterateChartLabelData() {
+  //   for (let i = 0; i < employeeData.length; i++) {
+  //     labels.push(employeeData[i].job_title);
+  //   }
+  //   console.log(labels);
+  //   return labels;
+  // }
+  // iterateChartLabelData();
+  labels = employeeData.map((label) => label.job_title);
+
+  let uniqueLabels = [...new Set(labels)];
+  // console.log(uniqueLabels);
+
+  let numbers = uniqueLabels.map((label) => {
+    return employeeData.filter((data) => {
+      return data.job_title === label;
+    }).length;
+  });
+  // console.log(numbers);
 
   let dataNum;
 
@@ -89,7 +101,7 @@ export function Barchart() {
         label: "Job titles",
         backgroundColor: "rgb(255, 99, 132)",
         borderColor: "rgb(255, 99, 132)",
-        data: dataNum,
+        data: numbers,
       },
     ],
   };

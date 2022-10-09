@@ -54,11 +54,12 @@ export const register = async (req: Request, res: Response) => {
       
       
       res.status(200).json({
-        status: 'User created',
-        data: user
+        message: 'User created',
+          token: user.token,
+          data: user.user,
       });
       
-      console.log(res);
+
     } catch (error) {
       return res.status(500).send(getErrorMessage(error));
     }
@@ -72,7 +73,11 @@ export const logIn = async(req:Request, res: Response) => {
       
       res.cookie('jwt', foundUser.token, foundUser.cookie);
        
-      res.status(200).send(foundUser);
+      res.status(200).json({
+        results: 'success',
+        token: foundUser.token,
+        cookie: foundUser.cookie
+      });
     } catch (error) {
       return res.status(500).send(getErrorMessage(error));
     }
@@ -85,16 +90,16 @@ export const forgotPassword = async(req:Request, res: Response) => {
       console.log(user);
       
   
-      const resetURL = `${req.protocol}://${req.get('host')}/api/v1/users/resetPassword/${user?.resetToken}`;
+      const resetURL = `${req.protocol}://${"localhost:3000"}/resetPassword/${user?.resetToken}`;
 
         const message = `Forgot your password? Submit a PATCH request with your new password and passwordConfirm to: ${resetURL}.\nIf you did'nt forget your password, please ignore this email!`;
 
-       await sendEmail({
-        email: req.body.email,
-        subject: "ipayroll",
-        text: 'Your password reset token (valid for 10 min)',
-        message: message
-       })
+      //  await sendEmail({
+      //   email: req.body.email,
+      //   subject: "ipayroll",
+      //   text: 'Your password reset token (valid for 10 min)',
+      //   message: message
+      //  })
         res.status(200).json({
           status: 'success',
           result: resetURL

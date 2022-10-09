@@ -8,7 +8,11 @@ router.route('/register').post(register);
 router.route('/login').post( logIn);
 router.route('/forgotPassword').post( forgotPassword);
 
-router.route('/resetPassword/:token').patch( resetPassword);
+router.route('/resetPassword/:token').patch(resetPassword);
+
+
+
+router.route('/resetPassword/:token').get(resetPassword);
 
 
 // GET - users

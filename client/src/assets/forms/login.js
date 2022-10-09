@@ -1,6 +1,6 @@
-import { Link, useLocation } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+
 import "../css/common_styles.css";
 import "../css/form.css";
 
@@ -12,7 +12,7 @@ import { ToastContainer } from "react-toastify";
 const axios = require("axios").default;
 
 export default function LoginForm() {
-  const location = useLocation();
+  // const location = useLocation();
   const navigate = useNavigate();
 
   const initialValues = {
@@ -23,9 +23,9 @@ export default function LoginForm() {
   const [loginCredentials, setLoginCredentials] = useState(initialValues);
   const [formerrors, setFormErrors] = useState({});
   // const [isSubmit, setIsSubmit] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  // const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const successAlert = new notification();
+  // const successAlert = new notification();
   const errorAlert = new notification();
 
   const formHandler = (e) => {
@@ -37,39 +37,20 @@ export default function LoginForm() {
 
   const submit = () => {
     axios
-      .get("http://localhost:3001/api/v1/users")
+      .post("http://localhost:3001/api/v1/users/login", loginCredentials)
 
       .then(function (response) {
         if (response.status === 200) {
-          const getUserEmail = response.data.users.filter(
-            (user) => user.email === loginCredentials.email
-          );
-
-          const getUserPassword = getUserEmail[0].password;
-
-          // console.log(getUserEmail);
-          if (
-            getUserEmail[0].email === loginCredentials.email &&
-            getUserPassword === loginCredentials.password
-          ) {
-            setIsLoggedIn(true);
-            successAlert.notifySuccess("Success!");
-            // <Navigate to="/" replace={true} state={{ from: location }} />
-            if (isLoggedIn) {
-              navigate("/");
-            } else {
-              navigate("/login");
-            }
-          } else if (!getUserEmail[0].email || !getUserEmail[0].password) {
-            errorAlert.notifyError("email or password does not exist");
-            return;
+          // errorAlert.notifySuccess(response);
+          // console.log(response);
+          if (response.data.token) {
+            navigate("/account");
           }
-          errorAlert.notifySuccess("Incorrect credentials");
         }
       })
       .catch(function (error) {
-        errorAlert.notifyError("Internal Error!");
-        console.log(error);
+        errorAlert.notifyError(error.response.data);
+        // console.log(error);
         return;
       });
   };
@@ -77,21 +58,21 @@ export default function LoginForm() {
 
   const validate = (values) => {
     if (!values.email && !values.password && !values.password < 6) {
-      errorAlert.notifyError("All fields required!");
+      // errorAlert.notifyError("All fields required!");
       return;
     }
 
     if (!values.email) {
-      errorAlert.notifyError("Email is required");
+      // errorAlert.notifyError("Email is required");
       return;
     }
 
     if (!values.password) {
-      errorAlert.notifyError("Password is required");
+      // errorAlert.notifyError("Password is required");
       return;
     }
     if (values.password.length < 6) {
-      errorAlert.notifyError("Password must be at least 6 characters");
+      // errorAlert.notifyError("Password must be at least 6 characters");
       return;
     }
     return formerrors;
@@ -116,7 +97,7 @@ export default function LoginForm() {
         </div>
       </div>
       <div>
-        <form className="login-form" onSubmit={submitHandler}>
+        <form className="login-form">
           <ToastContainer
             position="top-right"
             autoClose={5000}
@@ -153,6 +134,7 @@ export default function LoginForm() {
             type="submit"
             value="Login now"
             className="login_button form-input"
+            onClick={submitHandler}
           />
           <p className="form-medium-text">
             &nbsp;

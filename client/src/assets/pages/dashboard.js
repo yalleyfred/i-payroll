@@ -1,8 +1,29 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "../css/common_styles.css";
 import "../css/index.css";
+const axios = require("axios").default;
 
 export default function Dashboard() {
+  const [noOfUsers, setNoOfUsers] = useState(0);
+
+  useEffect(() => {
+    const handle_employeeData = async () => {
+      // setTimeout(() => {
+      axios
+        .get("http://localhost:3001/api/v1/users")
+        .then((response) => {
+          if (response.status === 200) {
+            setNoOfUsers(response.data.users.length);
+          }
+        })
+        .catch((error) => {
+          throw new Error(error);
+        });
+      // }, 5000);
+    };
+    handle_employeeData();
+  }, []);
+
   return (
     <main className="grid-container">
       <div className="ip-flex-container">
@@ -13,7 +34,7 @@ export default function Dashboard() {
             alt=""
           />
           <h5 className="account-card-title">ACCOUNTS</h5>
-          <h5 className="account-card-figure">5</h5>
+          <h5 className="account-card-figure">{noOfUsers}</h5>
         </div>
         <div title="Shows the current account logged in">
           <img

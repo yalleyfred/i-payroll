@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "../css/common_styles.css";
 import "../css/form.css";
 
@@ -11,11 +12,13 @@ import { ToastContainer } from "react-toastify";
 const axios = require("axios").default;
 
 export default function Signup() {
+  const navigate = useNavigate();
+
   const initialValues = {
     name: "",
     email: "",
     password: "",
-    confirmPassword: "",
+    password2: "",
   };
 
   const [loginCredentials, setLoginCredentials] = useState(initialValues);
@@ -41,13 +44,16 @@ export default function Signup() {
     if (isSubmit) {
       axios
         .post("http://localhost:3001/api/v1/users/register", loginCredentials)
-        .then(function (response) {
+        .then((response) => {
           if (response.status === 200) {
-            successAlert.notifySuccess(response.data);
+            console.log(response);
+            successAlert.notifySuccess(response.data.message);
+            navigate("/account");
           }
         })
-        .then(function (error) {
+        .catch((error) => {
           errorAlert.notifyError(error.response.data);
+          // console.log(error);
         });
     }
   };
@@ -57,28 +63,29 @@ export default function Signup() {
       !values.email &&
       !values.name &&
       !values.password &&
-      !values.confirmPassword &&
+      !values.password2 &&
       !values.password < 6
     ) {
-      return errorAlert.notifyError("All fields required!");
+      return;
+      // return errorAlert.notifyError("All fields required!");
     }
 
-    if (!values.email) {
-      return errorAlert.notifyError("Email is required");
-    }
-    if (!values.name) {
-      return errorAlert.notifyError("Username is required");
-    }
+    // if (!values.email) {
+    //   return errorAlert.notifyError("Email is required");
+    // }
+    // if (!values.name) {
+    //   return errorAlert.notifyError("Username is required");
+    // }
 
-    if (!values.password) {
-      return errorAlert.notifyError("Password is required");
-    }
-    if (values.password !== values.confirmPassword) {
-      return errorAlert.notifyError("Confirm password must match");
-    }
-    if (values.password.length < 6) {
-      return errorAlert.notifyError("Password must be at least 6 characters");
-    }
+    // if (!values.password) {
+    //   return errorAlert.notifyError("Password is required");
+    // }
+    // if (values.password !== values.password2) {
+    //   return errorAlert.notifyError("Confirm password must match");
+    // }
+    // if (values.password.length < 6) {
+    //   return errorAlert.notifyError("Password must be at least 6 characters");
+    // }
     return formerrors;
   };
 
@@ -138,10 +145,10 @@ export default function Signup() {
               <label htmlFor="confirm_password">Confirm Password</label>
               <input
                 type="password"
-                name="confirmPassword"
+                name="password2"
                 id="confirm_password"
                 className="signup_password"
-                value={loginCredentials.confirmPassword}
+                value={loginCredentials.password2}
                 onChange={formHandler}
               />
             </div>
