@@ -7,7 +7,7 @@ import { Barchart } from "../components/chart";
 import moment from "moment-timezone/builds/moment-timezone-with-data-2012-2022";
 
 import "bootstrap/dist/css/bootstrap.min.css";
-import Table from "react-bootstrap/Table";
+// import Table from "react-bootstrap/Table";
 
 const axios = require("axios").default;
 export let titles = [];
