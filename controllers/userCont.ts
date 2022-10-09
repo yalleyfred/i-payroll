@@ -8,11 +8,14 @@ import {sendEmail} from "../utils/email";
 import crypto from 'crypto';
 import jwt, {Secret} from 'jsonwebtoken';
 import bcrypt  from "bcrypt";
+import { jwt_secret } from '../config';
+import { createSendToken } from "../utils/createToken";
 
 
 
 
-export const SECRET_KEY: Secret = "howcanyoutellmethisstory";
+
+export const SECRET_KEY: Secret = jwt_secret;
 
 
 
@@ -44,10 +47,18 @@ export const getUser = async (req: Request, res: Response) => {
 
 export const register = async (req: Request, res: Response) => {
     try {
-      await userServices.register(req.body);
+      const user = await userServices.register(req.body);
       console.log(req.body);
       
-      res.status(200).send('Inserted successfully');
+      res.cookie('jwt', user.token, user.cookie);
+      
+      
+      res.status(200).json({
+        status: 'User created',
+        data: user
+      });
+      
+      console.log(res);
     } catch (error) {
       return res.status(500).send(getErrorMessage(error));
     }
@@ -55,17 +66,12 @@ export const register = async (req: Request, res: Response) => {
 
 export const logIn = async(req:Request, res: Response) => {
     try {
+
       const foundUser = await userServices.login(req.body);
-      console.log(foundUser);
-      const cookieOptions = {
-        expires: new Date(
-            Date.now() + 90 * 24 * 60 * 60 * 1000
-            ),
-        secure: true,
-        httpOnly: true
-        };
-        if(process.env.NODE_ENV ==='production') cookieOptions.secure = true;
-        res.cookie('jwt', foundUser.token, cookieOptions);
+      
+      
+      res.cookie('jwt', foundUser.token, foundUser.cookie);
+       
       res.status(200).send(foundUser);
     } catch (error) {
       return res.status(500).send(getErrorMessage(error));
@@ -140,10 +146,8 @@ export const resetPassword = async(req:Request, res: Response, next: NextFunctio
   }); 
 
 
-  const token = jwt.sign({id: user.id, email:user.email}, SECRET_KEY, {
-                expiresIn: "1h",
-              });
-         console.log(token);
+  const credentials = createSendToken(user)
+         console.log(credentials);
           
         next(res.send("ok"));
 }
