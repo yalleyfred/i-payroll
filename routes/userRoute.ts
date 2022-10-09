@@ -12,7 +12,7 @@ router.route('/resetPassword/:token').patch(resetPassword);
 
 
 
-router.route('/resetPassword/:token').get(resetPassword);
+router.route('/resetPassword/').patch(resetPassword);
 
 
 

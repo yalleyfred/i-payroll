@@ -1,11 +1,15 @@
 import { useState } from "react";
 import "../css/common_styles.css";
 import "../css/reset_password.css";
+import { useNavigate } from "react-router-dom";
 
 import { notification } from "../js/script";
 import { ToastContainer } from "react-toastify";
 
+const axios = require("axios").default;
+
 export function ResetPassword() {
+  const navigate = useNavigate();
   const initialValues = {
     oldPassword: "",
     newPassword: "",
@@ -22,17 +26,33 @@ export function ResetPassword() {
     setResetCredentials({ ...resetCredentials, [name]: value });
   };
 
-  const validate = (values) => {
-    if (!(values.oldPassword === values.newPassword)) {
-      return errorAlert.notifySuccess(
-        "Confirm Password does not match Primary Password"
-      );
-    }
-  };
-
   const submitForm = (e) => {
     e.preventDefault();
-    validate(resetCredentials);
+
+    // const validate = (values) => {
+    //   if (!(values.oldPassword === values.newPassword)) {
+    //     return;
+    //   }
+    // };
+
+    axios
+      .patch(
+        "http://localhost:3001/api/v1/users/resetPassword/:token",
+        resetCredentials
+      )
+      .then((response) => {
+        if (response.status === 200) {
+          console.log(response.data);
+          successAlert.notifySuccess(response.data.message);
+          navigate("/login");
+        }
+      })
+      .catch((error) => {
+        errorAlert.notifyError(error.response.data);
+        console.log(error);
+      });
+
+    // validate(resetCredentials);
   };
 
   return (
