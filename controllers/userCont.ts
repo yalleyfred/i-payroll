@@ -54,11 +54,11 @@ export const register = async (req: Request, res: Response) => {
       
       
       res.status(200).json({
-        status: 'User created',
-        data: user
+        message: 'User created',
+        token: user.token,
+        data: user.user
       });
       
-      console.log(res);
     } catch (error) {
       return res.status(500).send(getErrorMessage(error));
     }
@@ -72,7 +72,11 @@ export const logIn = async(req:Request, res: Response) => {
       
       res.cookie('jwt', foundUser.token, foundUser.cookie);
        
-      res.status(200).send(foundUser);
+      res.status(200).json({
+        status: 'success',
+        token: foundUser.token,
+        cookie: foundUser.cookie
+      });
     } catch (error) {
       return res.status(500).send(getErrorMessage(error));
     }
@@ -105,23 +109,47 @@ export const forgotPassword = async(req:Request, res: Response) => {
 }
 
 export const resetPassword = async(req:Request, res: Response, next: NextFunction) => {
-  UserMap(Database);
+  try {
+
+    UserMap(Database);
   const passwordToken: string = req.params.token;
   console.log(passwordToken);
+
+  const {oldPassword, newPassword, confirmPassword}: {
+    oldPassword: string;
+    newPassword: string;
+    confirmPassword: string
+  } = req.body;
   
-  const hashedToken = crypto
-  .createHash('sha256')
-  .update(passwordToken)
-  .digest('hex');
-  console.log(hashedToken);
+  // const hashedToken = crypto
+  // .createHash('sha256')
+  // .update(passwordToken)
+  // .digest('hex');
+  // console.log(hashedToken);
   
+
   const user = await User.findOne({
     where: {
       passwordResetToken: passwordToken
      
     }
   })
-  console.log(user?.passwordResetExpires);
+ 
+  console.log(user?.password);
+  const isMatch = await bcrypt.compareSync(oldPassword, user.password);
+  console.log(isMatch);
+  
+  if(!isMatch) {
+    throw new Error("old password is not correct");
+  }
+
+  if(oldPassword == newPassword) {
+    throw new Error("you can not use old password, Please set new password");
+  }
+
+  if(newPassword == confirmPassword) {
+    throw new Error("password does not match");
+  }
   
   if((!user) || user == null) {
     res.send("oops")
@@ -130,9 +158,9 @@ export const resetPassword = async(req:Request, res: Response, next: NextFunctio
   };
 
   const salt: number = 10
-  console.log(req.body.password);
+  console.log(newPassword);
   
-  const hashedPassword = await bcrypt.hash(req.body.password, salt);
+  const hashedPassword = await bcrypt.hash(newPassword, salt);
   console.log(hashedPassword);
 
  await User.update({
@@ -149,5 +177,9 @@ export const resetPassword = async(req:Request, res: Response, next: NextFunctio
   const credentials = createSendToken(user)
          console.log(credentials);
           
-        next(res.send("ok"));
+        next(res.send("success"));
+
+  }catch (error) {
+    return res.status(500).send(getErrorMessage(error));
+  };
 }

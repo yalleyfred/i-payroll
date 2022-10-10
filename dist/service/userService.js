@@ -90,7 +90,7 @@ function login(user) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             (0, userModel_1.UserMap)(Database_1.default);
-            if (user.email || user.password) {
+            if (!user.email || !user.password) {
                 throw new Error("Please provide email and password");
             }
             const foundUser = yield userModel_1.default.findOne({ where: {

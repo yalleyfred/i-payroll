@@ -112,7 +112,11 @@ export async function makePayroll(employee:payroll) {
             month_year: employee.month_year,
         }
         
-        console.log(empDetails.month_year);
+        const mnt = new Date(empDetails.month_year).getMonth() + 1;
+ 
+
+        const yr = new Date(empDetails.month_year).getFullYear();
+        
         
         const emp = await Employee.findOne({
             where: {
@@ -187,14 +191,13 @@ export async function makePayroll(employee:payroll) {
                     }
                 })
                 const payDate = empPay?.date;
-                console.log(payDate);
+                const pyMnt = Number(payDate?.getMonth()) + 1;
 
+                const pyYr = Number(payDate?.getFullYear());
             
                 
-                console.log(payDate?.getMonth);
-                // console.log(payDate?.getFullYear());
                 
-                if(empDetails.month_year !== payDate) {
+                if(mnt == pyMnt || yr == pyYr) {
                     console.log("this payroll has been created already");
                     throw new Error("this payroll has been created already")
                 }
