@@ -130,11 +130,6 @@ const resetPassword = (req, res, next) => __awaiter(void 0, void 0, void 0, func
         console.log(passwordToken);
         const newUser = req.body;
         console.log(newUser.oldPassword);
-        // const hashedToken = crypto
-        // .createHash('sha256')
-        // .update(passwordToken)
-        // .digest('hex');
-        // console.log(hashedToken);
         const user = yield userModel_1.default.findOne({
             where: {
                 passwordResetToken: passwordToken
@@ -182,8 +177,8 @@ const resetPassword = (req, res, next) => __awaiter(void 0, void 0, void 0, func
 exports.resetPassword = resetPassword;
 const getPage = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const tt = yield userServices.forgotPassword("f@email.com");
-        res.redirect(`/api/v1/users/resetpassword/:${tt.resetToken}`);
+        // const tt = await userServices.forgotPassword()
+        // res.redirect(`/api/v1/users/resetpassword/:${tt.resetToken}`);
     }
     catch (error) {
         return res.status(500).send((0, errorUtils_1.getErrorMessage)(error));

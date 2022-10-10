@@ -3,6 +3,17 @@ import Employee, { EmployeeMap } from '../model/employeeModel';
 import { getErrorMessage } from '../utils/errorUtils';
 import database from '../Database';
 
+type E = {
+  name: string;
+  email: string;
+  job_title: string;
+  hire_date: Date;
+  department: string;
+  status: string;
+  tin: string;
+  snnit: string;
+}
+
 export const getAllEmployees =async (req:Request, res: Response) => {
     try {
         EmployeeMap(database);
@@ -26,23 +37,30 @@ export const getEmployee =async (req:Request, res: Response) => {
   
 }
 
-type E = {
-  name: string;
-  email: string;
-  job_title: string;
-  date_hire: Date;
-  department: string;
-  status: string;
-  tin: string;
-  snnit: string;
-}
 export const createEmployee =async (req:Request, res: Response) => {
     try {
-      let newEmployee: E = req.body;
-      
-    EmployeeMap(database);
-    const result = await Employee.create(newEmployee);
-    res.status(201).json({ employee: result });
+      EmployeeMap(database);
+      const employee: E = req.body;
+
+      if(!employee.name || !employee.email || !employee.job_title || !employee.hire_date || !employee.department 
+        || !employee.status || !employee.snnit || !employee.tin) {
+          throw new Error("Please fill all fields!");
+        }
+
+        const emp = await Employee.findOne({
+          where: {
+            email: employee.email
+          }
+        })
+
+        const existingEmp = emp?.email;
+
+      if(employee.email == existingEmp) {
+        throw new Error("Employee already exist!");
+      }
+   
+      const result = await Employee.create(employee);
+      res.status(201).json({ employee: result });
     }catch (error) {
       return res.status(500).send(getErrorMessage(error));
     }

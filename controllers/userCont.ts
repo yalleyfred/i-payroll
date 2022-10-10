@@ -5,7 +5,6 @@ import * as userServices from '../service/userService'
 import Database from '../Database';
 import * as dotenv from 'dotenv';
 import {sendEmail} from "../utils/email";
-import crypto from 'crypto';
 import jwt, {Secret} from 'jsonwebtoken';
 import bcrypt  from "bcrypt";
 import { jwt_secret } from '../config';
@@ -127,11 +126,6 @@ export const resetPassword = async(req:Request, res: Response, next: NextFunctio
   const newUser: T = req.body;
   console.log(newUser.oldPassword);
   
-  // const hashedToken = crypto
-  // .createHash('sha256')
-  // .update(passwordToken)
-  // .digest('hex');
-  // console.log(hashedToken);
   
 
   const user = await User.findOne({
@@ -192,8 +186,8 @@ export const resetPassword = async(req:Request, res: Response, next: NextFunctio
 
 export const getPage = async (req: Request, res: Response) => {
   try {
-    const tt = await userServices.forgotPassword("f@email.com")
-    res.redirect(`/api/v1/users/resetpassword/:${tt.resetToken}`);
+    // const tt = await userServices.forgotPassword()
+    // res.redirect(`/api/v1/users/resetpassword/:${tt.resetToken}`);
   } catch (error) {
     return res.status(500).send(getErrorMessage(error));
     
