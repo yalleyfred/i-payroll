@@ -29,7 +29,7 @@ export function EmployeeReg() {
   };
 
   const submitHandler = (e) => {
-    // console.log("works!");
+    // console.log(employeeRegCredentials);
     validate(employeeRegCredentials);
     submit();
   };
@@ -42,7 +42,7 @@ export function EmployeeReg() {
       .post("http://localhost:3001/api/v1/employees", employeeRegCredentials)
       .then((response) => {
         if (response.status === 201) {
-          console.log(response.statusText);
+          // console.log(response.statusText);
           successAlert.notifySuccess(response.statusText);
           // navigate("/account");
         }
@@ -111,6 +111,9 @@ export function EmployeeReg() {
             value={employeeRegCredentials.job_title}
             onChange={handleFormChange}
           >
+            <option name="job_title" value="">
+              Choose Job Title
+            </option>
             <option name="job_title" value="Level 1">
               Level 1
             </option>
@@ -146,6 +149,9 @@ export function EmployeeReg() {
             value={employeeRegCredentials.department}
             onChange={handleFormChange}
           >
+            <option name="department" value="">
+              Choose Department
+            </option>
             <option name="department" value="Tech">
               Tech
             </option>
@@ -163,6 +169,9 @@ export function EmployeeReg() {
             value={employeeRegCredentials.status}
             onChange={handleFormChange}
           >
+            <option name="status" value="">
+              Choose Job Status
+            </option>
             <option name="status" value="Full-Time">
               Full-Time
             </option>
