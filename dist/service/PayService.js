@@ -108,7 +108,9 @@ function makePayroll(employee) {
                 month_year: employee.month_year,
             };
             const mnt = new Date(empDetails.month_year).getMonth() + 1;
+            console.log(mnt);
             const yr = new Date(empDetails.month_year).getFullYear();
+            console.log(yr);
             const emp = yield employeeModel_1.default.findOne({
                 where: {
                     name: employee.name
@@ -163,8 +165,10 @@ function makePayroll(employee) {
                 });
                 const payDate = empPay === null || empPay === void 0 ? void 0 : empPay.date;
                 const pyMnt = Number(payDate === null || payDate === void 0 ? void 0 : payDate.getMonth()) + 1;
+                console.log(pyMnt);
                 const pyYr = Number(payDate === null || payDate === void 0 ? void 0 : payDate.getFullYear());
-                if (mnt == pyMnt || yr == pyYr) {
+                console.log(pyYr);
+                if (mnt == pyMnt && yr == pyYr) {
                     console.log("this payroll has been created already");
                     throw new Error("this payroll has been created already");
                 }
