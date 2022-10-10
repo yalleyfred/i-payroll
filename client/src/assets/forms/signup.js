@@ -37,8 +37,6 @@ export default function Signup() {
     submit();
   };
 
-  // useEffect(() => {
-
   const submit = () => {
     if (isSubmit) {
       axios
@@ -48,12 +46,11 @@ export default function Signup() {
             successAlert.notifySuccess(response.data);
           }
         })
-        .catch(function (error) {
-          errorAlert.notifySuccess(error.response.data);
+        .then(function (error) {
+          errorAlert.notifyError(error.response.data);
         });
     }
   };
-  // });
 
   const validate = (values) => {
     if (
@@ -63,30 +60,24 @@ export default function Signup() {
       !values.confirmPassword &&
       !values.password < 6
     ) {
-      errorAlert.notifyError("All fields required!");
-      return;
+      return errorAlert.notifyError("All fields required!");
     }
 
     if (!values.email) {
-      errorAlert.notifyError("Email is required");
-      return;
+      return errorAlert.notifyError("Email is required");
     }
     if (!values.name) {
-      errorAlert.notifyError("Username is required");
-      return;
+      return errorAlert.notifyError("Username is required");
     }
 
     if (!values.password) {
-      errorAlert.notifyError("Password is required");
-      return;
+      return errorAlert.notifyError("Password is required");
     }
     if (values.password !== values.confirmPassword) {
-      errorAlert.notifyError("Confirm password must match");
-      return;
+      return errorAlert.notifyError("Confirm password must match");
     }
     if (values.password.length < 6) {
-      errorAlert.notifyError("Password must be at least 6 characters");
-      return;
+      return errorAlert.notifyError("Password must be at least 6 characters");
     }
     return formerrors;
   };

@@ -172,4 +172,8 @@
     height: "100%";
     margin-bottom: 40px;
   }
+
+  /* .employees-detail-section > table > .thead td {
+    background-color: var(--ip-dark-primary);
+  } */
 }
