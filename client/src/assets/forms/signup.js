@@ -1,27 +1,36 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "../css/common_styles.css";
 import "../css/form.css";
+
+import "react-toastify/dist/ReactToastify.css";
+
+import { notification } from "../js/script";
+import { ToastContainer } from "react-toastify";
 
 const axios = require("axios").default;
 
 export default function Signup() {
+  const navigate = useNavigate();
+
   const initialValues = {
     name: "",
     email: "",
     password: "",
-    confirmPassword: "",
+    password2: "",
   };
 
   const [loginCredentials, setLoginCredentials] = useState(initialValues);
   const [formerrors, setFormErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
 
+  const successAlert = new notification();
+  const errorAlert = new notification();
+
   const formHandler = (e) => {
-    // console.log(e.target.value);
     const { name, value } = e.target;
     setLoginCredentials({ ...loginCredentials, [name]: value });
-    // console.log(loginCredentials);
   };
 
   const submitHandler = (e) => {
@@ -31,43 +40,53 @@ export default function Signup() {
     submit();
   };
 
-  // useEffect(() => {
-
   const submit = () => {
-    if (Object.keys(formerrors).length === 0 && isSubmit) {
+    if (isSubmit) {
       axios
         .post("http://localhost:3001/api/v1/users/register", loginCredentials)
-        .then(function (response) {
+        .then((response) => {
           if (response.status === 200) {
-            console.log("sent Successfully");
+            console.log(response);
+            successAlert.notifySuccess(response.data.message);
+            navigate("/account");
           }
         })
-        .catch(function (error) {
-          console.log(error);
+        .catch((error) => {
+          errorAlert.notifyError(error.response.data);
+          // console.log(error);
         });
     }
   };
-  // });
 
   const validate = (values) => {
-    const errors = {};
-    if (!values.email) {
-      errors.email = "Email is required";
-    }
-    if (!values.name) {
-      errors.name = "Username is required";
+    if (
+      !values.email &&
+      !values.name &&
+      !values.password &&
+      !values.password2 &&
+      !values.password < 6
+    ) {
+      return;
+      // return errorAlert.notifyError("All fields required!");
     }
 
-    if (!values.password) {
-      errors.password = "Password is required";
-    }
-    if (values.password !== values.confirmPassword) {
-      errors.password = "Confirm password must match";
-    }
-    if (values.password.length < 6) {
-      errors.password = "Password is required";
-    }
-    return errors;
+    // if (!values.email) {
+    //   return errorAlert.notifyError("Email is required");
+    // }
+    // if (!values.name) {
+    //   return errorAlert.notifyError("Username is required");
+    // }
+
+    // if (!values.password) {
+    //   return errorAlert.notifyError("Password is required");
+    // }
+    // if (values.password !== values.password2) {
+    //   return errorAlert.notifyError("Confirm password must match");
+    // }
+    // if (values.password.length < 6) {
+    //   return errorAlert.notifyError("Password must be at least 6 characters");
+    // }
+    return formerrors;
   };
 
   return (
@@ -84,7 +103,7 @@ export default function Signup() {
       </div>
       <div>
         <form className="signup-form" onSubmit={submitHandler}>
-          <pre>{JSON.stringify(loginCredentials)}</pre>
+          <ToastContainer />
           <div className="input-group">
             <div>
               <label htmlFor="signup_email">Email</label>
@@ -126,10 +145,10 @@ export default function Signup() {
               <label htmlFor="confirm_password">Confirm Password</label>
               <input
                 type="password"
-                name="confirmPassword"
+                name="password2"
                 id="confirm_password"
                 className="signup_password"
-                value={loginCredentials.confirmPassword}
+                value={loginCredentials.password2}
                 onChange={formHandler}
               />
             </div>
@@ -138,7 +157,9 @@ export default function Signup() {
           <input type="submit" value="Signup now" className="signup_button" />
           <p className="form-medium-text">
             &nbsp;
-            <Link className="link">Register a new account</Link>
+            <Link to={"/login"} className="link">
+              Login existing account
+            </Link>
           </p>
         </form>
       </div>

@@ -12,6 +12,8 @@ import Contentarea from "./assets/components/contentarea";
 import Tax from "./assets/pages/tax";
 import LoginForm from "./assets/forms/login";
 import Signup from "./assets/forms/signup";
+import { ForgotPassword } from "./assets/forms/forgot_password";
+import { ResetPassword } from "./assets/forms/reset_password";
 
 function Index() {
   return (
@@ -30,6 +32,9 @@ function Index() {
       <Routes>
         <Route path="/login" element={<LoginForm />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/forgotpassword" element={<ForgotPassword />} />
+        <Route path="/resetpassword" element={<ResetPassword />} />
+        <Route path="/resetpassword/:token" element={<ResetPassword />} />
       </Routes>
     </Router>
   );

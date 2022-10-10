@@ -25,12 +25,13 @@
     display: grid;
     -ms-grid-columns: 0.5fr 4fr;
     grid-template-columns: 0.5fr 4fr;
-    height: auto;
+    height: 100%;
     overflow: scroll;
   }
   .side-nav {
     height: 100%;
     width: 280px;
+    position: sticky;
     background-color: var(--ip-dark-primary);
     padding: 10px;
     color: var(--ip-white);
