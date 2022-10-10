@@ -34,7 +34,7 @@ type U = {
 export async function register(user: U) {
     try {
         UserMap(Database);
-    
+
         if(!user.name || !user.email || !user.password || !user.password2) {
            throw new Error("Please fill all fields");
         }
@@ -97,7 +97,7 @@ export async function login(user: loginU) {
     try {
         UserMap(Database);
 
-        if(user.email || user.password) {
+        if(!user.email || !user.password) {
           throw new Error("Please provide email and password");
         }
 

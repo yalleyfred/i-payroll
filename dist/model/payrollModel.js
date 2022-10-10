@@ -25,7 +25,7 @@ const PayrollMap = (sequelize) => {
             allowNull: false
         },
         date: {
-            type: sequelize_1.DataTypes.DATE,
+            type: sequelize_1.DataTypes.DATEONLY,
             allowNull: false
         },
         basic_wage: {

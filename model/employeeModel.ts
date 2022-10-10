@@ -28,7 +28,7 @@ export const EmployeeMap = (sequelize: Sequelize) => {
         unique: true
       },
       hire_date: {
-        type: DataTypes.DATE,
+        type: DataTypes.DATEONLY,
         allowNull: false
       },
       snnit: {
