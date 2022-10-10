@@ -115,11 +115,14 @@ export const resetPassword = async(req:Request, res: Response, next: NextFunctio
   const passwordToken: string = req.params.token;
   console.log(passwordToken);
 
-  const {oldPassword, newPassword, confirmPassword}: {
+  type T = {
     oldPassword: string;
     newPassword: string;
     confirmPassword: string
-  } = req.body;
+  }
+
+  const newUser: T = req.body;
+  console.log(newUser.oldPassword);
   
   // const hashedToken = crypto
   // .createHash('sha256')
@@ -136,18 +139,18 @@ export const resetPassword = async(req:Request, res: Response, next: NextFunctio
   })
  
   console.log(user?.password);
-  const isMatch = await bcrypt.compareSync(oldPassword, user.password);
+  const isMatch = await bcrypt.compareSync(newUser.oldPassword, user?.password);
   console.log(isMatch);
   
   if(!isMatch) {
     throw new Error("old password is not correct");
   }
 
-  if(oldPassword == newPassword) {
+  if(newUser.oldPassword == newUser.newPassword) {
     throw new Error("you can not use old password, Please set new password");
   }
 
-  if(newPassword == confirmPassword) {
+  if(newUser.newPassword !== newUser.confirmPassword) {
     throw new Error("password does not match");
   }
   
@@ -158,9 +161,9 @@ export const resetPassword = async(req:Request, res: Response, next: NextFunctio
   };
 
   const salt: number = 10
-  console.log(newPassword);
+  console.log(newUser.newPassword);
   
-  const hashedPassword = await bcrypt.hash(newPassword, salt);
+  const hashedPassword = await bcrypt.hash(newUser.newPassword, salt);
   console.log(hashedPassword);
 
  await User.update({

@@ -128,7 +128,8 @@ const resetPassword = (req, res, next) => __awaiter(void 0, void 0, void 0, func
         (0, userModel_1.UserMap)(Database_1.default);
         const passwordToken = req.params.token;
         console.log(passwordToken);
-        const { oldPassword, newPassword, confirmPassword } = req.body;
+        const newUser = req.body;
+        console.log(newUser.oldPassword);
         // const hashedToken = crypto
         // .createHash('sha256')
         // .update(passwordToken)
@@ -140,15 +141,15 @@ const resetPassword = (req, res, next) => __awaiter(void 0, void 0, void 0, func
             }
         });
         console.log(user === null || user === void 0 ? void 0 : user.password);
-        const isMatch = yield bcrypt_1.default.compareSync(oldPassword, user.password);
+        const isMatch = yield bcrypt_1.default.compareSync(newUser.oldPassword, user === null || user === void 0 ? void 0 : user.password);
         console.log(isMatch);
         if (!isMatch) {
             throw new Error("old password is not correct");
         }
-        if (oldPassword == newPassword) {
+        if (newUser.oldPassword == newUser.newPassword) {
             throw new Error("you can not use old password, Please set new password");
         }
-        if (newPassword == confirmPassword) {
+        if (newUser.newPassword !== newUser.confirmPassword) {
             throw new Error("password does not match");
         }
         if ((!user) || user == null) {
@@ -157,8 +158,8 @@ const resetPassword = (req, res, next) => __awaiter(void 0, void 0, void 0, func
         }
         ;
         const salt = 10;
-        console.log(newPassword);
-        const hashedPassword = yield bcrypt_1.default.hash(newPassword, salt);
+        console.log(newUser.newPassword);
+        const hashedPassword = yield bcrypt_1.default.hash(newUser.newPassword, salt);
         console.log(hashedPassword);
         yield userModel_1.default.update({
             passwordResetExpires: null,
