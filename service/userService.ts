@@ -35,35 +35,49 @@ export async function register(user: U) {
     try {
         UserMap(Database);
     
-        let newUser: U = user;
+        if(!user.name || !user.email || !user.password || !user.password2) {
+           throw new Error("Please fill all fields");
+        }
+
+        if(user.password.length < 6) {
+          throw new Error("Password is too short");
+
+        }
+
+        if(user.password !== user.password2) {
+          throw new Error("Password does not match");
+
+        }
+
+
         const username = await User.findOne({
             where: {
-              email: newUser.email
+              email: user.email
             }
           });
       
-          if (newUser.email == username?.email) {
+          if (user.email == username?.email) {
             console.log('You are already a user.');
             throw new Error("You are already a user.")
           }else {
 
             const salt: number = 10
-            const hashedPassword = await bcrypt.hash(newUser.password, salt);
+            const hashedPassword = await bcrypt.hash(user.password, salt);
       
-            const user: {
+            const newUser: {
                 id: number;
               name: string;
               email: string;
               password: string;
             } = {
-                id: newUser.id,
-              name: newUser.name,
-              email: newUser.email,
+                id: user.id,
+              name: user.name,
+              email: user.email,
               password: hashedPassword
             }
         
             
-             const registeredUser = await User.create(user);
+             const registeredUser = await User.create(newUser);
             
              
              const userCredentials = createSendToken(registeredUser);
@@ -82,6 +96,11 @@ export async function register(user: U) {
 export async function login(user: loginU) {
     try {
         UserMap(Database);
+
+        if(user.email || user.password) {
+          throw new Error("Please provide email and password");
+        }
+
       const foundUser = await User.findOne({ where: {
         email: user.email
       }});

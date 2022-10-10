@@ -47,26 +47,34 @@ function register(user) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             (0, userModel_1.UserMap)(Database_1.default);
-            let newUser = user;
+            if (!user.name || !user.email || !user.password || !user.password2) {
+                throw new Error("Please fill all fields");
+            }
+            if (user.password.length < 6) {
+                throw new Error("Password is too short");
+            }
+            if (user.password !== user.password2) {
+                throw new Error("Password does not match");
+            }
             const username = yield userModel_1.default.findOne({
                 where: {
-                    email: newUser.email
+                    email: user.email
                 }
             });
-            if (newUser.email == (username === null || username === void 0 ? void 0 : username.email)) {
+            if (user.email == (username === null || username === void 0 ? void 0 : username.email)) {
                 console.log('You are already a user.');
                 throw new Error("You are already a user.");
             }
             else {
                 const salt = 10;
-                const hashedPassword = yield bcrypt_1.default.hash(newUser.password, salt);
-                const user = {
-                    id: newUser.id,
-                    name: newUser.name,
-                    email: newUser.email,
+                const hashedPassword = yield bcrypt_1.default.hash(user.password, salt);
+                const newUser = {
+                    id: user.id,
+                    name: user.name,
+                    email: user.email,
                     password: hashedPassword
                 };
-                const registeredUser = yield userModel_1.default.create(user);
+                const registeredUser = yield userModel_1.default.create(newUser);
                 const userCredentials = (0, createToken_1.createSendToken)(registeredUser);
                 console.log(userCredentials.token);
                 return { user: registeredUser, token: userCredentials.token, cookie: userCredentials.cookieOptions };
@@ -82,6 +90,9 @@ function login(user) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             (0, userModel_1.UserMap)(Database_1.default);
+            if (user.email || user.password) {
+                throw new Error("Please provide email and password");
+            }
             const foundUser = yield userModel_1.default.findOne({ where: {
                     email: user.email
                 } });
