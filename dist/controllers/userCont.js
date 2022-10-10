@@ -35,12 +35,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.resetPassword = exports.forgotPassword = exports.logIn = exports.register = exports.getUser = exports.getAllUsers = exports.SECRET_KEY = void 0;
+exports.getPage = exports.resetPassword = exports.forgotPassword = exports.logIn = exports.register = exports.getUser = exports.getAllUsers = exports.SECRET_KEY = void 0;
 const errorUtils_1 = require("../utils/errorUtils");
 const userModel_1 = __importStar(require("../model/userModel"));
 const userServices = __importStar(require("../service/userService"));
 const Database_1 = __importDefault(require("../Database"));
 const dotenv = __importStar(require("dotenv"));
+const email_1 = require("../utils/email");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const config_1 = require("../config");
 const createToken_1 = require("../utils/createToken");
@@ -106,12 +107,12 @@ const forgotPassword = (req, res) => __awaiter(void 0, void 0, void 0, function*
         console.log(user);
         const resetURL = `${req.protocol}://${"localhost:3000"}/resetPassword/${user === null || user === void 0 ? void 0 : user.resetToken}`;
         const message = `Forgot your password? Submit a PATCH request with your new password and passwordConfirm to: ${resetURL}.\nIf you did'nt forget your password, please ignore this email!`;
-        //  await sendEmail({
-        //   email: req.body.email,
-        //   subject: "ipayroll",
-        //   text: 'Your password reset token (valid for 10 min)',
-        //   message: message
-        //  })
+        yield (0, email_1.sendEmail)({
+            email: req.body.email,
+            subject: "ipayroll",
+            text: 'Your password reset token (valid for 10 min)',
+            message: message
+        });
         res.status(200).json({
             status: 'success',
             result: resetURL
@@ -140,7 +141,7 @@ const resetPassword = (req, res, next) => __awaiter(void 0, void 0, void 0, func
             }
         });
         console.log(user === null || user === void 0 ? void 0 : user.password);
-        const isMatch = yield bcrypt_1.default.compareSync(newUser.oldPassword, user === null || user === void 0 ? void 0 : user.password);
+        const isMatch = yield bcrypt_1.default.compareSync(newUser.oldPassword, user.password);
         console.log(isMatch);
         if (!isMatch) {
             throw new Error("old password is not correct");
@@ -179,4 +180,14 @@ const resetPassword = (req, res, next) => __awaiter(void 0, void 0, void 0, func
     ;
 });
 exports.resetPassword = resetPassword;
+const getPage = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const tt = yield userServices.forgotPassword("f@email.com");
+        res.redirect(`/api/v1/users/resetpassword/:${tt.resetToken}`);
+    }
+    catch (error) {
+        return res.status(500).send((0, errorUtils_1.getErrorMessage)(error));
+    }
+});
+exports.getPage = getPage;
 //# sourceMappingURL=userCont.js.map

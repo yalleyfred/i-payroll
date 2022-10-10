@@ -26,9 +26,20 @@ export const getEmployee =async (req:Request, res: Response) => {
   
 }
 
+type E = {
+  name: string;
+  email: string;
+  job_title: string;
+  date_hire: Date;
+  department: string;
+  status: string;
+  tin: string;
+  snnit: string;
+}
 export const createEmployee =async (req:Request, res: Response) => {
     try {
-    let newEmployee: {} = req.body as Employee;
+      let newEmployee: E = req.body;
+      
     EmployeeMap(database);
     const result = await Employee.create(newEmployee);
     res.status(201).json({ employee: result });

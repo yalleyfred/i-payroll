@@ -58,7 +58,7 @@ export function ResetPassword() {
   return (
     <section className="reset_password_container">
       <ToastContainer />
-      <h1 className="form_title">Reset Password</h1>
+      <h1 className="reset_form_title">Reset Password</h1>
       <div className="reset_password__row">
         <div className="reset_password__col">
           <div>
@@ -94,16 +94,18 @@ export function ResetPassword() {
             />
           </div>
 
-          <input
-            type="button"
-            id="reset_button"
-            value="Reset"
-            onClick={submitForm}
-          />
+          <div>
+            <input
+              type="button"
+              id="reset_button"
+              value="Reset"
+              onClick={submitForm}
+            />
+          </div>
         </div>
       </div>
 
-      <p className="footnote">
+      <p className="reset_footnote">
         {/* <a> */}
         Already have an account? Login now
         {/* </a> */}
