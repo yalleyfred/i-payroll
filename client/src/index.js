@@ -21,8 +21,7 @@ function Index() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Contentarea />}></Route>
-        <Route path="/system/account/admin/admin" element={<Contentarea />}>
+        <Route path="/" element={<Contentarea />}>
           <Route path="/account" element={<Dashboard />} />
           <Route path="/employees" element={<Employees />} />
           <Route path="/payroll" element={<Payroll />} />
