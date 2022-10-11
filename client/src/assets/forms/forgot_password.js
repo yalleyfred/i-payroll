@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "../css/common_styles.css";
-import "../css/reset_password.css";
+import "../css/forgot_password.css";
 import { useNavigate } from "react-router-dom";
 
 import "react-toastify/dist/ReactToastify.css";
@@ -48,14 +48,13 @@ export function ForgotPassword() {
     <section className="reset_password_container">
       <ToastContainer />
       <div className="reset_password__row">
-        <h1 className="form_title" id="forgot_password_title">
-          Forgot Password
-        </h1>
-        <h4>Oops! forgot your password?</h4>
-        <p className="forget_password_text">
+        {/* className="form_title" */}
+        <h1 id="forgot_password_title">Forgot Password</h1>
+        <h4 className="forgot_password_title-2">Oops! forgot your password?</h4>
+        <p className="forgot_password_text">
           Enter your email below,we'll send you a ticket to retrieve it.
         </p>
-        <div className="reset_password__col">
+        <div className="forgot_password__col">
           <div>
             <label for="old_password">Email</label>
             <input
@@ -65,9 +64,13 @@ export function ForgotPassword() {
               value={userEmail}
               onChange={handleform}
             />
+            <input
+              type="button"
+              id="send_email_button"
+              value={"Send email"}
+              onClick={SubmitForm}
+            />
           </div>
-
-          <input type="button" id="reset_button" onClick={SubmitForm} />
         </div>
       </div>
 

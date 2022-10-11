@@ -37,7 +37,9 @@ export const EmployeeMap = (sequelize: Sequelize) => {
       },
       tin: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+  
+
       },
       department: {
         type: DataTypes.STRING(100),

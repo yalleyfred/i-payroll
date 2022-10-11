@@ -122,12 +122,12 @@
   .employees-detail-section > div:nth-child(1) {
     background-color: var(--ip-white);
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
-    height: 360px;
+    min-height: 260px;
+    max-height: auto;
   }
   .employees-detail-section > div:nth-child(2),
   .employees-detail-section > div:nth-child(1) {
     border-radius: 8px;
-    height: auto;
     padding: 10px 10px 10px 10px;
     margin: 0 30px;
   }
@@ -137,13 +137,13 @@
     background-color: var(--ip-white);
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
   }
-  #table_id {
+  /* #table_id {
     font-family: inter !important;
     font-size: 12px !important;
   }
   #table_id > tbody tr:hover {
     cursor: pointer;
-  }
+  } */
   /* #myBarChart {
     width: 100% !important;
   } */
@@ -165,8 +165,7 @@
 
   #chart {
     width: 100%;
-    max-height: 360px;
-    margin-bottom: 40px;
+    height: 260px;
   }
   .employee-summary-presentation {
     height: "100%";
