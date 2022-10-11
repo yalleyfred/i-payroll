@@ -76,7 +76,7 @@ const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         console.log(req.body);
         res.cookie('jwt', user.token, user.cookie);
         res.status(200).json({
-            message: 'User created',
+            message: 'User Registered',
             token: user.token,
             data: user.user
         });
@@ -130,11 +130,6 @@ const resetPassword = (req, res, next) => __awaiter(void 0, void 0, void 0, func
         console.log(passwordToken);
         const newUser = req.body;
         console.log(newUser.oldPassword);
-        // const hashedToken = crypto
-        // .createHash('sha256')
-        // .update(passwordToken)
-        // .digest('hex');
-        // console.log(hashedToken);
         const user = yield userModel_1.default.findOne({
             where: {
                 passwordResetToken: passwordToken

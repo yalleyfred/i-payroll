@@ -23,7 +23,7 @@ export const LoanMap = (sequelize: Sequelize) => {
       allowNull: false
     },
     date: {
-      type: DataTypes.DATE,
+      type: DataTypes.DATEONLY,
       allowNull: true
     } 
   }, {

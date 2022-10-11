@@ -5,7 +5,6 @@ import * as userServices from '../service/userService'
 import Database from '../Database';
 import * as dotenv from 'dotenv';
 import {sendEmail} from "../utils/email";
-import crypto from 'crypto';
 import jwt, {Secret} from 'jsonwebtoken';
 import bcrypt  from "bcrypt";
 import { jwt_secret } from '../config';
@@ -54,7 +53,7 @@ export const register = async (req: Request, res: Response) => {
       
       
       res.status(200).json({
-        message: 'User created',
+        message: 'User Registered',
         token: user.token,
         data: user.user
       });
@@ -124,11 +123,6 @@ export const resetPassword = async(req:Request, res: Response, next: NextFunctio
   const newUser: T = req.body;
   console.log(newUser.oldPassword);
   
-  // const hashedToken = crypto
-  // .createHash('sha256')
-  // .update(passwordToken)
-  // .digest('hex');
-  // console.log(hashedToken);
   
 
   const user = await User.findOne({

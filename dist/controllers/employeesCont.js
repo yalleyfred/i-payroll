@@ -64,9 +64,22 @@ const getEmployee = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 exports.getEmployee = getEmployee;
 const createEmployee = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        let newEmployee = req.body;
         (0, employeeModel_1.EmployeeMap)(Database_1.default);
-        const result = yield employeeModel_1.default.create(newEmployee);
+        const employee = req.body;
+        if (!employee.name || !employee.email || !employee.job_title || !employee.hire_date || !employee.department
+            || !employee.status || !employee.snnit || !employee.tin) {
+            throw new Error("Please fill all fields!");
+        }
+        const emp = yield employeeModel_1.default.findOne({
+            where: {
+                email: employee.email
+            }
+        });
+        const existingEmp = emp === null || emp === void 0 ? void 0 : emp.email;
+        if (employee.email == existingEmp) {
+            throw new Error("Employee already exist!");
+        }
+        const result = yield employeeModel_1.default.create(employee);
         res.status(201).json({ employee: result });
     }
     catch (error) {

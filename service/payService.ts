@@ -6,7 +6,9 @@ import Loan, {LoanMap} from "../model/loanModel";
 import Database from "../Database";
 
 import {incomeTax, bonusTax, tierOne, tierTwo, loan} from '../utils/payUtil';
-import { DATEONLY } from "sequelize";
+import * as XLSX from 'xlsx';
+// let wb: XLSX.IWorkBook = XLSX.read(...);
+import path from 'path';
 
 
 type detail = {
@@ -50,7 +52,8 @@ export const makePayslip = async(employee: {name: string}) => {
                 name: empName
             }
         });
-
+       
+    
                 if(empName !== empPayroll?.name) { 
                     console.log('Employees doesnt exist');
                     throw new Error("Employee doesnt exist");

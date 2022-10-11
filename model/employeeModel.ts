@@ -34,16 +34,10 @@ export const EmployeeMap = (sequelize: Sequelize) => {
       snnit: {
         type: DataTypes.STRING,
         allowNull: false,
-        validate: {
-          max: 15
-        }
       },
       tin: {
         type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-          max: 11
-        }
+        allowNull: false
       },
       department: {
         type: DataTypes.STRING(100),
