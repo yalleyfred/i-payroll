@@ -7,6 +7,7 @@ router.route('/register').post(userCont_1.register);
 router.route('/login').post(userCont_1.logIn);
 router.route('/forgotPassword').post(userCont_1.forgotPassword);
 router.route('/resetPassword/:token').patch(userCont_1.resetPassword);
+router.route('/resetPassword/:token').get(userCont_1.resetPassword);
 // GET - users
 router.route('/')
     .get(userCont_1.getAllUsers);

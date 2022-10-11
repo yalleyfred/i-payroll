@@ -41,7 +41,6 @@ const userModel_1 = __importStar(require("../model/userModel"));
 const userServices = __importStar(require("../service/userService"));
 const Database_1 = __importDefault(require("../Database"));
 const dotenv = __importStar(require("dotenv"));
-const email_1 = require("../utils/email");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const config_1 = require("../config");
 const createToken_1 = require("../utils/createToken");
@@ -76,7 +75,7 @@ const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         console.log(req.body);
         res.cookie('jwt', user.token, user.cookie);
         res.status(200).json({
-            message: 'User Registered',
+            message: 'User created',
             token: user.token,
             data: user.user
         });
@@ -105,14 +104,14 @@ const forgotPassword = (req, res) => __awaiter(void 0, void 0, void 0, function*
     try {
         const user = yield userServices.forgotPassword(req.body);
         console.log(user);
-        const resetURL = `${req.protocol}://${req.get('host')}/api/v1/users/resetPassword/${user === null || user === void 0 ? void 0 : user.resetToken}`;
+        const resetURL = `${req.protocol}://${"localhost:3000"}/resetPassword/${user === null || user === void 0 ? void 0 : user.resetToken}`;
         const message = `Forgot your password? Submit a PATCH request with your new password and passwordConfirm to: ${resetURL}.\nIf you did'nt forget your password, please ignore this email!`;
-        yield (0, email_1.sendEmail)({
-            email: req.body.email,
-            subject: "ipayroll",
-            text: 'Your password reset token (valid for 10 min)',
-            message: message
-        });
+        //  await sendEmail({
+        //   email: req.body.email,
+        //   subject: "ipayroll",
+        //   text: 'Your password reset token (valid for 10 min)',
+        //   message: message
+        //  })
         res.status(200).json({
             status: 'success',
             result: resetURL
