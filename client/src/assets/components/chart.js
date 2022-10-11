@@ -95,7 +95,7 @@ export function Barchart() {
   iterateChartData();
 
   const data = {
-    labels: labels,
+    labels: uniqueLabels,
     datasets: [
       {
         label: "Job titles",

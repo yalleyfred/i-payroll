@@ -25,6 +25,11 @@ export function ApplyLoan() {
   const handleSubmit = () => {
     console.log(loanDetails);
     submit();
+    setLoanDetails({
+      name: "",
+      amount: "",
+      date: "",
+    });
   };
   const successAlert = new notification();
   const errorAlert = new notification();

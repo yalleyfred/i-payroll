@@ -25,6 +25,10 @@ export function EmployeePayForm() {
   const handleSubmit = () => {
     console.log(employeePayCredentials);
     submit();
+    setEmployeePayCredentials({
+      name: "",
+      month_year: "",
+    });
   };
   const successAlert = new notification();
   const errorAlert = new notification();
