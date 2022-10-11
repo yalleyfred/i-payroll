@@ -201,7 +201,7 @@ export async function makePayroll(employee:payroll) {
             
                 
                 
-                if(mnt == pyMnt && yr == pyYr) {
+                if(mnt == pyMnt || yr == pyYr) {
                     console.log("this payroll has been created already");
                     throw new Error("this payroll has been created already")
                 }

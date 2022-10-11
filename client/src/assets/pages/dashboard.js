@@ -10,10 +10,12 @@ export default function Dashboard() {
     const handle_employeeData = async () => {
       // setTimeout(() => {
       axios
-        .get("http://localhost:3001/api/v1/users")
+        .get("http://localhost:3001/api/v1/users/")
         .then((response) => {
+          // console.log(req);
           if (response.status === 200) {
             setNoOfUsers(response.data.users.length);
+            console.log(response);
           }
         })
         .catch((error) => {

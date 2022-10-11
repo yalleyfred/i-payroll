@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "../css/common_styles.css";
 import "../css/forgot_password.css";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 
 import "react-toastify/dist/ReactToastify.css";
 
@@ -11,7 +11,7 @@ import { ToastContainer } from "react-toastify";
 const axios = require("axios").default;
 
 export function ForgotPassword() {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [userEmail, setUserEmail] = useState("");
 
   const successAlert = new notification();

@@ -24,6 +24,7 @@ export default function LoginForm() {
   const [formerrors, setFormErrors] = useState({});
   // const [isSubmit, setIsSubmit] = useState(false);
   // const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [token, setToken] = useState("");
 
   // const successAlert = new notification();
   const errorAlert = new notification();
@@ -42,9 +43,11 @@ export default function LoginForm() {
       .then(function (response) {
         if (response.status === 200) {
           // errorAlert.notifySuccess(response);
-          // console.log(response);
+          setToken(response.data.token);
+          // console.log(response.data.token);
+          console.log(response);
           if (response.data.token) {
-            navigate("/account");
+            navigate("/admin/account");
           }
         }
       })

@@ -13,7 +13,7 @@ body {
 
 .add_employee_container {
   margin: 40px;
-  width: 100%;
+  width: 50%;
   height: auto;
   border-radius: 10px;
   background-color: var(--ip-white);
@@ -21,6 +21,8 @@ body {
   -webkit-box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
   text-align: center;
+  margin: 0 auto;
+  margin-top: 25px;
 }
 
 .add_employee_row {
@@ -84,4 +86,14 @@ input[type="button"]:hover {
 .footnote {
   font-size: 12px;
   padding-bottom: 10px;
+}
+
+.close {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  box-sizing: border-box;
+  padding: unset;
+  font-size: 20px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }

@@ -1,6 +1,6 @@
 body {
   width: 100%;
-  height: 100%;
+  height: 100vh;
   background-color: var(--ip-light-grey);
   background-color: #f6f6fd;
   display: -webkit-box;
@@ -14,21 +14,20 @@ body {
   align-items: center;
 }
 
-.payroll_form__container {
+.loan__container {
   width: 440px;
   height: auto;
   background-color: var(--ip-white);
   color: var(--ip-dark-secondary);
-  margin: 40px;
   border-radius: 10px;
   -webkit-box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
-  padding: 40px 0px;
+  padding-bottom: 30px;
   margin: 0 auto;
-  margin-top: 80px;
+  margin-top: 40px;
 }
 
-.payroll_form__col > div > label {
+.loan__col > div > label {
   display: block;
   padding: 10px 0 5px 5px;
   font-size: 14px;
@@ -37,45 +36,58 @@ body {
   text-align: left !important;
 }
 
-#payroll_form_container_title {
+.loan_title {
   text-align: center;
   width: 100%;
   height: auto;
-  padding: 10px 0;
+  padding: 20px 0;
   font-size: 30px;
 }
+/* .reset_password__col {
 
-.payroll_form_container > div {
+} */
+.loan__col > div {
   display: block;
   width: 60%;
   margin: 0 auto;
 }
-.payroll_form__col > div {
-  width: 60%;
-  margin: 0 auto;
-}
-.payroll_form__col > div > input {
+
+.loan__col > div > input {
   width: 100%;
+  height: 3;
   border: 1px solid #ccc;
   outline: unset;
   border-radius: 4px;
+  padding-left: 10px;
+  margin: 10px 0;
 }
 
-.payroll_form__col > div > input[type="button"] {
+.loan__col > div > input[type="button"] {
   background-color: var(--ip-medium-blue);
   color: var(--ip-white);
   font-size: 14px;
   width: 100%;
   height: 40px;
   border-radius: 6px;
-  margin-bottom: 40px 0 0 0;
+  margin-bottom: 20px;
 }
 
-.payslip_container__col > div > input[type="button"]:hover {
+.loan__col > div > input[type="button"]:hover {
   cursor: pointer;
 }
 
-.payslip_container__col > div > .footnote {
+.loan__col > div > .footnote {
   font-size: 12px;
   padding-bottom: 10px;
+}
+
+.loan_footnote {
+  font-size: 12px;
+  text-align: center;
+  padding: 10px 0 20px 0;
+}
+
+#loan_container {
+  height: 400px !important;
+  margin-top: 120px;
 }

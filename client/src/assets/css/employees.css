@@ -122,8 +122,8 @@
   .employees-detail-section > div:nth-child(1) {
     background-color: var(--ip-white);
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
-    min-height: 260px;
-    max-height: auto;
+    max-height: 460px;
+    overflow: scroll;
   }
   .employees-detail-section > div:nth-child(2),
   .employees-detail-section > div:nth-child(1) {

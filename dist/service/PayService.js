@@ -168,7 +168,7 @@ function makePayroll(employee) {
                 console.log(pyMnt);
                 const pyYr = Number(payDate === null || payDate === void 0 ? void 0 : payDate.getFullYear());
                 console.log(pyYr);
-                if (mnt == pyMnt && yr == pyYr) {
+                if (mnt == pyMnt || yr == pyYr) {
                     console.log("this payroll has been created already");
                     throw new Error("this payroll has been created already");
                 }

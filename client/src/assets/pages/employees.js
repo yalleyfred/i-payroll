@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "../css/common_styles.css";
 import "../css/index.css";
 import "datatables.net";
@@ -38,11 +38,11 @@ export default function Employees() {
     <div id="employee-summary-presentation">
       <section className="employees-summary-section">
         <div role="presentation">
-          <NavLink to="#modal-full" uk-toggle className="navlink">
+          <Link to="/admin/registeremployee" uk-toggle className="navlink">
             <button className="add-btn" title="Click to add new employee">
               <img src={require("../img/icons/add_icon.svg").default} alt="" />
             </button>
-          </NavLink>
+          </Link>
         </div>
         <div>
           <div className="employee-summary-card">
@@ -99,31 +99,29 @@ export default function Employees() {
           <table class="uk-table uk-table-small uk-table-striped">
             <thead>
               <tr>
-                <th className="uk-text-lead">No.</th>
-                <th className="uk-text-lead">Date Hired</th>
-                <th className="uk-text-lead">Name</th>
-                <th className="uk-text-lead">Email</th>
-                <th className="uk-text-lead">Job title</th>
-                <th className="uk-text-lead">Department</th>
+                <th className="">No.</th>
+                <th className="">Date Hired</th>
+                <th className="">Name</th>
+                <th className="">Email</th>
+                <th className="">Job title</th>
+                <th className="">Department</th>
               </tr>
             </thead>
             <tbody>
               {employeeInfo.length > 0
                 ? employeeInfo.map((value, index) => {
                     return (
-                      <tr className="uk-text-default" key={index}>
-                        <td className="uk-text-default">{value.id}</td>
-                        <td className="uk-text-default">
-                          {moment(value.hire_date).format("MMMM, YYYY")}
-                        </td>
-                        <td className="uk-text-default">{value.name}</td>
-                        <td className="uk-text-default">{value.email}</td>
-                        <td className="uk-text-default">{value.job_title}</td>
-                        <td className="uk-text-default">{value.department}</td>
+                      <tr key={index}>
+                        <td>{value.id}</td>
+                        <td>{moment(value.hire_date).format("MMMM, YYYY")}</td>
+                        <td>{value.name}</td>
+                        <td>{value.email}</td>
+                        <td>{value.job_title}</td>
+                        <td>{value.department}</td>
                       </tr>
                     );
                   })
-                : "Loading.."}
+                : "Loading..."}
             </tbody>
           </table>
         </div>
@@ -131,28 +129,6 @@ export default function Employees() {
           <Barchart />
         </div>
       </section>
-
-      <div id="modal-full" className="uk-modal-full" uk-modal>
-        <div className="uk-modal-dialog">
-          <button
-            className="uk-modal-close-full uk-close-large"
-            type="button"
-            uk-close
-          ></button>
-          <div
-            className="uk-grid-collapse uk-child-width-1-1@s uk-flex-middle"
-            uk-grid
-          >
-            <div className=".uk-width-1-1" uk-height-viewport>
-              <iframe
-                // src={require("./forms/employee_registration_form.html").default}
-                id="popOver"
-                title="display the new employee registration form"
-              ></iframe>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   );
 }

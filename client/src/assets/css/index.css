@@ -1,7 +1,7 @@
 @media only screen and (min-width: 1024px) {
   body {
     text-align: center;
-    overflow: hidden;
+    overflow-x: hidden;
   }
   /* iframe {
     width: 75vw;
@@ -25,8 +25,9 @@
     display: grid;
     -ms-grid-columns: 0.5fr 4fr;
     grid-template-columns: 0.5fr 4fr;
-    height: 100%;
-    overflow: scroll;
+    height: auto;
+    /* overflow: scroll; */
+    margin-top: 40px;
   }
   .side-nav {
     height: 100%;
