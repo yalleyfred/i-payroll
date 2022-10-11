@@ -34,3 +34,4 @@ app.use('/api/v1/payScheme', paySchemeRoute);
 app.use('/api/v1/payroll', payrollRoute);
 app.use('/api/v1/payslip', payslipRoute);
 app.use('/api/v1/report', reportRoute);
+app.use('/api/v1/loan', loanRoute);

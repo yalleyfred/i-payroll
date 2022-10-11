@@ -15,6 +15,7 @@ const userRoute_1 = __importDefault(require("./routes/userRoute"));
 const paySchemeRoute_1 = __importDefault(require("./routes/paySchemeRoute"));
 const payrollRoute_1 = __importDefault(require("./routes/payrollRoute"));
 const payslipRoute_1 = __importDefault(require("./routes/payslipRoute"));
+const loanRoute_1 = __importDefault(require("./routes/loanRoute"));
 const reportRoute_1 = __importDefault(require("./routes/reportRoute"));
 exports.app.use(body_parser_1.default.json());
 exports.app.use(body_parser_1.default.urlencoded({ extended: true }));
@@ -25,4 +26,5 @@ exports.app.use('/api/v1/payScheme', paySchemeRoute_1.default);
 exports.app.use('/api/v1/payroll', payrollRoute_1.default);
 exports.app.use('/api/v1/payslip', payslipRoute_1.default);
 exports.app.use('/api/v1/report', reportRoute_1.default);
+exports.app.use('/api/v1/loan', loanRoute_1.default);
 //# sourceMappingURL=app.js.map
