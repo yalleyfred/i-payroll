@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import "../css/common_styles.css";
-import "../css/form.css";
+import "../css/signup.css";
 
 import "react-toastify/dist/ReactToastify.css";
 

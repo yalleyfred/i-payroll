@@ -141,8 +141,12 @@ export default function LoginForm() {
           />
           <p className="form-medium-text">
             &nbsp;
-            <Link to={"/signup"} className="link">
-              Register a new account
+            <Link to={"/signup"} className="link" target="_blank">
+              Register
+            </Link>
+            &nbsp;|&nbsp;
+            <Link to={"/forgotpassword"} className="link" target="_blank">
+              Forgot Password
             </Link>
           </p>
         </form>

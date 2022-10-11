@@ -61,6 +61,7 @@
   }
   .signup-form {
     width: 88%;
+    height: auto;
     padding: 20px 20px;
   }
   .login-form-input {
@@ -88,6 +89,7 @@
   #signup_username,
   .signup_password {
     width: 360px;
+    margin: 10px;
   }
   #signup_email {
     margin-right: 20px;
@@ -119,7 +121,8 @@
   .signup_button {
     width: 360px;
     display: block;
-    margin: 10px auto;
+    margin: 0 auto;
+    margin-top: 40px;
   }
   .form-medium-text {
     font-size: 16px;
