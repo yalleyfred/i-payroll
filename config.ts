@@ -15,4 +15,3 @@ export const db_password = String(process.env.DB_PASSWORD);
 export const jwt_expires_in = String(process.env.JWT_EXPIRES_IN);
 export const jwt_secret = String(process.env.JWT_SECRET);
 
-export const session_secret = String(process.env.SESSION_SECRET);

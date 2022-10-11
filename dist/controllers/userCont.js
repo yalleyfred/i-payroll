@@ -129,11 +129,6 @@ const resetPassword = (req, res, next) => __awaiter(void 0, void 0, void 0, func
         console.log(passwordToken);
         const newUser = req.body;
         console.log(newUser.oldPassword);
-        // const hashedToken = crypto
-        // .createHash('sha256')
-        // .update(passwordToken)
-        // .digest('hex');
-        // console.log(hashedToken);
         const user = yield userModel_1.default.findOne({
             where: {
                 passwordResetToken: passwordToken
