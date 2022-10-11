@@ -15,6 +15,7 @@ import Signup from "./assets/forms/signup";
 import { ForgotPassword } from "./assets/forms/forgot_password";
 import { ResetPassword } from "./assets/forms/reset_password";
 import { EmployeeReg } from "./assets/forms/employee_registration";
+import { EmployeePayForm } from "./assets/forms/employee_pay_form";
 
 function Index() {
   return (
@@ -37,6 +38,7 @@ function Index() {
         <Route path="/resetpassword" element={<ResetPassword />} />
         {/* <Route path="/resetpassword/:token" element={<ResetPassword />} /> */}
         <Route path="/registeremployee" element={<EmployeeReg />} />
+        <Route path="/payemployee" element={<EmployeePayForm />} />
       </Routes>
     </Router>
   );
