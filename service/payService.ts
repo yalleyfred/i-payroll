@@ -6,9 +6,6 @@ import Loan, {LoanMap} from "../model/loanModel";
 import Database from "../Database";
 
 import {incomeTax, bonusTax, tierOne, tierTwo, loan} from '../utils/payUtil';
-import * as XLSX from 'xlsx';
-// let wb: XLSX.IWorkBook = XLSX.read(...);
-import path from 'path';
 
 
 type detail = {
@@ -116,9 +113,11 @@ export async function makePayroll(employee:payroll) {
         }
         
         const mnt = new Date(empDetails.month_year).getMonth() + 1;
- 
+        console.log(mnt);
+        
 
         const yr = new Date(empDetails.month_year).getFullYear();
+        console.log(yr);
         
         
         const emp = await Employee.findOne({
@@ -195,12 +194,14 @@ export async function makePayroll(employee:payroll) {
                 })
                 const payDate = empPay?.date;
                 const pyMnt = Number(payDate?.getMonth()) + 1;
+        console.log(pyMnt);
 
                 const pyYr = Number(payDate?.getFullYear());
+        console.log(pyYr);
             
                 
                 
-                if(mnt == pyMnt || yr == pyYr) {
+                if(mnt == pyMnt && yr == pyYr) {
                     console.log("this payroll has been created already");
                     throw new Error("this payroll has been created already")
                 }
