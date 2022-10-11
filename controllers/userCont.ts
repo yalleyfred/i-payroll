@@ -169,6 +169,7 @@ export const resetPassword = async(req:Request, res: Response, next: NextFunctio
  await User.update({
     passwordResetExpires: null,
     passwordResetToken: null,
+    password: hashedPassword,
     active: false
   }, {
     where: {

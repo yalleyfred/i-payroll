@@ -131,6 +131,10 @@ export async function forgotPassword(user: E) {
    try {
     UserMap(Database);
 
+    if(!user.email) {
+      throw new Error("please provide your email!");
+    }
+
     const theUser = await User.findOne({
         where: {
             email: user.email
