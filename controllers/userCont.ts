@@ -53,8 +53,7 @@ export const register = async (req: Request, res: Response) => {
       
       
       res.status(200).json({
-        message: 'User created',
-
+        message: 'successfully registered',
         token: user.token,
         data: user.user
       });
@@ -75,7 +74,7 @@ export const logIn = async(req:Request, res: Response) => {
        
       res.status(200).json({
 
-        status: 'success',
+        status: 'Login successful',
         token: foundUser.token,
         cookie: foundUser.cookie
       });
@@ -140,11 +139,11 @@ export const resetPassword = async(req:Request, res: Response, next: NextFunctio
   console.log(isMatch);
   
   if(!isMatch) {
-    throw new Error("old password is not correct");
+    throw new Error("old password is incorrect");
   }
 
   if(newUser.oldPassword == newUser.newPassword) {
-    throw new Error("you can not use old password, Please set new password");
+    throw new Error("You cannot use old password, Please set a new password");
   }
 
   if(newUser.newPassword !== newUser.confirmPassword) {
@@ -152,7 +151,6 @@ export const resetPassword = async(req:Request, res: Response, next: NextFunctio
   }
   
   if((!user) || user == null) {
-    res.send("oops")
     return new Error('Token is invalid or has expired');
     
   };

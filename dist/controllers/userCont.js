@@ -76,7 +76,7 @@ const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         console.log(req.body);
         res.cookie('jwt', user.token, user.cookie);
         res.status(200).json({
-            message: 'User created',
+            message: 'successfully registered',
             token: user.token,
             data: user.user
         });
@@ -91,7 +91,7 @@ const logIn = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const foundUser = yield userServices.login(req.body);
         res.cookie('jwt', foundUser.token, foundUser.cookie);
         res.status(200).json({
-            status: 'success',
+            status: 'Login successful',
             token: foundUser.token,
             cookie: foundUser.cookie
         });
@@ -139,16 +139,15 @@ const resetPassword = (req, res, next) => __awaiter(void 0, void 0, void 0, func
         const isMatch = yield bcrypt_1.default.compareSync(newUser.oldPassword, user.password);
         console.log(isMatch);
         if (!isMatch) {
-            throw new Error("old password is not correct");
+            throw new Error("old password is incorrect");
         }
         if (newUser.oldPassword == newUser.newPassword) {
-            throw new Error("you can not use old password, Please set new password");
+            throw new Error("You cannot use old password, Please set a new password");
         }
         if (newUser.newPassword !== newUser.confirmPassword) {
             throw new Error("password does not match");
         }
         if ((!user) || user == null) {
-            res.send("oops");
             return new Error('Token is invalid or has expired');
         }
         ;
