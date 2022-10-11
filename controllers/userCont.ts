@@ -94,12 +94,12 @@ export const forgotPassword = async(req:Request, res: Response) => {
 
         const message = `Forgot your password? Submit a PATCH request with your new password and passwordConfirm to: ${resetURL}.\nIf you did'nt forget your password, please ignore this email!`;
 
-      //  await sendEmail({
-      //   email: req.body.email,
-      //   subject: "ipayroll",
-      //   text: 'Your password reset token (valid for 10 min)',
-      //   message: message
-      //  })
+       await sendEmail({
+        email: req.body.email,
+        subject: "ipayroll",
+        text: 'Your password reset token (valid for 10 min)',
+        message: message
+       })
         res.status(200).json({
           status: 'success',
           result: resetURL
@@ -135,7 +135,7 @@ export const resetPassword = async(req:Request, res: Response, next: NextFunctio
   })
  
   console.log(user?.password);
-  const isMatch = await bcrypt.compareSync(newUser.oldPassword, user?.password);
+  const isMatch = await bcrypt.compareSync(newUser.oldPassword, user.password);
   console.log(isMatch);
   
   if(!isMatch) {
@@ -180,4 +180,14 @@ export const resetPassword = async(req:Request, res: Response, next: NextFunctio
   }catch (error) {
     return res.status(500).send(getErrorMessage(error));
   };
+}
+
+export const getPage = async (req: Request, res: Response) => {
+  try {
+    // const tt = await userServices.forgotPassword()
+    // res.redirect(`/api/v1/users/resetpassword/:${tt.resetToken}`);
+  } catch (error) {
+    return res.status(500).send(getErrorMessage(error));
+    
+  }
 }

@@ -4,22 +4,23 @@ body {
   display: -ms-flexbox;
   display: flex;
   -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
   -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
 }
 
 .add_employee_container {
   margin: 40px;
-  width: 40%;
-  height: 98vh;
+  width: 100%;
+  height: auto;
   border-radius: 10px;
   background-color: var(--ip-white);
   color: var(--ip-dark-secondary);
   -webkit-box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
-          box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+  text-align: center;
 }
 
 .add_employee_row {
@@ -28,8 +29,8 @@ body {
   display: flex;
   width: 80%;
   -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
   margin: 0 auto;
 }
 
@@ -49,18 +50,21 @@ label {
 
 .form_title {
   text-align: left;
-  width: 80%;
-  margin: 40px auto;
+  width: 100%;
   font-size: 30px;
+  padding-top: 40px;
+  padding-left: 50px;
 }
 
-input {
+input,
+select {
   width: 200px;
   border: 1px solid #ccc;
   outline: unset;
   height: 26px;
   border-radius: 4px;
   padding-left: 10px;
+  color: #4e4e4e;
 }
 
 input[type="button"] {
@@ -70,7 +74,7 @@ input[type="button"] {
   width: 260px;
   height: 48px;
   border-radius: 6px;
-  margin: 30px;
+  margin-top: 30px;
 }
 
 input[type="button"]:hover {

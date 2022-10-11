@@ -30,7 +30,7 @@ const EmployeeMap = (sequelize) => {
         },
         tin: {
             type: sequelize_1.DataTypes.STRING,
-            allowNull: false
+            allowNull: false,
         },
         department: {
             type: sequelize_1.DataTypes.STRING(100),
