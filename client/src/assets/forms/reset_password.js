@@ -2,6 +2,7 @@ import { useState } from "react";
 import "../css/common_styles.css";
 import "../css/reset_password.css";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import { notification } from "../js/script";
 import { ToastContainer } from "react-toastify";
@@ -37,14 +38,14 @@ export function ResetPassword() {
 
     axios
       .patch(
-        "http://localhost:3001/api/v1/users/resetPassword/:token",
+        "http://localhost:3001/api/v1/users/resetPassword/",
         resetCredentials
       )
       .then((response) => {
         if (response.status === 200) {
           console.log(response.data);
           successAlert.notifySuccess(response.data.message);
-          navigate("/login");
+          navigate("/");
         }
       })
       .catch((error) => {
@@ -58,6 +59,15 @@ export function ResetPassword() {
   return (
     <section className="reset_password_container">
       <ToastContainer />
+      <Link to="/admin/account">
+        <button
+          class="uk-button uk-button-danger uk-position-top-right uk-margin-large-top uk-margin-large-right close"
+          title="Close"
+        >
+          x
+        </button>
+      </Link>
+
       <h1 className="reset_form_title">Reset Password</h1>
       <div className="reset_password__row">
         <div className="reset_password__col">

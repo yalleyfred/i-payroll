@@ -41,7 +41,6 @@ const userModel_1 = __importStar(require("../model/userModel"));
 const userServices = __importStar(require("../service/userService"));
 const Database_1 = __importDefault(require("../Database"));
 const dotenv = __importStar(require("dotenv"));
-const email_1 = require("../utils/email");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const config_1 = require("../config");
 const createToken_1 = require("../utils/createToken");
@@ -105,13 +104,13 @@ const forgotPassword = (req, res) => __awaiter(void 0, void 0, void 0, function*
     try {
         const user = yield userServices.forgotPassword(req.body);
         console.log(user);
-        const resetURL = `${req.protocol}://${req.get('host')}/api/v1/users/resetPassword/`;
+        const resetURL = `${req.protocol}://${"localhost:3000"}/admin/resetpassword/`;
         const message = `Forgot your password? cPlease follow this link to set your new password: ${resetURL}.\nIf you did'nt forget your password, please ignore this email!`;
-        yield (0, email_1.sendEmail)({
-            email: req.body.email,
-            subject: "ipayroll",
-            message: message
-        });
+        //  await sendEmail({
+        //   email: req.body.email,
+        //   subject: "ipayroll",
+        //   message: message
+        //  })
         res.status(200).json({
             status: 'success',
             result: resetURL

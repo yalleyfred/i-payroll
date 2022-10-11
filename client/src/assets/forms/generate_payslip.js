@@ -22,12 +22,12 @@ export function GeneratePayslip() {
     // console.log(payeeName);
 
     axios
-      .post("http://localhost:3001/api/v1/users/payslip", {
+      .post("http://localhost:3001/api/v1/payslip", {
         name: payeeName,
       })
 
       .then(function (response) {
-        if (response.status === 200) {
+        if (response.status === 201) {
           if (response.data.status === "success") {
             successAlert.notifySuccess(response.data.status);
             console.log(response);
