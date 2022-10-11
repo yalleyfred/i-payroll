@@ -42,16 +42,26 @@ const errorUtils_1 = require("../utils/errorUtils");
 const Payservice = __importStar(require("../service/payService"));
 const email_1 = require("../utils/email");
 const getAllPayslip = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    (0, payslipModel_1.PayslipMap)(Database_1.default);
-    const result = yield payslipModel_1.default.findAll();
-    res.status(200).json({ payInfo: result });
+    try {
+        (0, payslipModel_1.PayslipMap)(Database_1.default);
+        const result = yield payslipModel_1.default.findAll();
+        res.status(200).json({ payInfo: result });
+    }
+    catch (error) {
+        return res.status(500).send((0, errorUtils_1.getErrorMessage)(error));
+    }
 });
 exports.getAllPayslip = getAllPayslip;
 const getPayslip = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    (0, payslipModel_1.PayslipMap)(Database_1.default);
-    const id = Number(req.params.id);
-    const result = yield payslipModel_1.default.findByPk(id);
-    res.status(200).json({ payInfo: result });
+    try {
+        (0, payslipModel_1.PayslipMap)(Database_1.default);
+        const id = Number(req.params.id);
+        const result = yield payslipModel_1.default.findByPk(id);
+        res.status(200).json({ payInfo: result });
+    }
+    catch (error) {
+        return res.status(500).send((0, errorUtils_1.getErrorMessage)(error));
+    }
 });
 exports.getPayslip = getPayslip;
 const createPayslip = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -64,7 +74,6 @@ const createPayslip = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         yield (0, email_1.sendEmail)({
             email: payslip.email,
             subject: "ipayroll",
-            text: "Payslip",
             message: payslip === null || payslip === void 0 ? void 0 : payslip.output
         });
     }

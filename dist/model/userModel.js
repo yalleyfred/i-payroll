@@ -32,6 +32,10 @@ const UserMap = (sequelize) => {
         passwordResetToken: {
             type: sequelize_1.DataTypes.STRING,
             allowNull: true
+        },
+        active: {
+            type: sequelize_1.DataTypes.BOOLEAN,
+            defaultValue: false
         }
     }, {
         sequelize,

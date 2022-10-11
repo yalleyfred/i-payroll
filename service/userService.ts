@@ -139,7 +139,6 @@ export async function forgotPassword(user: E) {
     console.log(theUser?.passwordResetExpires);
     
     if(!theUser) {
-        console.log('There is no user with that mail');
         throw new Error('There is no user with that mail');
     }
     const reset: {
@@ -152,7 +151,8 @@ export async function forgotPassword(user: E) {
 
     await User.update({
       passwordResetToken: reset.passwordResetToken,
-      passwordResetExpires: reset.passwordResetExpires
+      passwordResetExpires: reset.passwordResetExpires,
+      active: true
     }, {
       where: {
         email: user.email

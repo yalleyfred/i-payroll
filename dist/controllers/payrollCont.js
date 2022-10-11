@@ -65,6 +65,15 @@ const createPayroll = (req, res) => __awaiter(void 0, void 0, void 0, function* 
 });
 exports.createPayroll = createPayroll;
 const getPayroll = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        (0, payrollModel_1.PayrollMap)(Database_1.default);
+        const id = Number(req.params.id);
+        const result = yield payrollModel_1.default.findByPk(id);
+        res.status(200).json({ payInfo: result });
+    }
+    catch (error) {
+        return res.status(500).send((0, errorUtils_1.getErrorMessage)(error));
+    }
 });
 exports.getPayroll = getPayroll;
 //# sourceMappingURL=payrollCont.js.map

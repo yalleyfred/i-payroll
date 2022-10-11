@@ -1,4 +1,6 @@
+
 import { Model, Sequelize, DataTypes } from 'sequelize';
+
 
 export default class Payroll extends Model {
   public id?: number;
@@ -38,8 +40,8 @@ export const PayrollMap = (sequelize: Sequelize) => {
         allowNull: false
       },
       date: {
-        type: DataTypes.DATEONLY,
-        allowNull: false
+        type: DataTypes.DATEONLY(),
+        allowNull: false      
       },
       basic_wage: {
         type: DataTypes.DOUBLE || DataTypes.INTEGER,

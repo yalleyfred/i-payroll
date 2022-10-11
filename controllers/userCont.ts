@@ -89,15 +89,14 @@ export const forgotPassword = async(req:Request, res: Response) => {
       const user = await userServices.forgotPassword(req.body);
       console.log(user);
       
-  
-      const resetURL = `${req.protocol}://${"localhost:3000"}/resetPassword/${user?.resetToken}`;
+      
+      const resetURL = `${req.protocol}://${req.get('host')}/api/v1/users/resetPassword/`;
 
-        const message = `Forgot your password? Submit a PATCH request with your new password and passwordConfirm to: ${resetURL}.\nIf you did'nt forget your password, please ignore this email!`;
+        const message = `Forgot your password? cPlease follow this link to set your new password: ${resetURL}.\nIf you did'nt forget your password, please ignore this email!`;
 
        await sendEmail({
         email: req.body.email,
         subject: "ipayroll",
-        text: 'Your password reset token (valid for 10 min)',
         message: message
        })
         res.status(200).json({
@@ -113,8 +112,8 @@ export const resetPassword = async(req:Request, res: Response, next: NextFunctio
   try {
 
     UserMap(Database);
-  const passwordToken: string = req.params.token;
-  console.log(passwordToken);
+  // const passwordToken: string = req.params.token;
+  // console.log(passwordToken);
 
   type T = {
     oldPassword: string;
@@ -124,24 +123,11 @@ export const resetPassword = async(req:Request, res: Response, next: NextFunctio
 
   const newUser: T = req.body;
   console.log(newUser.oldPassword);
-  
-  
 
-  const user = await User.findOne({
-    where: {
-      passwordResetToken: passwordToken
-     
-    }
-  })
- 
-  console.log(user?.password);
-  const isMatch = await bcrypt.compareSync(newUser.oldPassword, user.password);
-  console.log(isMatch);
-  
-  if(!isMatch) {
-    throw new Error("old password is incorrect");
+  if(!newUser.oldPassword || !newUser.newPassword || !newUser.confirmPassword) {
+    throw new Error("Please provide all fields");
   }
-
+  
   if(newUser.oldPassword == newUser.newPassword) {
     throw new Error("You cannot use old password, Please set a new password");
   }
@@ -149,6 +135,25 @@ export const resetPassword = async(req:Request, res: Response, next: NextFunctio
   if(newUser.newPassword !== newUser.confirmPassword) {
     throw new Error("password does not match");
   }
+
+  const user = await User.findOne({
+    where: {
+      active: true
+     
+    }
+  })
+
+  console.log(user);
+  
+ 
+  console.log(user?.password);
+  const isMatch = await bcrypt.compareSync(newUser.oldPassword, user!.password);
+  console.log(isMatch);
+  
+  if(!isMatch) {
+    throw new Error("old password is incorrect");
+  }
+
   
   if((!user) || user == null) {
     return new Error('Token is invalid or has expired');
@@ -164,7 +169,7 @@ export const resetPassword = async(req:Request, res: Response, next: NextFunctio
  await User.update({
     passwordResetExpires: null,
     passwordResetToken: null,
-    password: hashedPassword
+    active: false
   }, {
     where: {
       email: user.email
@@ -182,12 +187,4 @@ export const resetPassword = async(req:Request, res: Response, next: NextFunctio
   };
 }
 
-export const getPage = async (req: Request, res: Response) => {
-  try {
-    // const tt = await userServices.forgotPassword()
-    // res.redirect(`/api/v1/users/resetpassword/:${tt.resetToken}`);
-  } catch (error) {
-    return res.status(500).send(getErrorMessage(error));
-    
-  }
-}
+

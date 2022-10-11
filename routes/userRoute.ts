@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import {auth} from "../middleware/auth";
-import {getAllUsers, getUser, register, logIn, forgotPassword, resetPassword, getPage} from '../controllers/userCont';
+import {getAllUsers, getUser, register, logIn, forgotPassword, resetPassword} from '../controllers/userCont';
 
 const router = Router();
 
@@ -8,12 +8,12 @@ router.route('/register').post(register);
 router.route('/login').post(logIn);
 router.route('/forgotPassword').post( forgotPassword);
 
-router.route('/resetPassword/:token').get(getPage);
+// router.route('/resetPassword/:token').get(getPage);
 
 
 
 
-router.route('/resetPassword/:token').patch(resetPassword);
+router.route('/resetPassword').patch(resetPassword);
 
 
 
