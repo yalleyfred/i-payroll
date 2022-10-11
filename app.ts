@@ -1,7 +1,8 @@
 import express, { Express, Request, Response } from 'express';
 import dotenv from 'dotenv';
 import bodyParser from 'body-parser';
-import cors from "cors"
+import cors from "cors";
+import path from 'path';
 
 
 dotenv.config();
@@ -17,7 +18,7 @@ import loanRoute from './routes/loanRoute';
 import reportRoute from './routes/reportRoute';
 
 
-
+if (process.env.NODE_ENV !== 'production') require('dotenv').config()
 
 
 app.use(bodyParser.json());
@@ -35,3 +36,11 @@ app.use('/api/v1/payroll', payrollRoute);
 app.use('/api/v1/payslip', payslipRoute);
 app.use('/api/v1/report', reportRoute);
 app.use('/api/v1/loan', loanRoute);
+
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static( 'client/build' ));
+
+    app.get('*', (req, res) => {
+        res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
+    });
+}

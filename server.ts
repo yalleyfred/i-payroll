@@ -7,6 +7,8 @@ dotenv.config();
 const port = process.env.PORT;
 
 
+
+
 sequelize.authenticate().then(() => {
     console.log('connected to database successfully!'); 
   }).catch(error => {
