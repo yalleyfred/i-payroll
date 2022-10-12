@@ -36,7 +36,11 @@ export const UserMap = (sequelize: Sequelize) => {
     passwordResetToken: {
       type: DataTypes.STRING,
       allowNull: true 
-    } 
+    } ,
+    active: {
+      type:DataTypes.BOOLEAN,
+      defaultValue: false
+    }
   }, {
     sequelize,
     tableName: 'Users',
