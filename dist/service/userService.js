@@ -118,6 +118,9 @@ function forgotPassword(user) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             (0, userModel_1.UserMap)(Database_1.default);
+            if (!user.email) {
+                throw new Error("please provide your email!");
+            }
             const theUser = yield userModel_1.default.findOne({
                 where: {
                     email: user.email

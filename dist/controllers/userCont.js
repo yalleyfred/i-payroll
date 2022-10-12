@@ -159,6 +159,7 @@ const resetPassword = (req, res, next) => __awaiter(void 0, void 0, void 0, func
         yield userModel_1.default.update({
             passwordResetExpires: null,
             passwordResetToken: null,
+            password: hashedPassword,
             active: false
         }, {
             where: {
