@@ -17,7 +17,7 @@ export default function Navbar() {
               alt="account menu icon"
               className="nav-menu-icon"
             />
-            <Link to="/account" role="menuitem">
+            <Link to="/admin/account" role="menuitem">
               Account
             </Link>
           </li>
@@ -27,7 +27,7 @@ export default function Navbar() {
               alt="employee menu icon"
               className="nav-menu-icon"
             />
-            <Link to="/employees" role="menuitem">
+            <Link to="/admin/employees" role="menuitem">
               Employees
             </Link>
           </li>
@@ -37,7 +37,7 @@ export default function Navbar() {
               alt="payroll menu-icon"
               className="nav-menu-icon"
             />
-            <Link to="/payroll" role="menuitem">
+            <Link to="/admin/payroll" role="menuitem">
               Payroll
             </Link>
           </li>
@@ -47,7 +47,7 @@ export default function Navbar() {
               alt="tax menu icon"
               className="nav-menu-icon"
             />
-            <Link to="/tax" role="menuitem">
+            <Link to="/admin/tax" role="menuitem">
               Tax
             </Link>
           </li>
@@ -57,7 +57,7 @@ export default function Navbar() {
               alt="loan menu icon"
               className="nav-menu-icon"
             />
-            <Link to="/loan" role="menuitem">
+            <Link to="/admin/loan" role="menuitem">
               Loan
             </Link>
           </li>
@@ -67,7 +67,7 @@ export default function Navbar() {
               alt="allowances menu icon"
               className="nav-menu-icon"
             />
-            <Link to="/allowances" role="menuitem">
+            <Link to="/admin/allowances" role="menuitem">
               Allowances
             </Link>
           </li>
@@ -77,8 +77,8 @@ export default function Navbar() {
               alt="report menu-icon"
               className="nav-menu-icon"
             />
-            <Link to="/report" role="menuitem">
-              Report
+            <Link to="/admin/salary" role="menuitem">
+              Salary Scheme
             </Link>
           </li>
         </ul>

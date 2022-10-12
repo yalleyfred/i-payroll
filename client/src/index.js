@@ -16,29 +16,34 @@ import { ForgotPassword } from "./assets/forms/forgot_password";
 import { ResetPassword } from "./assets/forms/reset_password";
 import { EmployeeReg } from "./assets/forms/employee_registration";
 import { EmployeePayForm } from "./assets/forms/employee_pay_form";
+import { GeneratePayslip } from "./assets/forms/generate_payslip";
+import { ApplyLoan } from "./assets/forms/loanapplication";
+import SalaryStructue from "./assets/pages/salary_structure";
 
 function Index() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Contentarea />}>
-          <Route path="/account" element={<Dashboard />} />
-          <Route path="/employees" element={<Employees />} />
-          <Route path="/payroll" element={<Payroll />} />
-          <Route path="/loan" element={<Loans />} />
-          <Route path="/allowances" element={<Allowances />} />
-          <Route path="/tax" element={<Tax />} />
+        <Route path="/admin" element={<Contentarea />}>
+          <Route path="/admin/account" element={<Dashboard />} />
+          <Route path="/admin/employees" element={<Employees />} />
+          <Route path="/admin/payroll" element={<Payroll />} />
+          <Route path="/admin/loan" element={<Loans />} />
+          <Route path="/admin/allowances" element={<Allowances />} />
+          <Route path="/admin/tax" element={<Tax />} />
+          <Route path="/admin/salary" element={<SalaryStructue />} />
+          <Route path="/admin/registeremployee" element={<EmployeeReg />} />
+          <Route path="/admin/payemployee" element={<EmployeePayForm />} />
+          <Route path="/admin/payslip" element={<GeneratePayslip />} />
+          <Route path="/admin/applyloan" element={<ApplyLoan />} />
+          <Route path="/admin/resetpassword" element={<ResetPassword />} />
         </Route>
       </Routes>
       {/* </Contentarea> */}
       <Routes>
-        <Route path="/login" element={<LoginForm />} />
+        <Route path="/" element={<LoginForm />}></Route>
         <Route path="/signup" element={<Signup />} />
         <Route path="/forgotpassword" element={<ForgotPassword />} />
-        <Route path="/resetpassword" element={<ResetPassword />} />
-        {/* <Route path="/resetpassword/:token" element={<ResetPassword />} /> */}
-        <Route path="/registeremployee" element={<EmployeeReg />} />
-        <Route path="/payemployee" element={<EmployeePayForm />} />
       </Routes>
     </Router>
   );

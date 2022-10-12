@@ -1,29 +1,29 @@
 import { useState } from "react";
 import "../css/common_styles.css";
-import "../css/payslip_form.css";
+import "../css/applyloan_form.css";
 import { Link } from "react-router-dom";
 
 import "react-toastify/dist/ReactToastify.css";
 import { notification } from "../js/script";
 import { ToastContainer } from "react-toastify";
 
-export function EmployeePayForm() {
+export function ApplyLoan() {
   const axios = require("axios").default;
 
   const initialValues = {
     name: "",
-    month_year: "",
+    amount: "",
+    date: "",
   };
-  const [employeePayCredentials, setEmployeePayCredentials] =
-    useState(initialValues);
+  const [loanDetails, setLoanDetails] = useState(initialValues);
 
   const handleFormchange = (e) => {
     const { name, value } = e.target;
-    setEmployeePayCredentials({ ...employeePayCredentials, [name]: value });
+    setLoanDetails({ ...loanDetails, [name]: value });
   };
 
   const handleSubmit = () => {
-    console.log(employeePayCredentials);
+    console.log(loanDetails);
     submit();
   };
   const successAlert = new notification();
@@ -31,22 +31,23 @@ export function EmployeePayForm() {
 
   const submit = () => {
     axios
-      .post("http://localhost:3001/api/v1/payroll", employeePayCredentials)
+      .post("http://localhost:3001/api/v1/loan", loanDetails)
       .then((response) => {
         if (response.status === 200) {
-          console.log(response);
+          //   console.log(response);
           successAlert.notifySuccess(response.data.status);
         }
       })
       .catch((error) => {
         errorAlert.notifyError(error.response.data);
-        console.log(error);
+        // console.log(error);
       });
   };
 
   return (
-    <section className="payroll_form__container">
+    <section className="loan__container">
       <ToastContainer />
+
       <Link to="/admin/payroll">
         <button
           class="uk-button uk-button-danger uk-position-top-right uk-margin-large-top uk-margin-large-right close"
@@ -55,28 +56,38 @@ export function EmployeePayForm() {
           x
         </button>
       </Link>
-
-      <div className="payroll_form__row">
-        <h1 id="payroll_form_container_title">Payroll Form</h1>
-        <div className="payroll_form__col">
+      <div className="loan__row">
+        <h1 className="loan_title">Loan Application</h1>
+        <div className="loan__col">
           <div>
-            <label for="payroll_form_name">Name</label>
+            <label for="loan_name">Name</label>
             <input
               type="text"
-              id="payee_name"
+              id="loan_name"
               name="name"
-              value={employeePayCredentials.name}
+              value={loanDetails.name}
               onChange={handleFormchange}
             />
           </div>
 
           <div>
-            <label for="payee_name">Pay Date</label>
+            <label for="loan_name">Amount</label>
             <input
-              type="month"
-              id="payee_name"
-              name="month_year"
-              value={employeePayCredentials.month_year}
+              type="number"
+              id="loan_name"
+              name="amount"
+              value={loanDetails.amount}
+              onChange={handleFormchange}
+            />
+          </div>
+
+          <div>
+            <label for="loan_name">Date</label>
+            <input
+              type="date"
+              id="loan_name"
+              name="date"
+              value={loanDetails.date}
               onChange={handleFormchange}
             />
           </div>

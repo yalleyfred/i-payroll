@@ -4,6 +4,7 @@ import "../css/add_employee_form.css";
 
 import { notification } from "../js/script";
 import { ToastContainer } from "react-toastify";
+import { Link } from "react-router-dom";
 
 const axios = require("axios").default;
 
@@ -76,6 +77,14 @@ export function EmployeeReg() {
   return (
     <section className="add_employee_container">
       <ToastContainer />
+      <Link to="/admin/employees">
+        <button
+          class="uk-button uk-button-danger uk-position-top-right uk-margin-large-top uk-margin-large-right close"
+          title="Close"
+        >
+          x
+        </button>
+      </Link>
       <h1 className="form_title">Employee Registration</h1>
       <div className="add_employee_row">
         <div className="add_employee_col">
@@ -114,17 +123,20 @@ export function EmployeeReg() {
             <option name="job_title" value="">
               Choose Job Title
             </option>
-            <option name="job_title" value="Level 1">
+            <option name="job_title" value="level 1">
               Level 1
             </option>
-            <option name="job_title" value="Level 2">
+            <option name="job_title" value="level 2">
               Level 2
             </option>
-            <option name="job_title" value="Junior Asociate">
+            <option name="job_title" value="level 3">
               Level 3
             </option>
-            <option name="job_title" value="Senior Associate">
+            <option name="job_title" value="Junior Associate">
               Junior Associate
+            </option>
+            <option name="job_title" value="Senior Associate">
+              Senior Associate
             </option>
           </select>
         </div>
