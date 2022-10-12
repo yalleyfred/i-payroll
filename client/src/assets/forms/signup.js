@@ -48,7 +48,7 @@ export default function Signup() {
           if (response.status === 200) {
             console.log(response);
             successAlert.notifySuccess(response.data.message);
-            navigate("/account");
+            navigate("/admin/account");
           }
         })
         .catch((error) => {

@@ -90,15 +90,15 @@ export const forgotPassword = async(req:Request, res: Response) => {
       console.log(user);
       
       
-      const resetURL = `${req.protocol}://${req.get('host')}/api/v1/users/resetPassword/`;
+      const resetURL = `${req.protocol}://${"localhost:3000"}/admin/resetpassword/`;
 
         const message = `Forgot your password? cPlease follow this link to set your new password: ${resetURL}.\nIf you did'nt forget your password, please ignore this email!`;
 
-       await sendEmail({
-        email: req.body.email,
-        subject: "ipayroll",
-        message: message
-       })
+      //  await sendEmail({
+      //   email: req.body.email,
+      //   subject: "ipayroll",
+      //   message: message
+      //  })
         res.status(200).json({
           status: 'success',
           result: resetURL

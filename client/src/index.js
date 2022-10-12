@@ -37,6 +37,7 @@ function Index() {
           <Route path="/admin/payslip" element={<GeneratePayslip />} />
           <Route path="/admin/applyloan" element={<ApplyLoan />} />
           <Route path="/admin/resetpassword" element={<ResetPassword />} />
+          <Route path="/admin/generatepayslip" element={<GeneratePayslip />} />
         </Route>
       </Routes>
       {/* </Contentarea> */}

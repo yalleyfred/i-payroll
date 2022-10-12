@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import "../css/common_styles.css";
 import "../css/index.css";
 const axios = require("axios").default;
@@ -49,17 +50,21 @@ export default function Dashboard() {
           </h5>
           {/* <h5 class="account-card-title">DevBoison</h5> */}
         </div>
+
         <div title="Click here to change your account password">
-          <img
-            src={require("../img/icons/reset.svg").default}
-            className="account-card-icon"
-            alt=""
-          />
-          <h5 className="account-card-title">
-            RESET <br /> PASSWORD
-          </h5>
+          <Link to="/admin/resetpassword">
+            <img
+              src={require("../img/icons/reset.svg").default}
+              className="account-card-icon"
+              alt=""
+            />
+            <h5 className="account-card-title">
+              RESET <br /> PASSWORD
+            </h5>
+          </Link>
           {/* <h5 class="account-card-figure">5</h5>  */}
         </div>
+
         <div title="Click here to exit your account session">
           <img
             src={require("../img/icons/logout.svg").default}
