@@ -125,14 +125,14 @@ function forgotPassword(user) {
             });
             console.log(theUser === null || theUser === void 0 ? void 0 : theUser.passwordResetExpires);
             if (!theUser) {
-                console.log('There is no user with that mail');
                 throw new Error('There is no user with that mail');
             }
             const reset = (0, resetToken_1.createPasswordResetToken)();
             console.log(reset);
             yield userModel_1.default.update({
                 passwordResetToken: reset.passwordResetToken,
-                passwordResetExpires: reset.passwordResetExpires
+                passwordResetExpires: reset.passwordResetExpires,
+                active: true
             }, {
                 where: {
                     email: user.email

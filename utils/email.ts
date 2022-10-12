@@ -3,7 +3,6 @@ import nodemailer from "nodemailer";
 type Email = {
     email: string;
     subject: string;
-    text: string;
     message: string;
 }
 
@@ -24,7 +23,6 @@ export const sendEmail = async (options: Email) => {
         from: '"ipayroll" <fredrick.yalley@outlook.com>', 
         to: options.email, 
         subject: "Payslip", 
-        text: options.text, 
         html: options.message, 
       }
 

@@ -34,5 +34,12 @@ export const createPayroll = async(req:Request, res: Response) => {
 }
 
 export const getPayroll = async(req: Request, res: Response) => {
-
+    try {
+        PayrollMap(Database);
+        const id = Number(req.params.id);
+        const result = await Payroll.findByPk(id);
+        res.status(200).json({ payInfo: result });
+    }catch(error) {
+        return res.status(500).send(getErrorMessage(error));
+    }
 }

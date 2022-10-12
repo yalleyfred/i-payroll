@@ -29,7 +29,6 @@ const sendEmail = (options) => __awaiter(void 0, void 0, void 0, function* () {
         from: '"ipayroll" <fredrick.yalley@outlook.com>',
         to: options.email,
         subject: "Payslip",
-        text: options.text,
         html: options.message,
     };
     transporter.sendMail(mailOptions, (error, info) => {
