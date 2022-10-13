@@ -1,7 +1,7 @@
 
 # iPayroll
 
-## Overview:
+### Overview:
   iPayroll is a Monolithic application for processing and managing an organization's payroll. The system is built purposely for use by in-house account administrators to carry-out payroll management tasks through the following:
 
 ### Features:
