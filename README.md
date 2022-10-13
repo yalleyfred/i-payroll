@@ -1,5 +1,5 @@
 
-# ipayroll-fyalley
+# iPayroll
 
 ## Overview:
   iPayroll is a Monolithic application for processing and managing an organization's payroll. The system is built purposely for use by in-house account administrators to carry-out payroll management tasks through the following:
@@ -68,6 +68,18 @@
  5. Use `npm start` to initiate front-end server
   
  ## Architecture
+ 
+[![](https://mermaid.ink/img/pako:eNolzLEKwjAQgOFXCTcptINrEBc7dtLRcziTaxtILpJeECl9dwNu3_Dzb-CyZ7AwxfxxCxU14w0F5RoDi5pz31_MmOfg_gz-9DgMpPSilY9PFOggcUkUfJtsKMYg6MKJEWyj54lqVASUvaVUNd-_4sBqqdxBfXtSHgLNhRLYieLK-w8NTTFd)](https://mermaid.live/edit#pako:eNolzLEKwjAQgOFXCTcptINrEBc7dtLRcziTaxtILpJeECl9dwNu3_Dzb-CyZ7AwxfxxCxU14w0F5RoDi5pz31_MmOfg_gz-9DgMpPSilY9PFOggcUkUfJtsKMYg6MKJEWyj54lqVASUvaVUNd-_4sBqqdxBfXtSHgLNhRLYieLK-w8NTTFd)
+ 
+  - The iPayroll application is a tier 1 systems which consists of a single user interface that is the source of input and user interactions
+  - User's queries and inputs are captured and validated by the front-end technology (React js) and sent to the backend
+  - The backend consists of a database(postgres) for storing all user inputs and results of users' inputs, 
+  - The backend also consists of scripts(nodejs/expres js) for performing validations, routing, calculations and insertion of new entries into database collectively known as the "Application Logic or Logic"
+  - Results of requests processed by the backend is then fetched and displayed to the users, using visualization tools such tables, charts and cards by the front-end technology.
+
+[![](https://mermaid.ink/img/pako:eNptkMFuwjAMhl8l8olJ8AI9IG3rkQMCbssOJnHbiNapEkfThHj3pYtgHZDTn__7ndg-g_GWoIKm91-mwyDqUGtW-bwaQzGq1WqttsFP2nFb0Ma3jp-SvWs5jU_R3_0X1yh4xEiaC47p2AYcO_WG5kRsi3tNfSyu6uVTFXTL3NVPzZni_f92VnZX8t47YnmYYDbnbBk7iiTx9hgsYaAwoLN5i-fJ1iAdDaShytJSg6kXDZovOYpJ_P6bDVQSEi0hjRaFaoe5kQGqBvtIlx8oR4GP)](https://mermaid.live/edit#pako:eNptkMFuwjAMhl8l8olJ8AI9IG3rkQMCbssOJnHbiNapEkfThHj3pYtgHZDTn__7ndg-g_GWoIKm91-mwyDqUGtW-bwaQzGq1WqttsFP2nFb0Ma3jp-SvWs5jU_R3_0X1yh4xEiaC47p2AYcO_WG5kRsi3tNfSyu6uVTFXTL3NVPzZni_f92VnZX8t47YnmYYDbnbBk7iiTx9hgsYaAwoLN5i-fJ1iAdDaShytJSg6kXDZovOYpJ_P6bDVQSEi0hjRaFaoe5kQGqBvtIlx8oR4GP)
+ 
+ 
  
  ## Deployment
  
