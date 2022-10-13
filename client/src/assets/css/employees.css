@@ -22,6 +22,14 @@
     border: unset;
     transition: 2s;
   }
+
+  .employees-summary-section > div > .navlink > .add-btn:first-child {
+    margin-right: -50px;
+    /* border: 2px solid red; */
+    width: 140px;
+    padding: unset;
+  }
+
   .employees-summary-section > div > .navlink > .add-btn:hover {
     opacity: 0.4;
     filter: brightness(80%);
@@ -34,6 +42,7 @@
     border-radius: 50%;
     cursor: pointer;
   }
+
   .employees-summary-section > div:nth-child(2) {
     height: 140px;
     display: -webkit-box;
@@ -112,17 +121,10 @@
     gap: 20px;
   }
 
-  /* .employees-detail-section {
-    width: 95%;
-    background-color: var(--ip-white);
-    height: 100%;
-    overflow: scroll;
-    margin: 40px auto;
-  } */
   .employees-detail-section > div:nth-child(1) {
     background-color: var(--ip-white);
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
-    max-height: 460px;
+    max-height: 260px;
     overflow: scroll;
   }
   .employees-detail-section > div:nth-child(2),
@@ -137,16 +139,7 @@
     background-color: var(--ip-white);
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
   }
-  /* #table_id {
-    font-family: inter !important;
-    font-size: 12px !important;
-  }
-  #table_id > tbody tr:hover {
-    cursor: pointer;
-  } */
-  /* #myBarChart {
-    width: 100% !important;
-  } */
+
   .small-text {
     font-size: 9px;
   }
@@ -171,8 +164,4 @@
     height: "100%";
     margin-bottom: 40px;
   }
-
-  /* .employees-detail-section > table > .thead td {
-    background-color: var(--ip-dark-primary);
-  } */
 }

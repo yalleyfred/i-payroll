@@ -33,6 +33,17 @@ export function EmployeeReg() {
     // console.log(employeeRegCredentials);
     validate(employeeRegCredentials);
     submit();
+
+    setEmployeeRegCredentials({
+      name: "",
+      email: "",
+      hire_date: "",
+      job_title: "",
+      department: "",
+      status: "",
+      snnit: "",
+      tin: "",
+    });
   };
 
   const successAlert = new notification();

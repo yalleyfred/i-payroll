@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import "../css/common_styles.css";
 import "../css/generate_payslip_Form.css";
 
@@ -39,10 +40,21 @@ export function GeneratePayslip() {
         console.log(error);
         return;
       });
+
+    setPayeeName("");
   };
   return (
     <section className="generate_payslip__container">
       <ToastContainer />
+      <Link to="/admin/payroll">
+        <button
+          class="uk-button uk-button-danger uk-position-top-right uk-margin-large-top uk-margin-large-right close"
+          title="Close"
+        >
+          x
+        </button>
+      </Link>
+
       <div class="generate_payslip__row">
         <h1 class="generate_payslip_title">Payslip Form</h1>
         <div class="generate_payslip__col">

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "../css/common_styles.css";
-import "../css/index.css";
+import "../css/employees.css";
 import "datatables.net";
 import { Barchart } from "../components/chart";
 import moment from "moment-timezone/builds/moment-timezone-with-data-2012-2022";
@@ -16,28 +16,34 @@ export default function Employees() {
   const [employeeInfo, setEmployeeInfo] = useState([]);
   const [noEmployees, setNoEmployees] = useState(0);
 
-  useEffect(() => {
-    const handle_employeeData = async () => {
-      setTimeout(() => {
-        axios
-          .get("http://localhost:3001/api/v1/employees")
-          .then((response) => {
-            if (response.status === 200) {
-              setEmployeeInfo(response.data.employee);
-              setNoEmployees(response.data.employee.length);
-            }
-          })
-          .catch((error) => {
-            throw new Error(error);
-          });
-      }, 5000);
-    };
-    handle_employeeData();
-  }, []);
+  // useEffect(() => {
+  const handle_employeeData = async () => {
+    setTimeout(() => {
+      axios
+        .get("http://localhost:3001/api/v1/employees")
+        .then((response) => {
+          if (response.status === 200) {
+            setEmployeeInfo(response.data.employee);
+            setNoEmployees(response.data.employee.length);
+          }
+        })
+        .catch((error) => {
+          throw new Error(error);
+        });
+    }, 5000);
+  };
+  // handle_employeeData();
+  // }, []);
   return (
     <div id="employee-summary-presentation">
       <section className="employees-summary-section">
         <div role="presentation">
+          <Link uk-toggle className="navlink" onClick={handle_employeeData}>
+            <button className="add-btn" title="Click refresh employee data">
+              <img src={require("../img/icons/refresh.svg").default} alt="" />
+            </button>
+          </Link>
+
           <Link to="/admin/registeremployee" uk-toggle className="navlink">
             <button className="add-btn" title="Click to add new employee">
               <img src={require("../img/icons/add_icon.svg").default} alt="" />
@@ -121,7 +127,7 @@ export default function Employees() {
                       </tr>
                     );
                   })
-                : "Loading..."}
+                : "Click Refresh"}
             </tbody>
           </table>
         </div>

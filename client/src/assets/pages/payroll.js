@@ -33,6 +33,12 @@ export default function Payroll() {
         <NavLink to="/admin/payemployee">
           <button className="uk-button uk-button-danger">Add to payroll</button>
         </NavLink>
+
+        <NavLink to="/admin/generatepayslip">
+          <button className="uk-button uk-button-default uk-margin-left">
+            Send PaySlip
+          </button>
+        </NavLink>
       </p>
       <div className="payroll_container">
         <table
