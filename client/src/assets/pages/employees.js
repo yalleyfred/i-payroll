@@ -18,19 +18,17 @@ export default function Employees() {
 
   // useEffect(() => {
   const handle_employeeData = async () => {
-    setTimeout(() => {
-      axios
-        .get("http://localhost:3001/api/v1/employees")
-        .then((response) => {
-          if (response.status === 200) {
-            setEmployeeInfo(response.data.employee);
-            setNoEmployees(response.data.employee.length);
-          }
-        })
-        .catch((error) => {
-          throw new Error(error);
-        });
-    }, 5000);
+    axios
+      .get("http://localhost:3001/api/v1/employees")
+      .then((response) => {
+        if (response.status === 200) {
+          setEmployeeInfo(response.data.employee);
+          setNoEmployees(response.data.employee.length);
+        }
+      })
+      .catch((error) => {
+        throw new Error(error);
+      });
   };
   // handle_employeeData();
   // }, []);

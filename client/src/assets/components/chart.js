@@ -41,14 +41,14 @@ export function Barchart() {
 
   useEffect(() => {
     const handleChartData = async () => {
-      //get remote data after every 25 minutes
+      //get remote data after every 5 minutes
       setTimeout(() => {
         axios.get("http://localhost:3001/api/v1/employees").then((response) => {
           if (response.status === 200) {
             setEmployeeData(response.data.employee);
             // console.log(response.data.employee);
           }
-        }, 900000);
+        }, 300000);
       });
     };
     handleChartData();
