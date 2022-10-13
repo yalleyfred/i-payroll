@@ -63,7 +63,7 @@
  ## How To Install 
  1. Clones the repository to your local machine use: `git clone https://github.com/AmaliTech-Training-Academy/ipayroll-fyalley.git`
  2. Open codebase in your preferred code editor (VS Code recommended)
- 3. Start the backend server use the command `npm run dev` ** NOTE **: make sure you are starting the server in the directory `** ipayroll-fyalley **`
+ 3. Start the backend server use the command `npm run dev` ** NOTE **: make sure you are starting the server in the directory **`ipayroll-fyalley`**
  4. To start front-end server, change directory to `client` use the command `cd client`
  5. Use `npm start` to initiate front-end server
   
