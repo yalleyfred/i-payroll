@@ -20,6 +20,8 @@ const loanRoute_1 = __importDefault(require("./routes/loanRoute"));
 const reportRoute_1 = __importDefault(require("./routes/reportRoute"));
 if (process.env.NODE_ENV !== 'production')
     require('dotenv').config();
+exports.app.enable('trust proxy');
+exports.app.set('trust proxy', 1);
 exports.app.use(body_parser_1.default.json());
 exports.app.use(body_parser_1.default.urlencoded({ extended: true }));
 exports.app.use((0, cors_1.default)());
@@ -30,10 +32,8 @@ exports.app.use('/api/v1/payroll', payrollRoute_1.default);
 exports.app.use('/api/v1/payslip', payslipRoute_1.default);
 exports.app.use('/api/v1/report', reportRoute_1.default);
 exports.app.use('/api/v1/loan', loanRoute_1.default);
-if (process.env.NODE_ENV === 'production') {
-    exports.app.use(express_1.default.static('client/build'));
-    exports.app.get('*', (req, res) => {
-        res.sendFile(path_1.default.join(__dirname, 'client', 'build', 'index.html'));
-    });
-}
+exports.app.use(express_1.default.static(path_1.default.resolve(__dirname, './client/build')));
+exports.app.get('*', (req, res) => {
+    res.sendFile(path_1.default.resolve(__dirname, '../client/build', 'index.html'));
+});
 //# sourceMappingURL=app.js.map
