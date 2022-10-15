@@ -15,6 +15,9 @@ export let titles = [];
 export default function Employees() {
   const [employeeInfo, setEmployeeInfo] = useState([]);
   const [noEmployees, setNoEmployees] = useState(0);
+  const [salaryData, setSalaryData] = useState([]);
+  const [avgSalary, setAvgSalary] = useState(0);
+  const [avgAllowance, setAvgAllowance] = useState(0);
 
   // useEffect(() => {
   const handle_employeeData = async () => {
@@ -30,13 +33,55 @@ export default function Employees() {
         throw new Error(error);
       });
   };
-  // handle_employeeData();
+
+  const handleSalaryData = async () => {
+    axios
+      .get("http://localhost:3001/api/v1/payScheme")
+      .then((response) => {
+        if (response.status === 200) {
+          setSalaryData(response.data.pay);
+
+          let basic_salary = salaryData.map((item) => {
+            if (item.job_title) {
+              return item.basic_salary;
+            }
+            return item.basic_salary;
+          });
+          let unique_basic_salary = [...new Set(basic_salary)];
+          const averageSal = unique_basic_salary.reduce((prev, curr) => {
+            return Math.round((prev + curr) / unique_basic_salary.length);
+          });
+          setAvgSalary(averageSal);
+        }
+
+        let allowance = salaryData.map((item) => {
+          if (item.job_title) {
+            return item.allowance;
+          }
+          return item.allowance;
+        });
+        let unique_allowance = [...new Set(allowance)];
+        const averageall = unique_allowance.reduce((prev, curr) => {
+          return Math.round((prev + curr) / unique_allowance.length);
+        });
+        setAvgAllowance(averageall);
+      })
+      .catch((error) => {
+        throw new Error(error);
+      });
+  };
+
   // }, []);
+
+  const caller = () => {
+    handle_employeeData();
+    handleSalaryData();
+  };
   return (
     <div id="employee-summary-presentation">
       <section className="employees-summary-section">
         <div role="presentation">
-          <Link uk-toggle className="navlink" onClick={handle_employeeData}>
+          <Link uk-toggle className="navlink" onClick={caller}>
             <button className="add-btn" title="Click refresh employee data">
               <img src={require("../img/icons/refresh.svg").default} alt="" />
             </button>
@@ -63,10 +108,11 @@ export default function Employees() {
           </div>
           <div className="employee-summary-card">
             <div>
-              <p>AVERAGE. EARNING</p>
+              <p>AVERAGE. BASIC SALARY</p>
 
               <h3>
-                <span className="small-text">GHC</span>2500
+                <span className="small-text">GHC</span>
+                {avgSalary}
               </h3>
             </div>
             <div>
@@ -75,9 +121,10 @@ export default function Employees() {
           </div>
           <div className="employee-summary-card">
             <div>
-              <p>AVERAGE. DEDUCTION</p>
+              <p>AVERAGE. ALLOWANCE</p>
               <h3>
-                <span className="small-text">GHC</span>985
+                <span className="small-text">GHC</span>
+                {avgAllowance}
               </h3>
             </div>
             <div>
@@ -86,9 +133,10 @@ export default function Employees() {
           </div>
           <div className="employee-summary-card">
             <div>
-              <p>TOTAL NET SALARY</p>
+              <p>ESTIMATED AVG. EARNING</p>
               <h3>
-                <span className="small-text">GHC</span>70000
+                <span className="small-text">GHC</span>
+                {Number(avgSalary) + Number(avgAllowance)}
               </h3>
             </div>
             <div>

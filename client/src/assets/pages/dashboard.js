@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import "../css/common_styles.css";
 import "../css/index.css";
+import swal from "sweetalert";
 
 const axios = require("axios").default;
 
@@ -11,44 +12,59 @@ export default function Dashboard() {
   const [userLoggedIn, setUserLoggedIn] = useState([]);
 
   useEffect(() => {
-    setTimeout(() => {
-      const handle_employeeData = async () => {
-        axios
-          .get("http://localhost:3001/api/v1/users/")
-          .then((response) => {
-            if (response.status === 200) {
-              setNoOfUsers(response.data.users.length);
+    // setTimeout(() => {
+    const handle_employeeData = async () => {
+      axios
+        .get("http://localhost:3001/api/v1/users/")
+        .then((response) => {
+          if (response.status === 200) {
+            setNoOfUsers(response.data.users.length);
 
-              let currentUser = response.data.users.filter((item) => {
-                return item.email === localStorage.getItem("email");
-              });
-              setUserLoggedIn(currentUser);
-            }
-          })
-          .catch((error) => {
-            throw new Error(error);
-          });
-      };
-      handle_employeeData();
-    }, 1000);
+            let currentUser = response.data.users.filter((item) => {
+              return item.email === localStorage.getItem("email");
+            });
+            setUserLoggedIn(currentUser);
+          }
+        })
+        .catch((error) => {
+          throw new Error(error);
+        });
+    };
+    handle_employeeData();
+    // }, 1000);
   });
 
-  const handleLogout = () => {
-    localStorage.removeItem("session_token");
-  };
+  // const handleLogout = () => {
+  //   localStorage.removeItem("session_token");
+  //   setLogoutFeature();
+  // };
 
   const setLogoutFeature = () => {
-    if (localStorage.getItem("session_token") === null) {
-      let confirmMessage = window.confirm("Are you sure you want to exit?");
-      if (confirmMessage === true) {
-        navigate("/");
-        localStorage.clear();
+    swal({
+      title: "Are you sure you want to quit?",
+      // text: "",
+      icon: "warning",
+      buttons: ["No", "Yes"],
+      dangerMode: true,
+    }).then((swal) => {
+      if (swal) {
+        localStorage.removeItem("session_token");
+        if (localStorage.getItem("session_token") === null) {
+          navigate("/");
+        }
+        checkIsLoggedIn();
       } else {
         localStorage.setItem("session_token", true);
       }
+    });
+  };
+
+  const checkIsLoggedIn = () => {
+    if (localStorage.getItem("session_token") === null) {
+      navigate("/");
     }
   };
-  setLogoutFeature();
+  checkIsLoggedIn();
 
   return (
     <main className="grid-container">
@@ -90,7 +106,7 @@ export default function Dashboard() {
             </div>
 
             <div title="Click here to exit your account session">
-              <NavLink onClick={handleLogout}>
+              <NavLink onClick={setLogoutFeature}>
                 <img
                   src={require("../img/icons/logout.svg").default}
                   className="account-card-icon"
