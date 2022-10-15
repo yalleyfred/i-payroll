@@ -23,7 +23,7 @@ export function GeneratePayslip() {
     // console.log(payeeName);
 
     axios
-      .post("http://localhost:3001/api/v1/payslip", {
+      .post("http://localhost:5000/api/v1/payslip", {
         name: payeeName,
       })
 

@@ -8,7 +8,7 @@ export default function Profilebar() {
   useEffect(() => {
     const handleCurrentUserEmail = () => {
       axios
-        .get("http://localhost:3001/api/v1/users/")
+        .get("http://localhost:5000/api/v1/users/")
         .then((response) => {
           if (response.status === 200) {
             let currentUserEmail = response.data.users.filter((item) => {

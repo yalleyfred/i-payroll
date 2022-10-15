@@ -11,7 +11,7 @@ export default function SalaryStructue() {
   useEffect(() => {
     const handleSalaryData = async () => {
       axios
-        .get("http://localhost:3001/api/v1/payScheme")
+        .get("http://localhost:5000/api/v1/payScheme")
         .then((response) => {
           if (response.status === 200) {
             setSalaryData(response.data.pay);

@@ -13,7 +13,7 @@ export default function Loans() {
   useEffect(() => {
     const handleLoanData = async () => {
       axios
-        .get("http://localhost:3001/api/v1/loan")
+        .get("http://localhost:5000/api/v1/loan")
         .then((response) => {
           if (response.status === 200) {
             setLoanData(response.data.result);

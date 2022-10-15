@@ -51,7 +51,7 @@ export function EmployeeReg() {
 
   const submit = () => {
     axios
-      .post("http://localhost:3001/api/v1/employees", employeeRegCredentials)
+      .post("http://localhost:5000/api/v1/employees", employeeRegCredentials)
       .then((response) => {
         if (response.status === 201) {
           // console.log(response.statusText);

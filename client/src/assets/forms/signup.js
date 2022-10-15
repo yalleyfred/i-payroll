@@ -43,12 +43,12 @@ export default function Signup() {
   const submit = () => {
     if (isSubmit) {
       axios
-        .post("http://localhost:3001/api/v1/users/register", loginCredentials)
+        .post("http://localhost:5000/api/v1/users/register", loginCredentials)
         .then((response) => {
           if (response.status === 200) {
             // console.log(response);
 
-            axios.post("http://localhost:3001/api/v1/users/login", {
+            axios.post("http://localhost:5000/api/v1/users/login", {
               email: loginCredentials.email,
               password: loginCredentials.password,
             });

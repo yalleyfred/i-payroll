@@ -13,7 +13,7 @@ export default function Payroll() {
   useEffect(() => {
     const handlePayrollData = async () => {
       axios
-        .get("http://localhost:3001/api/v1/payroll")
+        .get("http://localhost:5000/api/v1/payroll")
         .then((response) => {
           if (response.status === 200) {
             setPayrollData(response.data.payroll);
