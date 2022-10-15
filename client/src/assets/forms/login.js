@@ -16,15 +16,12 @@ export default function LoginForm() {
   const navigate = useNavigate();
 
   const initialValues = {
-    name: "",
+    email: "",
     password: "",
   };
 
   const [loginCredentials, setLoginCredentials] = useState(initialValues);
   const [formerrors, setFormErrors] = useState({});
-  // const [isSubmit, setIsSubmit] = useState(false);
-  // const [isLoggedIn, setIsLoggedIn] = useState(false);
-  // const [token, setToken] = useState("");
 
   // const successAlert = new notification();
   const errorAlert = new notification();
@@ -34,30 +31,24 @@ export default function LoginForm() {
     setLoginCredentials({ ...loginCredentials, [name]: value });
   };
 
-  // useEffect(() => {
-
   const submit = () => {
     axios
       .post("http://localhost:3001/api/v1/users/login", loginCredentials)
 
-      .then(function (response) {
+      .then((response) => {
         if (response.status === 200) {
-          // errorAlert.notifySuccess(response);
-          // setToken(response.data.token);
-          // console.log(response.data.token);
-          console.log(response);
-          if (response.data.token) {
+          localStorage.setItem("session_token", response.data.token);
+          if (localStorage.getItem("session_token")) {
             navigate("/admin/account");
           }
         }
       })
       .catch(function (error) {
         errorAlert.notifyError(error.response.data);
-        // console.log(error);
+        localStorage.clear();
         return;
       });
   };
-  // });
 
   const validate = (values) => {
     if (!values.email && !values.password && !values.password < 6) {
@@ -84,8 +75,14 @@ export default function LoginForm() {
   const submitHandler = (e) => {
     e.preventDefault();
     setFormErrors(validate(loginCredentials));
-    // setIsSubmit(true);
     submit();
+
+    localStorage.setItem("email", loginCredentials.email);
+
+    setLoginCredentials({
+      email: "",
+      password: "",
+    });
   };
   return (
     <section className="login-section">

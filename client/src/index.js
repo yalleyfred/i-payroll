@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./assets/css/common_styles.css";
@@ -20,33 +20,39 @@ import { GeneratePayslip } from "./assets/forms/generate_payslip";
 import { ApplyLoan } from "./assets/forms/loanapplication";
 import SalaryStructue from "./assets/pages/salary_structure";
 
+// const axios = require("axios").default;
 function Index() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/admin" element={<Contentarea />}>
-          <Route path="/admin/account" element={<Dashboard />} />
-          <Route path="/admin/employees" element={<Employees />} />
-          <Route path="/admin/payroll" element={<Payroll />} />
-          <Route path="/admin/loan" element={<Loans />} />
-          <Route path="/admin/allowances" element={<Allowances />} />
-          <Route path="/admin/tax" element={<Tax />} />
-          <Route path="/admin/salary" element={<SalaryStructue />} />
-          <Route path="/admin/registeremployee" element={<EmployeeReg />} />
-          <Route path="/admin/payemployee" element={<EmployeePayForm />} />
-          <Route path="/admin/payslip" element={<GeneratePayslip />} />
-          <Route path="/admin/applyloan" element={<ApplyLoan />} />
-          <Route path="/admin/resetpassword" element={<ResetPassword />} />
-          <Route path="/admin/generatepayslip" element={<GeneratePayslip />} />
-        </Route>
-      </Routes>
-      {/* </Contentarea> */}
-      <Routes>
-        <Route path="/" element={<LoginForm />}></Route>
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/forgotpassword" element={<ForgotPassword />} />
-      </Routes>
-    </Router>
+    <div>
+      <Router>
+        <Routes>
+          <Route path="/admin" element={<Contentarea />}>
+            <Route path="/admin/account" element={<Dashboard />} />
+            <Route path="/admin/employees" element={<Employees />} />
+            <Route path="/admin/payroll" element={<Payroll />} />
+            <Route path="/admin/loan" element={<Loans />} />
+            <Route path="/admin/allowances" element={<Allowances />} />
+            <Route path="/admin/tax" element={<Tax />} />
+            <Route path="/admin/salary" element={<SalaryStructue />} />
+            <Route path="/admin/registeremployee" element={<EmployeeReg />} />
+            <Route path="/admin/payemployee" element={<EmployeePayForm />} />
+            <Route path="/admin/payslip" element={<GeneratePayslip />} />
+            <Route path="/admin/applyloan" element={<ApplyLoan />} />
+            <Route path="/admin/resetpassword" element={<ResetPassword />} />
+            <Route
+              path="/admin/generatepayslip"
+              element={<GeneratePayslip />}
+            />
+          </Route>
+        </Routes>
+        {/* </Contentarea> */}
+        <Routes>
+          <Route path="/" element={<LoginForm />}></Route>
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/forgotpassword" element={<ForgotPassword />} />
+        </Routes>
+      </Router>
+    </div>
   );
 }
 
