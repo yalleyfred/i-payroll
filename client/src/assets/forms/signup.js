@@ -51,6 +51,27 @@ export default function Signup() {
             navigate("/admin/account");
           }
         })
+        .then((response) => {
+          successAlert.notifySuccess(response.data.message);
+          axios
+            .post("http://localhost:3001/api/v1/users/login", {
+              email: loginCredentials.email,
+              password: loginCredentials.password,
+            })
+
+            .then((response) => {
+              localStorage.setItem("email", loginCredentials.email);
+              localStorage.setItem("session_token", response.data.token);
+              if (localStorage.getItem("session_token")) {
+                navigate("/admin/account");
+              }
+            })
+            .catch(function (error) {
+              errorAlert.notifyError(error.response.data);
+              localStorage.clear();
+              return;
+            });
+        })
         .catch((error) => {
           errorAlert.notifyError(error.response.data);
           // console.log(error);
@@ -102,7 +123,7 @@ export default function Signup() {
         </div>
       </div>
       <div>
-        <form className="signup-form" onSubmit={submitHandler}>
+        <form className="signup-form">
           <ToastContainer />
           <div className="input-group">
             <div>
@@ -154,7 +175,12 @@ export default function Signup() {
             </div>
           </div>
 
-          <input type="submit" value="Signup now" className="signup_button" />
+          <input
+            type="submit"
+            value="Signup now"
+            className="signup_button"
+            onClick={submitHandler}
+          />
           <p className="form-medium-text">
             &nbsp;
             <Link to={"/login"} className="link">
