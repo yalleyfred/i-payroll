@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "../css/common_styles.css";
 import "../css/employees.css";
-import "datatables.net";
+// import "datatables.net";
 import { Barchart } from "../components/chart";
 import moment from "moment-timezone/builds/moment-timezone-with-data-2012-2022";
 
