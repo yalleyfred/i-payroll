@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import "../css/common_styles.css";
-import "../css/index.css";
+// import "../css/index.css";
+import "../css/dashboard.css";
 import swal from "sweetalert";
 
 const axios = require("axios").default;
@@ -32,7 +33,7 @@ export default function Dashboard() {
     };
     handle_employeeData();
     // }, 1000);
-  });
+  }, []);
 
   // const handleLogout = () => {
   //   localStorage.removeItem("session_token");

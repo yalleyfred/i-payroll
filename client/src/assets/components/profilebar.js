@@ -31,10 +31,14 @@ export default function Profilebar() {
         return (
           <div className="ip-status-grid-container">
             <div>
-              <h3>Welcome {user.name}!</h3>
+              <h3 className="profile-name">
+                Welcome {user.name ? user.name : "Anonymous user"}!
+              </h3>
             </div>
             <div>
-              <p>{user.email}</p>
+              <p className="profile-email">
+                {user.email ? user.email : "unknown"}
+              </p>
             </div>
             <div>
               <img src={require("../img/icons/user.svg").default} alt="" />

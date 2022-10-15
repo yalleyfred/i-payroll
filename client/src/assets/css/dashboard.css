@@ -23,6 +23,7 @@
     justify-content: center;
     align-items: center;
     flex-flow: column nowrap;
+    text-align: center;
   }
 
   .account-card-icon {
@@ -50,5 +51,11 @@
   .ip-flex-container > div:nth-child(3):hover,
   div:nth-child(4):hover {
     cursor: pointer;
+  }
+  a:link,
+  a:visited,
+  a:hover,
+  a:active {
+    text-decoration: none;
   }
 }

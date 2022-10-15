@@ -19,63 +19,65 @@ export default function Employees() {
   const [avgSalary, setAvgSalary] = useState(0);
   const [avgAllowance, setAvgAllowance] = useState(0);
 
-  // useEffect(() => {
-  const handle_employeeData = async () => {
-    axios
-      .get("http://localhost:3001/api/v1/employees")
-      .then((response) => {
-        if (response.status === 200) {
-          setEmployeeInfo(response.data.employee);
-          setNoEmployees(response.data.employee.length);
-        }
-      })
-      .catch((error) => {
-        throw new Error(error);
-      });
-  };
-
-  const handleSalaryData = async () => {
-    axios
-      .get("http://localhost:3001/api/v1/payScheme")
-      .then((response) => {
-        if (response.status === 200) {
-          setSalaryData(response.data.pay);
-
-          let basic_salary = salaryData.map((item) => {
-            if (item.job_title) {
-              return item.basic_salary;
-            }
-            return item.basic_salary;
-          });
-          let unique_basic_salary = [...new Set(basic_salary)];
-          const averageSal = unique_basic_salary.reduce((prev, curr) => {
-            return Math.round((prev + curr) / unique_basic_salary.length);
-          });
-          setAvgSalary(averageSal);
-        }
-
-        let allowance = salaryData.map((item) => {
-          if (item.job_title) {
-            return item.allowance;
+  useEffect(() => {
+    const handle_employeeData = async () => {
+      await axios
+        .get("http://localhost:3001/api/v1/employees")
+        .then((response) => {
+          if (response.status === 200) {
+            setEmployeeInfo(response.data.employee);
+            setNoEmployees(response.data.employee.length);
           }
-          return item.allowance;
+        })
+        .catch((error) => {
+          throw new Error(error);
         });
-        let unique_allowance = [...new Set(allowance)];
-        const averageall = unique_allowance.reduce((prev, curr) => {
-          return Math.round((prev + curr) / unique_allowance.length);
-        });
-        setAvgAllowance(averageall);
-      })
-      .catch((error) => {
-        throw new Error(error);
-      });
-  };
+    };
+    handle_employeeData();
 
-  // }, []);
+    const handleSalaryData = async () => {
+      await axios
+        .get("http://localhost:3001/api/v1/payScheme")
+        .then((response) => {
+          if (response.status === 200) {
+            setSalaryData(response.data.pay);
+
+            let basic_salary = salaryData.map((item) => {
+              if (item.job_title) {
+                return item.basic_salary;
+              }
+              return item.basic_salary;
+            });
+            let unique_basic_salary = [...new Set(basic_salary)];
+            const averageSal = unique_basic_salary.reduce((prev, curr) => {
+              return Math.round((prev + curr) / unique_basic_salary.length);
+            });
+            setAvgSalary(averageSal);
+          }
+
+          let allowance = salaryData.map((item) => {
+            if (item.job_title) {
+              return item.allowance;
+            }
+            return item.allowance;
+          });
+          let unique_allowance = [...new Set(allowance)];
+          const averageall = unique_allowance.reduce((prev, curr) => {
+            return Math.round((prev + curr) / unique_allowance.length);
+          });
+          setAvgAllowance(averageall);
+        })
+        .catch((error) => {
+          throw new Error(error);
+        });
+    };
+    handleSalaryData();
+  });
 
   const caller = () => {
-    handle_employeeData();
-    handleSalaryData();
+    // handle_employeeData();
+    // handleSalaryData();
+    window.location.reload();
   };
   return (
     <div id="employee-summary-presentation">
@@ -112,7 +114,7 @@ export default function Employees() {
 
               <h3>
                 <span className="small-text">GHC</span>
-                {avgSalary}
+                {avgSalary}.00
               </h3>
             </div>
             <div>
@@ -124,7 +126,7 @@ export default function Employees() {
               <p>AVERAGE. ALLOWANCE</p>
               <h3>
                 <span className="small-text">GHC</span>
-                {avgAllowance}
+                {avgAllowance}.00
               </h3>
             </div>
             <div>
@@ -136,11 +138,11 @@ export default function Employees() {
               <p>ESTIMATED AVG. EARNING</p>
               <h3>
                 <span className="small-text">GHC</span>
-                {Number(avgSalary) + Number(avgAllowance)}
+                {Number(avgSalary) + Number(avgAllowance)}.00
               </h3>
             </div>
             <div>
-              <img src={require("../img/icons/salary.svg").default} alt="" />
+              <img src={require("../img/icons/earning.svg").default} alt="" />
             </div>
           </div>
         </div>
@@ -173,7 +175,7 @@ export default function Employees() {
                       </tr>
                     );
                   })
-                : "Click Refresh"}
+                : "loading.."}
             </tbody>
           </table>
         </div>
