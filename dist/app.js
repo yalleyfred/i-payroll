@@ -24,7 +24,7 @@ exports.app.enable('trust proxy');
 exports.app.set('trust proxy', 1);
 exports.app.use(body_parser_1.default.json());
 exports.app.use(body_parser_1.default.urlencoded({ extended: true }));
-exports.app.use((0, cors_1.default)({ origin: 'http://localhost:8000', optionsSuccessStatus: 200 }));
+exports.app.use((0, cors_1.default)({ origin: 'http://localhost:8080', optionsSuccessStatus: 200 }));
 exports.app.use('/api/v1/employees', employeeRoute_1.default);
 exports.app.use('/api/v1/users', userRoute_1.default);
 exports.app.use('/api/v1/payScheme', paySchemeRoute_1.default);
