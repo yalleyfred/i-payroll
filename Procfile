@@ -1,1 +1,1 @@
-web: npm run mern
+web: npm run start:prod
