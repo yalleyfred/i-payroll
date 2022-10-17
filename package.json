@@ -7,7 +7,6 @@
     
     "start": "node dist/server.js",
     "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/server.js\"",
-    "build": "cd client && npm run build",
     "install-client": "cd client && npm install",
     "client": "cd client && npm start",
     "start:prod": "concurrently -n 'client,server' -c 'yellow,blue' \"npm run client\" \"npm run dev\"",
