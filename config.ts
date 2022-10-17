@@ -11,6 +11,8 @@ export const db_name = String(process.env.DB_NAME);
 export const db_user = String(process.env.DB_USER);
 export const db_password = String(process.env.DB_PASSWORD);
 
+export const db_url = String(process.env.DATABASE_URL);
+
 
 export const jwt_expires_in = String(process.env.JWT_EXPIRES_IN);
 export const jwt_secret = String(process.env.JWT_SECRET);
