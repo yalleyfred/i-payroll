@@ -4,12 +4,13 @@
   "description": "A payroll system with great user experience",
   "main": "server.js",
   "scripts": {
-    "build": "npx tsc",
+    
     "start": "node dist/server.js",
-    "start:prod": "NODE_ENV=production nodemon server.js",
     "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/server.js\"",
+    "build": "cd client && npm run build",
+    "install-client": "cd client && npm install",
     "client": "cd client && npm start",
-    "mern": "concurrently -n 'client,server' -c 'yellow,blue' \"npm run client\" \"npm run dev\"",
+    "start:prod": "concurrently -n 'client,server' -c 'yellow,blue' \"npm run client\" \"npm run dev\"",
     "heroku-postbuild": "cd client && npm install && npm run build"
   },
   "author": "",
