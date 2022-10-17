@@ -57,5 +57,9 @@
   "devDependencies": {
     "faker": "^6.6.6"
   },
+  "engines": {
+    "node": "10.17.0",
+    "npm": "6.11.3"
+  },
   "proxy": "http://localhost:5000"
 }
