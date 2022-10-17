@@ -15,7 +15,7 @@ export default function Profilebar() {
               return item.email === localStorage.getItem("email");
             });
             setProfileEmail(currentUserEmail);
-            console.log(profileEmail);
+            // console.log(profileEmail);
           }
         })
         .catch((error) => {

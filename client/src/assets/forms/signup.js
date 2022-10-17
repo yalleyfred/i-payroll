@@ -46,36 +46,51 @@ export default function Signup() {
         .post("http://localhost:3001/api/v1/users/register", loginCredentials)
         .then((response) => {
           if (response.status === 200) {
-            console.log(response);
-            successAlert.notifySuccess(response.data.message);
-            navigate("/admin/account");
-          }
-        })
-        .then((response) => {
-          successAlert.notifySuccess(response.data.message);
-          axios
-            .post("http://localhost:3001/api/v1/users/login", {
+            // console.log(response);
+
+            axios.post("http://localhost:3001/api/v1/users/login", {
               email: loginCredentials.email,
               password: loginCredentials.password,
-            })
-
-            .then((response) => {
-              localStorage.setItem("email", loginCredentials.email);
-              localStorage.setItem("session_token", response.data.token);
-              if (localStorage.getItem("session_token")) {
-                navigate("/admin/account");
-              }
-            })
-            .catch(function (error) {
-              errorAlert.notifyError(error.response.data);
-              localStorage.clear();
-              return;
             });
+            successAlert.notifySuccess(response.data.message);
+            successAlert.notifySuccess(response.data.message);
+            localStorage.setItem("email", loginCredentials.email);
+            localStorage.setItem("session_token", response.data.token);
+            if (localStorage.getItem("session_token")) {
+              navigate("/admin/account");
+            } else {
+              navigate("/");
+            }
+          }
         })
         .catch((error) => {
           errorAlert.notifyError(error.response.data);
-          // console.log(error);
+          return localStorage.clear();
         });
+      // .then((response) => {
+      // axios
+      //   .post("http://localhost:3001/api/v1/users/login", {
+      //     email: loginCredentials.email,
+      //     password: loginCredentials.password,
+      //   })
+
+      // .then((response) => {
+      // successAlert.notifySuccess(response.data.message);
+      // localStorage.setItem("email", loginCredentials.email);
+      // localStorage.setItem("session_token", response.data.token);
+      // if (localStorage.getItem("session_token")) {
+      //   navigate("/admin/account");
+      // }
+      // })
+      // .catch((error) => {
+      //   errorAlert.notifyError(error.response.data);
+      //   return localStorage.clear();
+      // });
+      // })
+      // .catch((error) => {
+      //   errorAlert.notifyError(error.response.data);
+      //   // console.log(error);
+      // });
     }
   };
 
