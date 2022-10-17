@@ -14,9 +14,10 @@
     text-align: end;
     margin: 10px 20px;
     padding: 10px 0;
+    /* border: 1px solid #ccc; */
   }
   .employees-summary-section > div > .navlink > .add-btn {
-    padding: 0 40px;
+    /* padding: 0 40px; */
     background-color: unset;
     outline: unset;
     border: unset;
@@ -24,9 +25,8 @@
   }
 
   .employees-summary-section > div > .navlink > .add-btn:first-child {
-    margin-right: -50px;
-    /* border: 2px solid red; */
-    width: 140px;
+    /* margin-right: -50px; */
+    width: 60px;
     padding: unset;
   }
 
@@ -35,8 +35,8 @@
     filter: brightness(80%);
   }
   .employees-summary-section > div > .navlink > .add-btn > img {
-    width: 52px;
-    height: 52px;
+    width: 42px;
+    height: 42px;
     border: unset;
     outline: unset;
     border-radius: 50%;
