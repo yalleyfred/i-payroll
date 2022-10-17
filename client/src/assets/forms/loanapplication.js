@@ -36,7 +36,7 @@ export function ApplyLoan() {
 
   const submit = () => {
     axios
-      .post("http://localhost:3001/api/v1/loan", loanDetails)
+      .post("http://localhost:5000/api/v1/loan", loanDetails)
       .then((response) => {
         if (response.status === 200) {
           //   console.log(response);

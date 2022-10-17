@@ -38,7 +38,7 @@ export function ResetPassword() {
 
     axios
       .patch(
-        "http://localhost:3001/api/v1/users/resetPassword/",
+        "http://localhost:5000/api/v1/users/resetPassword/",
         resetCredentials
       )
       .then((response) => {

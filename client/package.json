@@ -57,5 +57,5 @@
   "devDependencies": {
     "faker": "^6.6.6"
   },
-  "proxy": "http://localhost:3001"
+  "proxy": "http://localhost:5000"
 }

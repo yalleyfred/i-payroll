@@ -43,7 +43,7 @@ export function Barchart() {
     const handleChartData = async () => {
       //get remote data after every 5 minutes
       setTimeout(() => {
-        axios.get("http://localhost:3001/api/v1/employees").then((response) => {
+        axios.get("http://localhost:5000/api/v1/employees").then((response) => {
           if (response.status === 200) {
             setEmployeeData(response.data.employee);
             // console.log(response.data.employee);

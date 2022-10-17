@@ -22,7 +22,7 @@ export default function Employees() {
   useEffect(() => {
     const handle_employeeData = async () => {
       await axios
-        .get("http://localhost:3001/api/v1/employees")
+        .get("http://localhost:5000/api/v1/employees")
         .then((response) => {
           if (response.status === 200) {
             setEmployeeInfo(response.data.employee);
@@ -37,7 +37,7 @@ export default function Employees() {
 
     const handleSalaryData = async () => {
       await axios
-        .get("http://localhost:3001/api/v1/payScheme")
+        .get("http://localhost:5000/api/v1/payScheme")
         .then((response) => {
           if (response.status === 200) {
             setSalaryData(response.data.pay);

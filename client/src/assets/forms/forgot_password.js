@@ -24,7 +24,7 @@ export function ForgotPassword() {
 
   const SubmitForm = () => {
     axios
-      .post("http://localhost:3001/api/v1/users/forgotPassword", {
+      .post("http://localhost:5000/api/v1/users/forgotPassword", {
         email: userEmail,
       })
 
