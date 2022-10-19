@@ -32,13 +32,12 @@ const Database_1 = __importStar(require("./Database"));
 const express_1 = __importDefault(require("express"));
 const path_1 = __importDefault(require("path"));
 dotenv_1.default.config();
-if (process.env.NODE_ENV !== 'production')
-    require('dotenv').config();
+// if (process.env.NODE_ENV !== 'production') require('dotenv').config()
 const port = process.env.PORT;
 if (process.env.NODE_ENV === 'production') {
-    app_1.app.use(express_1.default.static('client/build'));
+    app_1.app.use(express_1.default.static(path_1.default.join(__dirname, "./client/build")));
     app_1.app.get('*', (req, res) => {
-        res.sendFile(path_1.default.join(__dirname, 'client', 'build', 'index.html'));
+        res.sendFile(path_1.default.resolve(__dirname, "./", 'client', 'build', 'index.html'));
     });
     Database_1.prodDB.authenticate().then(() => {
         console.log('connected to production database successfully!');
@@ -48,6 +47,10 @@ if (process.env.NODE_ENV === 'production') {
     console.log('prod');
 }
 else {
+    app_1.app.use(express_1.default.static(path_1.default.join(__dirname, "..//client//build")));
+    app_1.app.get('*', (req, res) => {
+        res.sendFile(path_1.default.resolve(__dirname, "..//", 'client', 'build', 'index.html'));
+    });
     Database_1.default.authenticate().then(() => {
         console.log('connected to database successfully!');
     }).catch(error => {
