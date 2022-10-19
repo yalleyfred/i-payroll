@@ -33,7 +33,6 @@ app.use(cors());
 
 
 
-
 app.use('/api/v1/employees', employeeRoute);
 app.use('/api/v1/users', userRoute);
 app.use('/api/v1/payScheme', paySchemeRoute);
