@@ -1,6 +1,6 @@
 import { app } from "./app"
 import dotenv from 'dotenv';
-import localDB, { prodDB } from './Database';
+import DB from './Database';
 import express, { Express, Request, Response } from 'express';
 import path from 'path';
 
@@ -11,13 +11,13 @@ dotenv.config();
 const port = process.env.PORT;
 
 if (process.env.NODE_ENV === 'production') {
-	app.use(express.static(path.join(__dirname, "./client/build")));
+	// app.use(express.static(path.join(__dirname, "./client/build")));
 
-	app.get('*', (req: Request, res: Response) => {
-		res.sendFile(path.resolve(__dirname, "./", 'client', 'build', 'index.html'));
-	});
+	// app.get('*', (req: Request, res: Response) => {
+	// 	res.sendFile(path.resolve(__dirname, "./", 'client', 'build', 'index.html'));
+	// });
 
-	prodDB.authenticate().then(() => {
+	DB.authenticate().then(() => {
 		console.log('connected to production database successfully!');
 	}).catch(error => {
 		console.log('DB connection for production failed');
@@ -26,13 +26,13 @@ if (process.env.NODE_ENV === 'production') {
 	console.log('prod');
 
 } else {
-	app.use(express.static(path.join(__dirname, "..//client//build")));
+	// app.use(express.static(path.join(__dirname, "..//client//build")));
 
-	app.get('*', (req: Request, res: Response) => {
-		res.sendFile(path.resolve(__dirname, "..//", 'client', 'build', 'index.html'));
-	});
+	// app.get('*', (req: Request, res: Response) => {
+	// 	res.sendFile(path.resolve(__dirname, "..//", 'client', 'build', 'index.html'));
+	// });
 
-	localDB.authenticate().then(() => {
+	DB.authenticate().then(() => {
 		console.log('connected to database successfully!');
 	}).catch(error => {
 		console.log('DB connection failed');

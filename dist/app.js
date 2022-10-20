@@ -18,8 +18,6 @@ const payrollRoute_1 = __importDefault(require("./routes/payrollRoute"));
 const payslipRoute_1 = __importDefault(require("./routes/payslipRoute"));
 const loanRoute_1 = __importDefault(require("./routes/loanRoute"));
 const reportRoute_1 = __importDefault(require("./routes/reportRoute"));
-if (process.env.NODE_ENV !== 'production')
-    require('dotenv').config();
 exports.app.enable('trust proxy');
 exports.app.set('trust proxy', 1);
 exports.app.use(body_parser_1.default.json());

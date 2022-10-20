@@ -18,7 +18,6 @@ import loanRoute from './routes/loanRoute';
 import reportRoute from './routes/reportRoute';
 
 
-if (process.env.NODE_ENV !== 'production') require('dotenv').config()
 
 app.enable('trust proxy');
 
