@@ -21,7 +21,7 @@ exports.default = new sequelize_1.Sequelize({
         ssl: {
             require: false,
             rejectUnauthorized: false
-        },
+        }
     },
 });
 // if(process.env.NODE_ENV === 'production') {

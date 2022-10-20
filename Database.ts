@@ -23,9 +23,9 @@ export default new Sequelize({
     ssl: {
       require: false,
       rejectUnauthorized: false
-    },
+    }
   },
-);
+});
 
 // if(process.env.NODE_ENV === 'production') {
 //   prodDB;
