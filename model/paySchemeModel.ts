@@ -1,4 +1,4 @@
-import { Model, Sequelize, DataTypes } from 'sequelize';
+import { Model, Sequelize, DataTypes } from "sequelize";
 
 export default class Pay extends Model {
   public id?: number;
@@ -9,15 +9,16 @@ export default class Pay extends Model {
 }
 
 export const PayMap = (sequelize: Sequelize) => {
-    Pay.init({
+  Pay.init(
+    {
       id: {
         type: DataTypes.BIGINT,
         autoIncrement: true,
-        primaryKey: true
+        primaryKey: true,
       },
       job_title: {
-        type: DataTypes.STRING(255),
-        unique: true
+        type: DataTypes.STRING,
+        unique: true,
       },
       basic_salary: {
         type: DataTypes.INTEGER || DataTypes.DOUBLE,
@@ -25,16 +26,18 @@ export const PayMap = (sequelize: Sequelize) => {
       },
       allowance: {
         type: DataTypes.INTEGER || DataTypes.DOUBLE,
-        allowNull: false
+        allowNull: false,
       },
       bonus: {
         type: DataTypes.INTEGER || DataTypes.DOUBLE,
-        allowNull: false
-      }      
-    }, {
+        allowNull: false,
+      },
+    },
+    {
       sequelize,
-      tableName: 'PayScheme',
-      timestamps: true
-    });
-    Pay.sync();
-  }
+      tableName: "PayScheme",
+      timestamps: true,
+    }
+  );
+  Pay.sync();
+};

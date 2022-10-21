@@ -37,7 +37,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.forgotPassword = exports.login = exports.register = exports.SECRET_KEY = void 0;
 const userModel_1 = __importStar(require("../model/userModel"));
-const Database_1 = __importDefault(require("../Database"));
+const Database_1 = require("../Database");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const config_1 = require("../config");
 const createToken_1 = require("../utils/createToken");
@@ -46,7 +46,7 @@ exports.SECRET_KEY = config_1.jwt_secret;
 function register(user) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            (0, userModel_1.UserMap)(Database_1.default);
+            (0, userModel_1.UserMap)(Database_1.Database || Database_1.LocalDB);
             if (!user.name || !user.email || !user.password || !user.password2) {
                 throw new Error("Please fill all fields");
             }
@@ -58,11 +58,10 @@ function register(user) {
             }
             const username = yield userModel_1.default.findOne({
                 where: {
-                    email: user.email
-                }
+                    email: user.email,
+                },
             });
             if (user.email == (username === null || username === void 0 ? void 0 : username.email)) {
-                console.log('You are already a user.');
                 throw new Error("You are already a user.");
             }
             else {
@@ -72,12 +71,15 @@ function register(user) {
                     id: user.id,
                     name: user.name,
                     email: user.email,
-                    password: hashedPassword
+                    password: hashedPassword,
                 };
                 const registeredUser = yield userModel_1.default.create(newUser);
                 const userCredentials = (0, createToken_1.createSendToken)(registeredUser);
-                console.log(userCredentials.token);
-                return { user: registeredUser, token: userCredentials.token, cookie: userCredentials.cookieOptions };
+                return {
+                    user: registeredUser,
+                    token: userCredentials.token,
+                    cookie: userCredentials.cookieOptions,
+                };
             }
         }
         catch (error) {
@@ -89,23 +91,29 @@ exports.register = register;
 function login(user) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            (0, userModel_1.UserMap)(Database_1.default);
+            (0, userModel_1.UserMap)(Database_1.Database || Database_1.LocalDB);
             if (!user.email || !user.password) {
                 throw new Error("Please provide email and password");
             }
-            const foundUser = yield userModel_1.default.findOne({ where: {
-                    email: user.email
-                } });
+            const foundUser = yield userModel_1.default.findOne({
+                where: {
+                    email: user.email,
+                },
+            });
             if (!foundUser) {
-                throw new Error('Email of user is not correct');
+                throw new Error("Email of user is not correct");
             }
             const isMatch = bcrypt_1.default.compareSync(user.password, foundUser === null || foundUser === void 0 ? void 0 : foundUser.password);
             if (isMatch) {
                 const userCredentials = (0, createToken_1.createSendToken)(foundUser);
-                return { user: foundUser, token: userCredentials.token, cookie: userCredentials.cookieOptions };
+                return {
+                    user: foundUser,
+                    token: userCredentials.token,
+                    cookie: userCredentials.cookieOptions,
+                };
             }
             else {
-                throw new Error('Password is not correct');
+                throw new Error("Password is not correct");
             }
         }
         catch (error) {
@@ -117,31 +125,28 @@ exports.login = login;
 function forgotPassword(user) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            (0, userModel_1.UserMap)(Database_1.default);
+            (0, userModel_1.UserMap)(Database_1.Database || Database_1.LocalDB);
             if (!user.email) {
                 throw new Error("please provide your email!");
             }
             const theUser = yield userModel_1.default.findOne({
                 where: {
-                    email: user.email
-                }
+                    email: user.email,
+                },
             });
-            console.log(theUser === null || theUser === void 0 ? void 0 : theUser.passwordResetExpires);
             if (!theUser) {
-                throw new Error('There is no user with that mail');
+                throw new Error("There is no user with that mail");
             }
             const reset = (0, resetToken_1.createPasswordResetToken)();
-            console.log(reset);
             yield userModel_1.default.update({
                 passwordResetToken: reset.passwordResetToken,
                 passwordResetExpires: reset.passwordResetExpires,
-                active: true
+                active: true,
             }, {
                 where: {
-                    email: user.email
-                }
+                    email: user.email,
+                },
             });
-            console.log(theUser === null || theUser === void 0 ? void 0 : theUser.passwordResetToken);
             return { email: theUser.email, resetToken: reset.passwordResetToken };
         }
         catch (error) {

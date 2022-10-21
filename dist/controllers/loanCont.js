@@ -31,17 +31,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createLoan = exports.getLoan = exports.getAllLoan = void 0;
 const loanModel_1 = __importStar(require("../model/loanModel"));
-const Database_1 = __importDefault(require("../Database"));
+const Database_1 = require("../Database");
 const errorUtils_1 = require("../utils/errorUtils");
 const getAllLoan = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        (0, loanModel_1.LoanMap)(Database_1.default);
+        (0, loanModel_1.LoanMap)(Database_1.Database || Database_1.LocalDB);
         const loans = yield loanModel_1.default.findAll();
         res.status(200).json({ result: loans });
     }
@@ -52,7 +49,7 @@ const getAllLoan = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 exports.getAllLoan = getAllLoan;
 const getLoan = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        (0, loanModel_1.LoanMap)(Database_1.default);
+        (0, loanModel_1.LoanMap)(Database_1.Database || Database_1.LocalDB);
         const id = Number(req.params.id);
         const result = yield loanModel_1.default.findByPk(id);
         res.status(200).json({ user: result });
@@ -64,12 +61,12 @@ const getLoan = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 exports.getLoan = getLoan;
 const createLoan = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        (0, loanModel_1.LoanMap)(Database_1.default);
+        (0, loanModel_1.LoanMap)(Database_1.Database || Database_1.LocalDB);
         const newLoan = req.body;
         yield loanModel_1.default.create(newLoan);
         res.status(200).json({
-            status: 'success',
-            result: newLoan
+            status: "success",
+            result: newLoan,
         });
     }
     catch (error) {

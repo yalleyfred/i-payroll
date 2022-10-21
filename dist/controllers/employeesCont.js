@@ -31,17 +31,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteEmployee = exports.updateEmployee = exports.createEmployee = exports.getEmployee = exports.getAllEmployees = void 0;
 const employeeModel_1 = __importStar(require("../model/employeeModel"));
 const errorUtils_1 = require("../utils/errorUtils");
-const Database_1 = __importDefault(require("../Database"));
+const Database_1 = require("../Database");
 const getAllEmployees = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        (0, employeeModel_1.EmployeeMap)(Database_1.default);
+        (0, employeeModel_1.EmployeeMap)(Database_1.Database || Database_1.LocalDB);
         const result = yield employeeModel_1.default.findAll();
         res.status(200).json({ employee: result });
     }
@@ -52,7 +49,7 @@ const getAllEmployees = (req, res) => __awaiter(void 0, void 0, void 0, function
 exports.getAllEmployees = getAllEmployees;
 const getEmployee = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        (0, employeeModel_1.EmployeeMap)(Database_1.default);
+        (0, employeeModel_1.EmployeeMap)(Database_1.Database || Database_1.LocalDB);
         const id = Number(req.params.id);
         const result = yield employeeModel_1.default.findByPk(id);
         res.status(200).json({ employee: result });
@@ -64,16 +61,22 @@ const getEmployee = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 exports.getEmployee = getEmployee;
 const createEmployee = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        (0, employeeModel_1.EmployeeMap)(Database_1.default);
+        (0, employeeModel_1.EmployeeMap)(Database_1.Database || Database_1.LocalDB);
         const employee = req.body;
-        if (!employee.name || !employee.email || !employee.job_title || !employee.hire_date || !employee.department
-            || !employee.status || !employee.snnit || !employee.tin) {
+        if (!employee.name ||
+            !employee.email ||
+            !employee.job_title ||
+            !employee.hire_date ||
+            !employee.department ||
+            !employee.status ||
+            !employee.snnit ||
+            !employee.tin) {
             throw new Error("Please fill all fields!");
         }
         const emp = yield employeeModel_1.default.findOne({
             where: {
-                email: employee.email
-            }
+                email: employee.email,
+            },
         });
         const existingEmp = emp === null || emp === void 0 ? void 0 : emp.email;
         if (employee.email == existingEmp) {

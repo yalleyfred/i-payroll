@@ -31,22 +31,19 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getAllPay = exports.createPay = void 0;
 const paySchemeModel_1 = __importStar(require("../model/paySchemeModel"));
 const errorUtils_1 = require("../utils/errorUtils");
-const Database_1 = __importDefault(require("../Database"));
+const Database_1 = require("../Database");
 const createPay = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const newPay = req.body;
-        (0, paySchemeModel_1.PayMap)(Database_1.default);
+        (0, paySchemeModel_1.PayMap)(Database_1.Database || Database_1.LocalDB);
         let result = yield paySchemeModel_1.default.create(newPay);
         res.status(200).json({
-            status: 'success',
-            pay: result
+            status: "success",
+            pay: result,
         });
     }
     catch (error) {
@@ -56,11 +53,11 @@ const createPay = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 exports.createPay = createPay;
 const getAllPay = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        (0, paySchemeModel_1.PayMap)(Database_1.default);
+        (0, paySchemeModel_1.PayMap)(Database_1.Database || Database_1.LocalDB);
         const result = yield paySchemeModel_1.default.findAll();
         res.status(200).json({
-            status: 'success',
-            pay: result
+            status: "success",
+            pay: result,
         });
     }
     catch (error) {

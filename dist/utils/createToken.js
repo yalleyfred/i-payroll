@@ -9,7 +9,7 @@ const config_1 = require("../config");
 exports.SECRET_KEY = config_1.jwt_secret;
 const signToken = (id) => {
     return jsonwebtoken_1.default.sign({ id }, exports.SECRET_KEY, {
-        expiresIn: config_1.jwt_expires_in
+        expiresIn: config_1.jwt_expires_in,
     });
 };
 const createSendToken = (user) => {
@@ -17,9 +17,9 @@ const createSendToken = (user) => {
     const cookieOptions = {
         expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
         secure: true,
-        httpOnly: true
+        httpOnly: true,
     };
-    if (process.env.NODE_ENV === 'production')
+    if (process.env.NODE_ENV === "production")
         cookieOptions.secure = true;
     return { token: token, cookieOptions: cookieOptions };
 };

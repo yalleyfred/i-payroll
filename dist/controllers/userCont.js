@@ -39,8 +39,9 @@ exports.resetPassword = exports.forgotPassword = exports.logIn = exports.registe
 const errorUtils_1 = require("../utils/errorUtils");
 const userModel_1 = __importStar(require("../model/userModel"));
 const userServices = __importStar(require("../service/userService"));
-const Database_1 = __importDefault(require("../Database"));
+const Database_1 = require("../Database");
 const dotenv = __importStar(require("dotenv"));
+const email_1 = require("../utils/email");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const config_1 = require("../config");
 const createToken_1 = require("../utils/createToken");
@@ -48,7 +49,7 @@ exports.SECRET_KEY = config_1.jwt_secret;
 dotenv.config();
 const getAllUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        (0, userModel_1.UserMap)(Database_1.default);
+        (0, userModel_1.UserMap)(Database_1.Database || Database_1.LocalDB);
         const result = yield userModel_1.default.findAll();
         res.status(200).json({ users: result });
     }
@@ -59,7 +60,7 @@ const getAllUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 exports.getAllUsers = getAllUsers;
 const getUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        (0, userModel_1.UserMap)(Database_1.default);
+        (0, userModel_1.UserMap)(Database_1.Database || Database_1.LocalDB);
         const id = Number(req.params.id);
         const result = yield userModel_1.default.findByPk(id);
         res.status(200).json({ user: result });
@@ -73,11 +74,11 @@ const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const user = yield userServices.register(req.body);
         console.log(req.body);
-        res.cookie('jwt', user.token, user.cookie);
+        res.cookie("jwt", user.token, user.cookie);
         res.status(200).json({
-            message: 'successfully registered',
+            message: "successfully registered",
             token: user.token,
-            data: user.user
+            data: user.user,
         });
     }
     catch (error) {
@@ -88,11 +89,11 @@ exports.register = register;
 const logIn = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const foundUser = yield userServices.login(req.body);
-        res.cookie('jwt', foundUser.token, foundUser.cookie);
+        res.cookie("jwt", foundUser.token, foundUser.cookie);
         res.status(200).json({
-            status: 'Login successful',
+            status: "Login successful",
             token: foundUser.token,
-            cookie: foundUser.cookie
+            cookie: foundUser.cookie,
         });
     }
     catch (error) {
@@ -104,16 +105,16 @@ const forgotPassword = (req, res) => __awaiter(void 0, void 0, void 0, function*
     try {
         const user = yield userServices.forgotPassword(req.body);
         console.log(user);
-        const resetURL = `${req.protocol}://${"localhost:3000"}/admin/resetpassword/`;
+        const resetURL = `${req.protocol}://${req.get("host")}/admin/resetpassword/`;
         const message = `Forgot your password? cPlease follow this link to set your new password: ${resetURL}.\nIf you did'nt forget your password, please ignore this email!`;
-        //  await sendEmail({
-        //   email: req.body.email,
-        //   subject: "ipayroll",
-        //   message: message
-        //  })
+        yield (0, email_1.sendEmail)({
+            email: req.body.email,
+            subject: "ipayroll",
+            message: message,
+        });
         res.status(200).json({
-            status: 'success',
-            result: resetURL
+            status: "success",
+            result: resetURL,
         });
     }
     catch (error) {
@@ -123,10 +124,11 @@ const forgotPassword = (req, res) => __awaiter(void 0, void 0, void 0, function*
 exports.forgotPassword = forgotPassword;
 const resetPassword = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        (0, userModel_1.UserMap)(Database_1.default);
+        (0, userModel_1.UserMap)(Database_1.Database);
         const newUser = req.body;
-        console.log(newUser.oldPassword);
-        if (!newUser.oldPassword || !newUser.newPassword || !newUser.confirmPassword) {
+        if (!newUser.oldPassword ||
+            !newUser.newPassword ||
+            !newUser.confirmPassword) {
             throw new Error("Please provide all fields");
         }
         if (newUser.oldPassword == newUser.newPassword) {
@@ -137,42 +139,34 @@ const resetPassword = (req, res, next) => __awaiter(void 0, void 0, void 0, func
         }
         const user = yield userModel_1.default.findOne({
             where: {
-                active: true
-            }
+                active: true,
+            },
         });
-        console.log(user);
-        console.log(user === null || user === void 0 ? void 0 : user.password);
         const isMatch = yield bcrypt_1.default.compareSync(newUser.oldPassword, user.password);
-        console.log(isMatch);
         if (!isMatch) {
             throw new Error("old password is incorrect");
         }
-        if ((!user) || user == null) {
-            return new Error('Token is invalid or has expired');
+        if (!user || user == null) {
+            return new Error("Token is invalid or has expired");
         }
-        ;
         const salt = 10;
-        console.log(newUser.newPassword);
         const hashedPassword = yield bcrypt_1.default.hash(newUser.newPassword, salt);
-        console.log(hashedPassword);
         yield userModel_1.default.update({
             passwordResetExpires: null,
             passwordResetToken: null,
             password: hashedPassword,
-            active: false
+            active: false,
         }, {
             where: {
-                email: user.email
-            }
+                email: user.email,
+            },
         });
-        const credentials = (0, createToken_1.createSendToken)(user);
-        console.log(credentials);
+        (0, createToken_1.createSendToken)(user);
         next(res.send("success"));
     }
     catch (error) {
         return res.status(500).send((0, errorUtils_1.getErrorMessage)(error));
     }
-    ;
 });
 exports.resetPassword = resetPassword;
 //# sourceMappingURL=userCont.js.map

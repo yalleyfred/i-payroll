@@ -10,37 +10,37 @@ const UserMap = (sequelize) => {
         id: {
             type: sequelize_1.DataTypes.BIGINT,
             autoIncrement: true,
-            primaryKey: true
+            primaryKey: true,
         },
         name: {
-            type: sequelize_1.DataTypes.STRING(255),
-            allowNull: false
+            type: sequelize_1.DataTypes.STRING,
+            allowNull: false,
         },
         email: {
-            type: sequelize_1.DataTypes.STRING(255),
+            type: sequelize_1.DataTypes.STRING,
             allowNull: false,
-            unique: true
+            unique: true,
         },
         password: {
             type: sequelize_1.DataTypes.STRING,
-            allowNull: false
+            allowNull: false,
         },
         passwordResetExpires: {
             type: sequelize_1.DataTypes.DATE,
-            allowNull: true
+            allowNull: true,
         },
         passwordResetToken: {
             type: sequelize_1.DataTypes.STRING,
-            allowNull: true
+            allowNull: true,
         },
         active: {
             type: sequelize_1.DataTypes.BOOLEAN,
-            defaultValue: false
-        }
+            defaultValue: false,
+        },
     }, {
         sequelize,
-        tableName: 'Users',
-        timestamps: true
+        tableName: "Users",
+        timestamps: true,
     });
     User.sync();
 };

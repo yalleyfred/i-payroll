@@ -10,23 +10,23 @@ const PayrollMap = (sequelize) => {
         id: {
             type: sequelize_1.DataTypes.BIGINT,
             autoIncrement: true,
-            primaryKey: true
+            primaryKey: true,
         },
         name: {
-            type: sequelize_1.DataTypes.STRING(255),
-            allowNull: false
+            type: sequelize_1.DataTypes.STRING,
+            allowNull: false,
         },
         job_title: {
-            type: sequelize_1.DataTypes.STRING(255),
-            allowNull: false
+            type: sequelize_1.DataTypes.STRING,
+            allowNull: false,
         },
         email: {
-            type: sequelize_1.DataTypes.STRING(255),
-            allowNull: false
+            type: sequelize_1.DataTypes.STRING,
+            allowNull: false,
         },
         date: {
             type: sequelize_1.DataTypes.DATEONLY(),
-            allowNull: false
+            allowNull: false,
         },
         basic_wage: {
             type: sequelize_1.DataTypes.DOUBLE || sequelize_1.DataTypes.INTEGER,
@@ -34,44 +34,44 @@ const PayrollMap = (sequelize) => {
         },
         allowance: {
             type: sequelize_1.DataTypes.DOUBLE || sequelize_1.DataTypes.INTEGER,
-            allowNull: true
+            allowNull: true,
         },
         bonus: {
             type: sequelize_1.DataTypes.DOUBLE || sequelize_1.DataTypes.INTEGER,
-            allowNull: true
+            allowNull: true,
         },
         income_tax: {
             type: sequelize_1.DataTypes.DOUBLE || sequelize_1.DataTypes.INTEGER,
-            allowNull: false
+            allowNull: false,
         },
         bonus_tax: {
             type: sequelize_1.DataTypes.DOUBLE || sequelize_1.DataTypes.INTEGER,
-            allowNull: false
+            allowNull: false,
         },
         teir_one: {
             type: sequelize_1.DataTypes.DOUBLE || sequelize_1.DataTypes.INTEGER,
-            allowNull: true
+            allowNull: true,
         },
         teir_two: {
             type: sequelize_1.DataTypes.DOUBLE || sequelize_1.DataTypes.INTEGER,
-            allowNull: true
+            allowNull: true,
         },
         loan_deduction: {
             type: sequelize_1.DataTypes.DOUBLE || sequelize_1.DataTypes.INTEGER,
-            allowNull: true
+            allowNull: true,
         },
         total_deduction: {
             type: sequelize_1.DataTypes.DOUBLE || sequelize_1.DataTypes.INTEGER,
-            allowNull: false
+            allowNull: false,
         },
         net_salary: {
             type: sequelize_1.DataTypes.DOUBLE || sequelize_1.DataTypes.INTEGER,
-            allowNull: false
-        }
+            allowNull: false,
+        },
     }, {
         sequelize,
-        tableName: 'Payroll',
-        timestamps: true
+        tableName: "Payroll",
+        timestamps: true,
     });
     Payroll.sync();
 };

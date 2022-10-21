@@ -10,11 +10,11 @@ const PayMap = (sequelize) => {
         id: {
             type: sequelize_1.DataTypes.BIGINT,
             autoIncrement: true,
-            primaryKey: true
+            primaryKey: true,
         },
         job_title: {
-            type: sequelize_1.DataTypes.STRING(255),
-            unique: true
+            type: sequelize_1.DataTypes.STRING,
+            unique: true,
         },
         basic_salary: {
             type: sequelize_1.DataTypes.INTEGER || sequelize_1.DataTypes.DOUBLE,
@@ -22,16 +22,16 @@ const PayMap = (sequelize) => {
         },
         allowance: {
             type: sequelize_1.DataTypes.INTEGER || sequelize_1.DataTypes.DOUBLE,
-            allowNull: false
+            allowNull: false,
         },
         bonus: {
             type: sequelize_1.DataTypes.INTEGER || sequelize_1.DataTypes.DOUBLE,
-            allowNull: false
-        }
+            allowNull: false,
+        },
     }, {
         sequelize,
-        tableName: 'PayScheme',
-        timestamps: true
+        tableName: "PayScheme",
+        timestamps: true,
     });
     Pay.sync();
 };

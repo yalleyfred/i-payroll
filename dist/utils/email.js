@@ -18,12 +18,12 @@ const sendEmail = (options) => __awaiter(void 0, void 0, void 0, function* () {
     const transporter = nodemailer_1.default.createTransport({
         service: "outlook",
         auth: {
-            user: 'fredrick.yalley@outlook.com',
-            pass: 'Tbag@122'
+            user: "fredrick.yalley@outlook.com",
+            pass: "Tbag@122",
         },
         tls: {
-            rejectUnauthorized: false
-        }
+            rejectUnauthorized: false,
+        },
     });
     const mailOptions = {
         from: '"ipayroll" <fredrick.yalley@outlook.com>',
@@ -33,10 +33,9 @@ const sendEmail = (options) => __awaiter(void 0, void 0, void 0, function* () {
     };
     transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
-            return console.log(error);
+            throw new Error("Email not sent!");
         }
-        console.log("Message sent: %s", info.messageId);
-        console.log("Preview URL: %s", nodemailer_1.default.getTestMessageUrl(info));
+        return "Email Sent Succesfully";
     });
 });
 exports.sendEmail = sendEmail;

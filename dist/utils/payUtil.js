@@ -6,8 +6,8 @@ const incomeTax = (taxableIncome) => {
 };
 exports.incomeTax = incomeTax;
 const bonusTax = (basicSalary, bonus, taxableIncome) => {
-    if (bonus <= (basicSalary * 0.15)) {
-        return (0.05 * bonus);
+    if (bonus <= basicSalary * 0.15) {
+        return 0.05 * bonus;
     }
     else {
         return taxableIncome + (basicSalary - bonus);

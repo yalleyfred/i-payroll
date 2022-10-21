@@ -31,9 +31,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.makePayroll = exports.makePayslip = void 0;
 const payslipModel_1 = __importStar(require("../model/payslipModel"));
@@ -41,38 +38,45 @@ const employeeModel_1 = __importStar(require("../model/employeeModel"));
 const payrollModel_1 = __importStar(require("../model/payrollModel"));
 const paySchemeModel_1 = __importStar(require("../model/paySchemeModel"));
 const loanModel_1 = __importStar(require("../model/loanModel"));
-const Database_1 = __importDefault(require("../Database"));
+const Database_1 = require("../Database");
 const payUtil_1 = require("../utils/payUtil");
 const makePayslip = (employee) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        (0, payrollModel_1.PayrollMap)(Database_1.default);
-        (0, payslipModel_1.PayslipMap)(Database_1.default);
-        (0, employeeModel_1.EmployeeMap)(Database_1.default);
+        (0, payrollModel_1.PayrollMap)(Database_1.Database || Database_1.LocalDB);
+        (0, payslipModel_1.PayslipMap)(Database_1.Database || Database_1.LocalDB);
+        (0, employeeModel_1.EmployeeMap)(Database_1.Database || Database_1.LocalDB);
         if (!employee.name) {
             throw new Error("Please provide employee name");
         }
         const empPayroll = yield payrollModel_1.default.findOne({
             where: {
-                name: employee.name
-            }
+                name: employee.name,
+            },
         });
         const emp = yield employeeModel_1.default.findOne({
             where: {
-                name: employee.name
-            }
+                name: employee.name,
+            },
         });
-        console.log(emp === null || emp === void 0 ? void 0 : emp.name);
         if ((emp === null || emp === void 0 ? void 0 : emp.name) !== (empPayroll === null || empPayroll === void 0 ? void 0 : empPayroll.name)) {
             throw new Error("Employee doesnt exist");
         }
         const snnit_deduction = empPayroll.teir_one + empPayroll.teir_two;
         const earning = empPayroll.basic_wage + empPayroll.allowance + empPayroll.bonus;
-        console.log(earning);
         const newPayslip = {
-            name: empPayroll.name, job_title: empPayroll.job_title, email: empPayroll.email,
-            allowance: empPayroll.allowance, basic_wage: empPayroll.basic_wage, date: empPayroll.date,
-            bonus: empPayroll.bonus, income_tax: empPayroll.income_tax, bonus_tax: empPayroll.bonus_tax,
-            snnit_deduction: snnit_deduction, loan_deduction: empPayroll.loan_deduction, total_deduction: empPayroll.total_deduction, net_salary: empPayroll.net_salary,
+            name: empPayroll.name,
+            job_title: empPayroll.job_title,
+            email: empPayroll.email,
+            allowance: empPayroll.allowance,
+            basic_wage: empPayroll.basic_wage,
+            date: empPayroll.date,
+            bonus: empPayroll.bonus,
+            income_tax: empPayroll.income_tax,
+            bonus_tax: empPayroll.bonus_tax,
+            snnit_deduction: snnit_deduction,
+            loan_deduction: empPayroll.loan_deduction,
+            total_deduction: empPayroll.total_deduction,
+            net_salary: empPayroll.net_salary,
         };
         const output = `
                 <style>
@@ -278,10 +282,10 @@ exports.makePayslip = makePayslip;
 function makePayroll(employee) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            (0, paySchemeModel_1.PayMap)(Database_1.default);
-            (0, payrollModel_1.PayrollMap)(Database_1.default);
-            (0, employeeModel_1.EmployeeMap)(Database_1.default);
-            (0, loanModel_1.LoanMap)(Database_1.default);
+            (0, paySchemeModel_1.PayMap)(Database_1.Database || Database_1.LocalDB);
+            (0, payrollModel_1.PayrollMap)(Database_1.Database || Database_1.LocalDB);
+            (0, employeeModel_1.EmployeeMap)(Database_1.Database || Database_1.LocalDB);
+            (0, loanModel_1.LoanMap)(Database_1.Database || Database_1.LocalDB);
             const empDetails = {
                 name: employee.name,
                 month_year: employee.month_year,
@@ -292,8 +296,8 @@ function makePayroll(employee) {
             const payDate = empDetails.month_year.toString();
             const emp = yield employeeModel_1.default.findOne({
                 where: {
-                    name: employee.name
-                }
+                    name: employee.name,
+                },
             });
             if (emp == null) {
                 throw new Error("Employee does not exist");
@@ -302,48 +306,50 @@ function makePayroll(employee) {
             const employeeJobtitle = emp === null || emp === void 0 ? void 0 : emp.job_title;
             const empLoan = yield loanModel_1.default.findOne({
                 where: {
-                    name: emp === null || emp === void 0 ? void 0 : emp.name
-                }
+                    name: emp === null || emp === void 0 ? void 0 : emp.name,
+                },
             });
             const loanAmt = empLoan === null || empLoan === void 0 ? void 0 : empLoan.amount;
             const loanToPay = (0, payUtil_1.loan)(loanAmt);
             let l1 = yield paySchemeModel_1.default.findOne({
                 where: {
-                    job_title: 'level 1'
-                }
+                    job_title: "level 1",
+                },
             });
             let lvl_one = l1 === null || l1 === void 0 ? void 0 : l1.job_title;
             let L2 = yield paySchemeModel_1.default.findOne({
                 where: {
-                    job_title: 'level 2'
-                }
+                    job_title: "level 2",
+                },
             });
             let lvl_two = L2 === null || L2 === void 0 ? void 0 : L2.job_title;
             let L3 = yield paySchemeModel_1.default.findOne({
                 where: {
-                    job_title: "level 3"
-                }
+                    job_title: "level 3",
+                },
             });
             let lvl_three = L3 === null || L3 === void 0 ? void 0 : L3.job_title;
             let jAssociate = yield paySchemeModel_1.default.findOne({
                 where: {
-                    job_title: 'Junior Associate'
-                }
+                    job_title: "Junior Associate",
+                },
             });
             let jnr_Associate = jAssociate === null || jAssociate === void 0 ? void 0 : jAssociate.job_title;
-            console.log(jnr_Associate);
             let sAssociate = yield paySchemeModel_1.default.findOne({
                 where: {
-                    job_title: 'Senior Associate'
-                }
+                    job_title: "Senior Associate",
+                },
             });
             let snr_Associate = sAssociate === null || sAssociate === void 0 ? void 0 : sAssociate.job_title;
-            if (employeeJobtitle == lvl_one || employeeJobtitle == lvl_two || employeeJobtitle == lvl_three
-                || employeeJobtitle == jnr_Associate || employeeJobtitle == snr_Associate) {
+            if (employeeJobtitle == lvl_one ||
+                employeeJobtitle == lvl_two ||
+                employeeJobtitle == lvl_three ||
+                employeeJobtitle == jnr_Associate ||
+                employeeJobtitle == snr_Associate) {
                 const empPay = yield payrollModel_1.default.findAll({
                     where: {
-                        name: employee.name
-                    }
+                        name: employee.name,
+                    },
                 });
                 for (let i = 0; i < empPay.length; i++) {
                     const mnt = empPay[i].date.toString().slice(0, 7);
@@ -353,8 +359,8 @@ function makePayroll(employee) {
                 }
                 let newPay = yield paySchemeModel_1.default.findOne({
                     where: {
-                        job_title: employeeJobtitle
-                    }
+                        job_title: employeeJobtitle,
+                    },
                 });
                 let myObj = {
                     basic: newPay.basic_salary,
@@ -365,21 +371,32 @@ function makePayroll(employee) {
                 const teir_one = (0, payUtil_1.tierOne)(myObj.basic);
                 const teir_two = (0, payUtil_1.tierTwo)(myObj.basic);
                 const TaxRelief = teir_one + teir_two;
-                const grossSalary = (myObj.basic + myObj.allowance + myObj.bonus);
+                const grossSalary = myObj.basic + myObj.allowance + myObj.bonus;
                 const taxableIncome = grossSalary - TaxRelief;
                 const income_tax = (0, payUtil_1.incomeTax)(taxableIncome);
                 const bonus_tax = (0, payUtil_1.bonusTax)(TCE, myObj.bonus, taxableIncome);
                 const totalDeduction = teir_one + teir_two + income_tax + bonus_tax;
                 const netSalary = grossSalary - totalDeduction;
                 const payrollData = {
-                    job_title: employeeJobtitle, name: empDetails.name, email: employeeEmail, date: empDetails.month_year,
-                    basic_wage: myObj.basic, allowance: myObj.allowance, bonus: myObj.bonus, teir_one: teir_one, teir_two: teir_two, income_tax: income_tax, bonus_tax: bonus_tax, loan_deduction: loanToPay,
-                    total_deduction: totalDeduction, net_salary: netSalary
+                    job_title: employeeJobtitle,
+                    name: empDetails.name,
+                    email: employeeEmail,
+                    date: empDetails.month_year,
+                    basic_wage: myObj.basic,
+                    allowance: myObj.allowance,
+                    bonus: myObj.bonus,
+                    teir_one: teir_one,
+                    teir_two: teir_two,
+                    income_tax: income_tax,
+                    bonus_tax: bonus_tax,
+                    loan_deduction: loanToPay,
+                    total_deduction: totalDeduction,
+                    net_salary: netSalary,
                 };
                 yield payrollModel_1.default.create(payrollData);
                 return { payrollData: payrollData };
             }
-            throw new Error('Job title does not exit in the firm');
+            throw new Error("Job title does not exit in the firm");
         }
         catch (error) {
             throw error;

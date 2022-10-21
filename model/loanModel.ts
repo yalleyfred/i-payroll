@@ -1,4 +1,4 @@
-import { Model, Sequelize, DataTypes } from 'sequelize';
+import { Model, Sequelize, DataTypes } from "sequelize";
 
 export default class Loan extends Model {
   public id?: number;
@@ -8,28 +8,31 @@ export default class Loan extends Model {
 }
 
 export const LoanMap = (sequelize: Sequelize) => {
-  Loan.init({
-    id: {
-      type: DataTypes.BIGINT,
-      autoIncrement: true,
-      primaryKey: true
+  Loan.init(
+    {
+      id: {
+        type: DataTypes.BIGINT,
+        autoIncrement: true,
+        primaryKey: true,
+      },
+      name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      amount: {
+        type: DataTypes.DOUBLE || DataTypes.INTEGER,
+        allowNull: false,
+      },
+      date: {
+        type: DataTypes.DATEONLY,
+        allowNull: true,
+      },
     },
-    name: {
-      type: DataTypes.STRING(255),
-      allowNull: false
-    },
-    amount: {
-      type: DataTypes.DOUBLE || DataTypes.INTEGER,
-      allowNull: false
-    },
-    date: {
-      type: DataTypes.DATEONLY,
-      allowNull: true
-    } 
-  }, {
-    sequelize,
-    tableName: 'Loan',
-    timestamps: true
-  });
+    {
+      sequelize,
+      tableName: "Loan",
+      timestamps: true,
+    }
+  );
   Loan.sync();
-}
+};

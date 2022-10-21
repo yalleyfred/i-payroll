@@ -1,4 +1,4 @@
-import { Model, Sequelize, DataTypes } from 'sequelize';
+import { Model, Sequelize, DataTypes } from "sequelize";
 
 export default class Employee extends Model {
   public id?: number;
@@ -13,23 +13,24 @@ export default class Employee extends Model {
 }
 
 export const EmployeeMap = (sequelize: Sequelize) => {
-    Employee.init({
+  Employee.init(
+    {
       id: {
         type: DataTypes.BIGINT,
         autoIncrement: true,
-        primaryKey: true
+        primaryKey: true,
       },
       name: {
-        type: DataTypes.STRING(255)
+        type: DataTypes.STRING,
       },
       email: {
-        type: DataTypes.STRING(255),
+        type: DataTypes.STRING,
         allowNull: false,
-        unique: true
+        unique: true,
       },
       hire_date: {
         type: DataTypes.DATEONLY,
-        allowNull: false
+        allowNull: false,
       },
       snnit: {
         type: DataTypes.STRING,
@@ -38,25 +39,25 @@ export const EmployeeMap = (sequelize: Sequelize) => {
       tin: {
         type: DataTypes.STRING,
         allowNull: false,
-  
-
       },
       department: {
-        type: DataTypes.STRING(100),
-        allowNull: false
+        type: DataTypes.STRING,
+        allowNull: false,
       },
       job_title: {
-        type: DataTypes.STRING(100),
-        allowNull: true
+        type: DataTypes.STRING,
+        allowNull: true,
       },
       status: {
-        type: DataTypes.STRING(100),
-        allowNull: true
-      }
-    }, {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+    },
+    {
       sequelize,
-      tableName: 'Employees',
-      timestamps: true
-    });
-    Employee.sync();
-  }
+      tableName: "Employees",
+      timestamps: true,
+    }
+  );
+  Employee.sync();
+};

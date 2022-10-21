@@ -10,24 +10,24 @@ const LoanMap = (sequelize) => {
         id: {
             type: sequelize_1.DataTypes.BIGINT,
             autoIncrement: true,
-            primaryKey: true
+            primaryKey: true,
         },
         name: {
-            type: sequelize_1.DataTypes.STRING(255),
-            allowNull: false
+            type: sequelize_1.DataTypes.STRING,
+            allowNull: false,
         },
         amount: {
             type: sequelize_1.DataTypes.DOUBLE || sequelize_1.DataTypes.INTEGER,
-            allowNull: false
+            allowNull: false,
         },
         date: {
             type: sequelize_1.DataTypes.DATEONLY,
-            allowNull: true
-        }
+            allowNull: true,
+        },
     }, {
         sequelize,
-        tableName: 'Loan',
-        timestamps: true
+        tableName: "Loan",
+        timestamps: true,
     });
     Loan.sync();
 };

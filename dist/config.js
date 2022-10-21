@@ -23,10 +23,10 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.jwt_secret = exports.jwt_expires_in = exports.db_url = exports.NODE_ENV = exports.db_password = exports.db_user = exports.db_name = exports.db_port = exports.db_host = exports.port = void 0;
+exports.jwt_secret = exports.jwt_expires_in = exports.db_url = exports.ldb_password = exports.ldb_user = exports.ldb_name = exports.ldb_port = exports.ldb_host = exports.NODE_ENV = exports.db_password = exports.db_user = exports.db_name = exports.db_port = exports.db_host = exports.port = void 0;
 const dotenv = __importStar(require("dotenv"));
 dotenv.config({
-    path: '${__dirname}/../.env'
+    path: "${__dirname}/../.env",
 });
 exports.port = Number(process.env.API_PORT);
 exports.db_host = String(process.env.DB_HOST);
@@ -35,6 +35,11 @@ exports.db_name = String(process.env.DB_NAME);
 exports.db_user = String(process.env.DB_USER);
 exports.db_password = String(process.env.DB_PASSWORD);
 exports.NODE_ENV = String(process.env.NODE_ENV);
+exports.ldb_host = String(process.env.LDB_HOST);
+exports.ldb_port = Number(process.env.LDB_PORT);
+exports.ldb_name = String(process.env.LDB_NAME);
+exports.ldb_user = String(process.env.LDB_USER);
+exports.ldb_password = String(process.env.LDB_PASSWORD);
 exports.db_url = String(process.env.DATABASE_URL);
 exports.jwt_expires_in = String(process.env.JWT_EXPIRES_IN);
 exports.jwt_secret = String(process.env.JWT_SECRET);

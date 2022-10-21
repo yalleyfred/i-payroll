@@ -39,11 +39,11 @@ exports.createReport = void 0;
 const XLSX = __importStar(require("xlsx"));
 const path_1 = __importDefault(require("path"));
 const payrollModel_1 = __importStar(require("../model/payrollModel"));
-const Database_1 = __importDefault(require("../Database"));
+const Database_1 = require("../Database");
 const errorUtils_1 = require("../utils/errorUtils");
 const createReport = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        (0, payrollModel_1.PayrollMap)(Database_1.default);
+        (0, payrollModel_1.PayrollMap)(Database_1.Database || Database_1.LocalDB);
         const workSheetColumnName = [
             "name",
             "job_title",
@@ -58,27 +58,32 @@ const createReport = (req, res) => __awaiter(void 0, void 0, void 0, function* (
             "teir_two",
             "loan_deduction",
             "total_deduction",
-            "net_salary"
+            "net_salary",
         ];
         const workSheetName = "Payroll";
-        const filePath = './report/payroll.xlsx';
-        // const payrollList = async() => {
-        //     return await Payroll.findAll();
-        // } 
-        // const list = await payrollList().then(el => {return el}
-        // );
-        // console.log(list);
+        const filePath = "./report/payroll.xlsx";
         const payrollList = yield payrollModel_1.default.findAll();
         const exportPayrollToExcel = (payrollList, workSheetColumnName, workSheetName, filePath) => {
-            const data = payrollList.map(payroll => {
-                return [payroll.name, payroll.job_title, payroll.email, payroll.date, payroll.basic_wage, payroll.allowance, payroll.bonus,
-                    payroll.income_tax, payroll.bonus_tax, payroll.teir_one, payroll.teir_two, payroll.loan_deduction, payroll.total_deduction, payroll.net_salary];
+            const data = payrollList.map((payroll) => {
+                return [
+                    payroll.name,
+                    payroll.job_title,
+                    payroll.email,
+                    payroll.date,
+                    payroll.basic_wage,
+                    payroll.allowance,
+                    payroll.bonus,
+                    payroll.income_tax,
+                    payroll.bonus_tax,
+                    payroll.teir_one,
+                    payroll.teir_two,
+                    payroll.loan_deduction,
+                    payroll.total_deduction,
+                    payroll.net_salary,
+                ];
             });
             const workBook = XLSX.utils.book_new();
-            const workSheetData = [
-                workSheetColumnName,
-                ...data
-            ];
+            const workSheetData = [workSheetColumnName, ...data];
             const workSheet = XLSX.utils.json_to_sheet(workSheetData);
             XLSX.utils.book_append_sheet(workBook, workSheet, workSheetName);
             XLSX.writeFile(workBook, path_1.default.resolve(filePath));
@@ -86,7 +91,7 @@ const createReport = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         };
         exportPayrollToExcel(payrollList, workSheetColumnName, workSheetName, filePath);
         console.log(exportPayrollToExcel);
-        res.send("ok");
+        res.send("Report Created!");
     }
     catch (error) {
         return res.status(500).send((0, errorUtils_1.getErrorMessage)(error));

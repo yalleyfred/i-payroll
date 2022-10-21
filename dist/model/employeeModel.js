@@ -10,19 +10,19 @@ const EmployeeMap = (sequelize) => {
         id: {
             type: sequelize_1.DataTypes.BIGINT,
             autoIncrement: true,
-            primaryKey: true
+            primaryKey: true,
         },
         name: {
-            type: sequelize_1.DataTypes.STRING(255)
+            type: sequelize_1.DataTypes.STRING,
         },
         email: {
-            type: sequelize_1.DataTypes.STRING(255),
+            type: sequelize_1.DataTypes.STRING,
             allowNull: false,
-            unique: true
+            unique: true,
         },
         hire_date: {
             type: sequelize_1.DataTypes.DATEONLY,
-            allowNull: false
+            allowNull: false,
         },
         snnit: {
             type: sequelize_1.DataTypes.STRING,
@@ -33,21 +33,21 @@ const EmployeeMap = (sequelize) => {
             allowNull: false,
         },
         department: {
-            type: sequelize_1.DataTypes.STRING(100),
-            allowNull: false
+            type: sequelize_1.DataTypes.STRING,
+            allowNull: false,
         },
         job_title: {
-            type: sequelize_1.DataTypes.STRING(100),
-            allowNull: true
+            type: sequelize_1.DataTypes.STRING,
+            allowNull: true,
         },
         status: {
-            type: sequelize_1.DataTypes.STRING(100),
-            allowNull: true
-        }
+            type: sequelize_1.DataTypes.STRING,
+            allowNull: true,
+        },
     }, {
         sequelize,
-        tableName: 'Employees',
-        timestamps: true
+        tableName: "Employees",
+        timestamps: true,
     });
     Employee.sync();
 };
