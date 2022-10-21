@@ -43,7 +43,7 @@ const Database_1 = require("../Database");
 const errorUtils_1 = require("../utils/errorUtils");
 const createReport = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        (0, payrollModel_1.PayrollMap)(Database_1.Database || Database_1.LocalDB);
+        (0, payrollModel_1.PayrollMap)(Database_1.Database);
         const workSheetColumnName = [
             "name",
             "job_title",

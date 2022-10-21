@@ -38,7 +38,7 @@ const Database_1 = require("../Database");
 const errorUtils_1 = require("../utils/errorUtils");
 const getAllLoan = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        (0, loanModel_1.LoanMap)(Database_1.Database || Database_1.LocalDB);
+        (0, loanModel_1.LoanMap)(Database_1.Database);
         const loans = yield loanModel_1.default.findAll();
         res.status(200).json({ result: loans });
     }
@@ -49,7 +49,7 @@ const getAllLoan = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 exports.getAllLoan = getAllLoan;
 const getLoan = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        (0, loanModel_1.LoanMap)(Database_1.Database || Database_1.LocalDB);
+        (0, loanModel_1.LoanMap)(Database_1.Database);
         const id = Number(req.params.id);
         const result = yield loanModel_1.default.findByPk(id);
         res.status(200).json({ user: result });
@@ -61,7 +61,7 @@ const getLoan = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 exports.getLoan = getLoan;
 const createLoan = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        (0, loanModel_1.LoanMap)(Database_1.Database || Database_1.LocalDB);
+        (0, loanModel_1.LoanMap)(Database_1.Database);
         const newLoan = req.body;
         yield loanModel_1.default.create(newLoan);
         res.status(200).json({

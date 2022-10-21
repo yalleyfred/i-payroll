@@ -9,9 +9,9 @@ import {Database, LocalDB} from "../Database";
 
 export const createTax = async (req: Request, res: Response) => {
   try {
-    PayrollMap(Database || LocalDB);
-    EmployeeMap(Database || LocalDB);
-    TaxMap(Database || LocalDB);
+    PayrollMap(Database);
+    EmployeeMap(Database);
+    TaxMap(Database);
 
     const {name, date} = req.body;
 
@@ -64,7 +64,7 @@ export const createTax = async (req: Request, res: Response) => {
 
 export const getAllTax = async (req: Request, res: Response) => {
   try {
-    TaxMap(Database || LocalDB);
+    TaxMap(Database);
     const result = await Tax.findAll();
     res.status(200).json({
       status: "success",

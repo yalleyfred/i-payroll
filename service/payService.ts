@@ -29,9 +29,9 @@ type payroll = { name: string; job_title: string; month_year: Date };
 
 export const makePayslip = async (employee: { name: string }) => {
   try {
-    PayrollMap(Database || LocalDB);
-    PayslipMap(Database || LocalDB);
-    EmployeeMap(Database || LocalDB);
+    PayrollMap(Database);
+    PayslipMap(Database);
+    EmployeeMap(Database);
 
     if (!employee.name) {
       throw new Error("Please provide employee name");
@@ -276,10 +276,10 @@ export const makePayslip = async (employee: { name: string }) => {
 
 export async function makePayroll(employee: payroll) {
   try {
-    PayMap(Database || LocalDB);
-    PayrollMap(Database || LocalDB);
-    EmployeeMap(Database || LocalDB);
-    LoanMap(Database || LocalDB);
+    PayMap(Database);
+    PayrollMap(Database);
+    EmployeeMap(Database);
+    LoanMap(Database);
 
     const empDetails = {
       name: employee.name,

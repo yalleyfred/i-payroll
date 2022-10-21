@@ -40,9 +40,9 @@ const errorUtils_1 = require("../utils/errorUtils");
 const Database_1 = require("../Database");
 const createTax = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        (0, payrollModel_1.PayrollMap)(Database_1.Database || Database_1.LocalDB);
-        (0, employeeModel_1.EmployeeMap)(Database_1.Database || Database_1.LocalDB);
-        (0, taxModel_1.TaxMap)(Database_1.Database || Database_1.LocalDB);
+        (0, payrollModel_1.PayrollMap)(Database_1.Database);
+        (0, employeeModel_1.EmployeeMap)(Database_1.Database);
+        (0, taxModel_1.TaxMap)(Database_1.Database);
         const { name, date } = req.body;
         const emp = yield employeeModel_1.default.findOne({
             where: {
@@ -88,7 +88,7 @@ const createTax = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 exports.createTax = createTax;
 const getAllTax = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        (0, taxModel_1.TaxMap)(Database_1.Database || Database_1.LocalDB);
+        (0, taxModel_1.TaxMap)(Database_1.Database);
         const result = yield taxModel_1.default.findAll();
         res.status(200).json({
             status: "success",

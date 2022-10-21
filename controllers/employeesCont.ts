@@ -16,7 +16,7 @@ type E = {
 
 export const getAllEmployees = async (req: Request, res: Response) => {
   try {
-    EmployeeMap(Database || LocalDB);
+    EmployeeMap(Database);
     const result = await Employee.findAll();
     res.status(200).json({ employee: result });
   } catch (error) {
@@ -26,7 +26,7 @@ export const getAllEmployees = async (req: Request, res: Response) => {
 
 export const getEmployee = async (req: Request, res: Response) => {
   try {
-    EmployeeMap(Database || LocalDB);
+    EmployeeMap(Database);
     const id = Number(req.params.id);
     const result = await Employee.findByPk(id);
     res.status(200).json({ employee: result });
@@ -37,7 +37,7 @@ export const getEmployee = async (req: Request, res: Response) => {
 
 export const createEmployee = async (req: Request, res: Response) => {
   try {
-    EmployeeMap(Database || LocalDB);
+    EmployeeMap(Database);
     const employee: E = req.body;
 
     if (

@@ -16,7 +16,7 @@ dotenv.config();
 
 export const getAllUsers = async (req: Request, res: Response) => {
   try {
-    UserMap(Database || LocalDB);
+    UserMap(Database);
     const result = await User.findAll();
     res.status(200).json({ users: result });
   } catch (error) {
@@ -26,7 +26,7 @@ export const getAllUsers = async (req: Request, res: Response) => {
 
 export const getUser = async (req: Request, res: Response) => {
   try {
-    UserMap(Database || LocalDB);
+    UserMap(Database);
     const id = Number(req.params.id);
     const result = await User.findByPk(id);
     res.status(200).json({ user: result });

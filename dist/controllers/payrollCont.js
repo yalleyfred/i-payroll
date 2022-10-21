@@ -39,7 +39,7 @@ const Database_1 = require("../Database");
 const payService = __importStar(require("../service/payService"));
 const getAllPayroll = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        (0, payrollModel_1.PayrollMap)(Database_1.Database || Database_1.LocalDB);
+        (0, payrollModel_1.PayrollMap)(Database_1.Database);
         let result = yield payrollModel_1.default.findAll();
         res.status(200).json({ payroll: result });
     }
@@ -63,7 +63,7 @@ const createPayroll = (req, res) => __awaiter(void 0, void 0, void 0, function* 
 exports.createPayroll = createPayroll;
 const getPayroll = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        (0, payrollModel_1.PayrollMap)(Database_1.Database || Database_1.LocalDB);
+        (0, payrollModel_1.PayrollMap)(Database_1.Database);
         const id = Number(req.params.id);
         const result = yield payrollModel_1.default.findByPk(id);
         res.status(200).json({ payInfo: result });

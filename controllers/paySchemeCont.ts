@@ -14,7 +14,7 @@ export const createPay = async (req: Request, res: Response) => {
   try {
     const newPay: P = req.body as Pay;
 
-    PayMap(Database || LocalDB);
+    PayMap(Database);
     let result = await Pay.create(newPay);
 
     res.status(200).json({
@@ -28,7 +28,7 @@ export const createPay = async (req: Request, res: Response) => {
 
 export const getAllPay = async (req: Request, res: Response) => {
   try {
-    PayMap(Database || LocalDB);
+    PayMap(Database);
     const result = await Pay.findAll();
     res.status(200).json({
       status: "success",

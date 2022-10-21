@@ -46,7 +46,7 @@ exports.SECRET_KEY = config_1.jwt_secret;
 function register(user) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            (0, userModel_1.UserMap)(Database_1.Database || Database_1.LocalDB);
+            (0, userModel_1.UserMap)(Database_1.Database);
             if (!user.name || !user.email || !user.password || !user.password2) {
                 throw new Error("Please fill all fields");
             }
@@ -91,7 +91,7 @@ exports.register = register;
 function login(user) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            (0, userModel_1.UserMap)(Database_1.Database || Database_1.LocalDB);
+            (0, userModel_1.UserMap)(Database_1.Database);
             if (!user.email || !user.password) {
                 throw new Error("Please provide email and password");
             }
@@ -125,7 +125,7 @@ exports.login = login;
 function forgotPassword(user) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            (0, userModel_1.UserMap)(Database_1.Database || Database_1.LocalDB);
+            (0, userModel_1.UserMap)(Database_1.Database);
             if (!user.email) {
                 throw new Error("please provide your email!");
             }

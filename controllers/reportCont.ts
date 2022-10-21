@@ -24,7 +24,7 @@ type T = {
 
 export const createReport = async (req: Request, res: Response) => {
   try {
-    PayrollMap(Database || LocalDB);
+    PayrollMap(Database);
     const workSheetColumnName = [
       "name",
       "job_title",

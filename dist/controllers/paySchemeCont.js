@@ -39,7 +39,7 @@ const Database_1 = require("../Database");
 const createPay = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const newPay = req.body;
-        (0, paySchemeModel_1.PayMap)(Database_1.Database || Database_1.LocalDB);
+        (0, paySchemeModel_1.PayMap)(Database_1.Database);
         let result = yield paySchemeModel_1.default.create(newPay);
         res.status(200).json({
             status: "success",
@@ -53,7 +53,7 @@ const createPay = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 exports.createPay = createPay;
 const getAllPay = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        (0, paySchemeModel_1.PayMap)(Database_1.Database || Database_1.LocalDB);
+        (0, paySchemeModel_1.PayMap)(Database_1.Database);
         const result = yield paySchemeModel_1.default.findAll();
         res.status(200).json({
             status: "success",

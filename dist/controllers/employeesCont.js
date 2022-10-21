@@ -38,7 +38,7 @@ const errorUtils_1 = require("../utils/errorUtils");
 const Database_1 = require("../Database");
 const getAllEmployees = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        (0, employeeModel_1.EmployeeMap)(Database_1.Database || Database_1.LocalDB);
+        (0, employeeModel_1.EmployeeMap)(Database_1.Database);
         const result = yield employeeModel_1.default.findAll();
         res.status(200).json({ employee: result });
     }
@@ -49,7 +49,7 @@ const getAllEmployees = (req, res) => __awaiter(void 0, void 0, void 0, function
 exports.getAllEmployees = getAllEmployees;
 const getEmployee = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        (0, employeeModel_1.EmployeeMap)(Database_1.Database || Database_1.LocalDB);
+        (0, employeeModel_1.EmployeeMap)(Database_1.Database);
         const id = Number(req.params.id);
         const result = yield employeeModel_1.default.findByPk(id);
         res.status(200).json({ employee: result });
@@ -61,7 +61,7 @@ const getEmployee = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 exports.getEmployee = getEmployee;
 const createEmployee = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        (0, employeeModel_1.EmployeeMap)(Database_1.Database || Database_1.LocalDB);
+        (0, employeeModel_1.EmployeeMap)(Database_1.Database);
         const employee = req.body;
         if (!employee.name ||
             !employee.email ||

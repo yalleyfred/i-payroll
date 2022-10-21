@@ -5,7 +5,7 @@ import { getErrorMessage } from "../utils/errorUtils";
 
 export const getAllLoan = async (req: Request, res: Response) => {
   try {
-    LoanMap(Database || LocalDB);
+    LoanMap(Database);
     const loans = await Loan.findAll();
     res.status(200).json({ result: loans });
   } catch (error) {
@@ -15,7 +15,7 @@ export const getAllLoan = async (req: Request, res: Response) => {
 
 export const getLoan = async (req: Request, res: Response) => {
   try {
-    LoanMap(Database || LocalDB);
+    LoanMap(Database);
     const id = Number(req.params.id);
     const result = await Loan.findByPk(id);
     res.status(200).json({ user: result });
@@ -26,7 +26,7 @@ export const getLoan = async (req: Request, res: Response) => {
 
 export const createLoan = async (req: Request, res: Response) => {
   try {
-    LoanMap(Database || LocalDB);
+    LoanMap(Database);
 
     const newLoan = req.body;
     await Loan.create(newLoan);

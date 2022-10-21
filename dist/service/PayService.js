@@ -42,9 +42,9 @@ const Database_1 = require("../Database");
 const payUtil_1 = require("../utils/payUtil");
 const makePayslip = (employee) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        (0, payrollModel_1.PayrollMap)(Database_1.Database || Database_1.LocalDB);
-        (0, payslipModel_1.PayslipMap)(Database_1.Database || Database_1.LocalDB);
-        (0, employeeModel_1.EmployeeMap)(Database_1.Database || Database_1.LocalDB);
+        (0, payrollModel_1.PayrollMap)(Database_1.Database);
+        (0, payslipModel_1.PayslipMap)(Database_1.Database);
+        (0, employeeModel_1.EmployeeMap)(Database_1.Database);
         if (!employee.name) {
             throw new Error("Please provide employee name");
         }
@@ -282,10 +282,10 @@ exports.makePayslip = makePayslip;
 function makePayroll(employee) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            (0, paySchemeModel_1.PayMap)(Database_1.Database || Database_1.LocalDB);
-            (0, payrollModel_1.PayrollMap)(Database_1.Database || Database_1.LocalDB);
-            (0, employeeModel_1.EmployeeMap)(Database_1.Database || Database_1.LocalDB);
-            (0, loanModel_1.LoanMap)(Database_1.Database || Database_1.LocalDB);
+            (0, paySchemeModel_1.PayMap)(Database_1.Database);
+            (0, payrollModel_1.PayrollMap)(Database_1.Database);
+            (0, employeeModel_1.EmployeeMap)(Database_1.Database);
+            (0, loanModel_1.LoanMap)(Database_1.Database);
             const empDetails = {
                 name: employee.name,
                 month_year: employee.month_year,

@@ -6,7 +6,7 @@ import * as payService from "../service/payService";
 
 export const getAllPayroll = async (req: Request, res: Response) => {
   try {
-    PayrollMap(Database || LocalDB);
+    PayrollMap(Database);
     let result = await Payroll.findAll();
     res.status(200).json({ payroll: result });
   } catch (error) {
@@ -29,7 +29,7 @@ export const createPayroll = async (req: Request, res: Response) => {
 
 export const getPayroll = async (req: Request, res: Response) => {
   try {
-    PayrollMap(Database || LocalDB);
+    PayrollMap(Database);
     const id = Number(req.params.id);
     const result = await Payroll.findByPk(id);
     res.status(200).json({ payInfo: result });

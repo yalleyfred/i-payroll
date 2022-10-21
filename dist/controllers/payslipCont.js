@@ -40,7 +40,7 @@ const Payservice = __importStar(require("../service/payService"));
 const email_1 = require("../utils/email");
 const getAllPayslip = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        (0, payslipModel_1.PayslipMap)(Database_1.Database || Database_1.LocalDB);
+        (0, payslipModel_1.PayslipMap)(Database_1.Database);
         const result = yield payslipModel_1.default.findAll();
         res.status(200).json({ payInfo: result });
     }
@@ -51,7 +51,7 @@ const getAllPayslip = (req, res) => __awaiter(void 0, void 0, void 0, function* 
 exports.getAllPayslip = getAllPayslip;
 const getPayslip = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        (0, payslipModel_1.PayslipMap)(Database_1.Database || Database_1.LocalDB);
+        (0, payslipModel_1.PayslipMap)(Database_1.Database);
         const id = Number(req.params.id);
         const result = yield payslipModel_1.default.findByPk(id);
         res.status(200).json({ payInfo: result });

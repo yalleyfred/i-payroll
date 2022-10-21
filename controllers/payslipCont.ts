@@ -7,7 +7,7 @@ import { sendEmail } from "../utils/email";
 
 export const getAllPayslip = async (req: Request, res: Response) => {
   try {
-    PayslipMap(Database || LocalDB);
+    PayslipMap(Database);
     const result = await Payslip.findAll();
     res.status(200).json({ payInfo: result });
   } catch (error) {
@@ -17,7 +17,7 @@ export const getAllPayslip = async (req: Request, res: Response) => {
 
 export const getPayslip = async (req: Request, res: Response) => {
   try {
-    PayslipMap(Database || LocalDB);
+    PayslipMap(Database);
     const id = Number(req.params.id);
     const result = await Payslip.findByPk(id);
     res.status(200).json({ payInfo: result });

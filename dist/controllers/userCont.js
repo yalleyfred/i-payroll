@@ -49,7 +49,7 @@ exports.SECRET_KEY = config_1.jwt_secret;
 dotenv.config();
 const getAllUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        (0, userModel_1.UserMap)(Database_1.Database || Database_1.LocalDB);
+        (0, userModel_1.UserMap)(Database_1.Database);
         const result = yield userModel_1.default.findAll();
         res.status(200).json({ users: result });
     }
@@ -60,7 +60,7 @@ const getAllUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 exports.getAllUsers = getAllUsers;
 const getUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        (0, userModel_1.UserMap)(Database_1.Database || Database_1.LocalDB);
+        (0, userModel_1.UserMap)(Database_1.Database);
         const id = Number(req.params.id);
         const result = yield userModel_1.default.findByPk(id);
         res.status(200).json({ user: result });
