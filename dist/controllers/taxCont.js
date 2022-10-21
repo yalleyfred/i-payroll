@@ -58,13 +58,14 @@ const createTax = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                 date: date
             }
         });
-        if ((empPayroll === null || empPayroll === void 0 ? void 0 : empPayroll.date) !== date) {
-            throw new Error("There is not payroll for this month!");
-        }
         if (!empPayroll) {
             throw new Error("employee has no payroll record!");
         }
-        const relief = empPayroll.teir_one + empPayroll.teir_two;
+        console.log(empPayroll === null || empPayroll === void 0 ? void 0 : empPayroll.date);
+        if ((empPayroll === null || empPayroll === void 0 ? void 0 : empPayroll.date) !== date) {
+            throw new Error("There is not payroll for this month!");
+        }
+        const relief = (empPayroll === null || empPayroll === void 0 ? void 0 : empPayroll.teir_one) + (empPayroll === null || empPayroll === void 0 ? void 0 : empPayroll.teir_two);
         const net_taxable_pay = empPayroll.basic_wage - relief;
         const empTax = {
             name: empPayroll.name,

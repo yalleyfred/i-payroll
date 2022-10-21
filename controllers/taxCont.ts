@@ -31,16 +31,18 @@ export const createTax = async (req: Request, res: Response) => {
             date: date
         }
     })
-
+    
+    if(!empPayroll) {
+        throw new Error("employee has no payroll record!");
+    }
+        console.log(empPayroll?.date);
     if(empPayroll?.date !== date) {
         throw new Error("There is not payroll for this month!");
     }
 
-    if(!empPayroll) {
-        throw new Error("employee has no payroll record!");
-    }
+    
 
-    const relief = empPayroll.teir_one + empPayroll.teir_two; 
+    const relief = empPayroll?.teir_one + empPayroll?.teir_two; 
     const net_taxable_pay = empPayroll.basic_wage - relief;
     const empTax = {
         name: empPayroll.name,
