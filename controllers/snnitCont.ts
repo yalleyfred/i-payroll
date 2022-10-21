@@ -1,17 +1,17 @@
 import { Request, Response } from "express";
-import Tax, { TaxMap } from "../model/taxModel";
+import Snnit, { SnnitMap } from "../model/snnitModel";
 import Payroll, {PayrollMap} from "../model/payrollModel";
 import Employee, {EmployeeMap} from "../model/employeeModel";
 import { getErrorMessage } from "../utils/errorUtils";
-import {Database, LocalDB} from "../Database";
+import {Database} from "../Database";
 
 
 
-export const createTax = async (req: Request, res: Response) => {
+export const createSnnit = async (req: Request, res: Response) => {
   try {
     PayrollMap(Database);
     EmployeeMap(Database);
-    TaxMap(Database);
+    SnnitMap(Database);
 
     const {name, date} = req.body;
 
@@ -35,25 +35,23 @@ export const createTax = async (req: Request, res: Response) => {
     if(!empPayroll) {
         throw new Error("employee has no payroll record!");
     }
-        console.log(empPayroll?.date);
+
     if(empPayroll?.date !== date) {
         throw new Error("There is not payroll for this month!");
     }
 
     
-
-    const relief = empPayroll?.teir_one + empPayroll?.teir_two; 
-    const net_taxable_pay = empPayroll.basic_wage - relief;
-    const empTax = {
+    const total_snnit_contribution = empPayroll?.teir_one + empPayroll?.teir_two;
+    const empSnnit = {
         name: empPayroll.name,
         basic_salary: empPayroll.basic_wage,
-        tax_relief: relief,
-        net_taxable_pay: net_taxable_pay,
-        total_tax_deduction: empPayroll.income_tax,
-        tin: emp.tin,
+        tier_one: empPayroll.teir_one,
+        tier_two: empPayroll.teir_two,
+        total_snnit_contribution: total_snnit_contribution,
+        snnit_no: emp.snnit,
         date: date
     }
-    let result = await Tax.create(empTax);
+    let result = await Snnit.create(empSnnit);
 
     res.status(200).json({
       status: "success",
@@ -64,13 +62,13 @@ export const createTax = async (req: Request, res: Response) => {
   }
 };
 
-export const getAllTax = async (req: Request, res: Response) => {
+export const getAllSnnit = async (req: Request, res: Response) => {
   try {
-    TaxMap(Database);
-    const result = await Tax.findAll();
+    SnnitMap(Database);
+    const result = await Snnit.findAll();
     res.status(200).json({
       status: "success",
-      tax: result,
+      snnit: result,
     });
   } catch (error) {
     return res.status(500).send(getErrorMessage(error));
