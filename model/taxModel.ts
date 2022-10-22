@@ -29,19 +29,19 @@ export const TaxMap = (sequelize: Sequelize) => {
       },
       date: DataTypes.DATEONLY,
       basic_salary: {
-        type: DataTypes.INTEGER || DataTypes.DOUBLE,
+        type: DataTypes.DOUBLE || DataTypes.INTEGER,
         allowNull: false,
       },
       tax_relief: {
-        type: DataTypes.INTEGER || DataTypes.DOUBLE,
+        type: DataTypes.DOUBLE || DataTypes.INTEGER,
         allowNull: false,
       },
       net_taxable_pay: {
-        type: DataTypes.INTEGER || DataTypes.DOUBLE,
+        type: DataTypes.DOUBLE || DataTypes.INTEGER,
         allowNull: false,
       },
       total_tax_deduction: {
-        type: DataTypes.INTEGER || DataTypes.DOUBLE,
+        type: DataTypes.DOUBLE || DataTypes.INTEGER,
         allowNull: false,
       },
     },

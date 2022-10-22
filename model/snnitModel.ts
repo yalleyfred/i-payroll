@@ -29,19 +29,19 @@ export const SnnitMap = (sequelize: Sequelize) => {
       },
       date: DataTypes.DATEONLY,
       basic_salary: {
-        type: DataTypes.INTEGER || DataTypes.DOUBLE,
+        type: DataTypes.DOUBLE || DataTypes.INTEGER,
         allowNull: false,
       },
       tier_one: {
-        type: DataTypes.INTEGER || DataTypes.DOUBLE,
+        type: DataTypes.DOUBLE || DataTypes.INTEGER,
         allowNull: false,
       },
       tier_two: {
-        type: DataTypes.INTEGER || DataTypes.DOUBLE,
+        type: DataTypes.DOUBLE || DataTypes.INTEGER,
         allowNull: false,
       },
       total_snnit_contribution: {
-        type: DataTypes.INTEGER || DataTypes.DOUBLE,
+        type: DataTypes.DOUBLE || DataTypes.INTEGER,
         allowNull: false,
       },
     },

@@ -77,7 +77,7 @@ export const forgotPassword = async (req: Request, res: Response) => {
       "host"
     )}/admin/resetpassword/`;
 
-    const message = `Forgot your password? cPlease follow this link to set your new password: ${resetURL}.\nIf you did'nt forget your password, please ignore this email!`;
+    const message = `Forgot your password? Please follow this link to set your new password: ${resetURL}.\nIf you did'nt forget your password, please ignore this email!`;
 
     await sendEmail({
       email: req.body.email,

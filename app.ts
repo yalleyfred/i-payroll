@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import bodyParser from "body-parser";
 import cors from "cors";
 
+
 dotenv.config();
 
 export const app: Express = express();
@@ -25,6 +26,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 
+// app.use('/', (req:Request, res: Response) => {
+//     res.send("hello");
+    
+// })
 app.use("/api/v1/employees", employeeRoute);
 app.use("/api/v1/users", userRoute);
 app.use("/api/v1/payScheme", paySchemeRoute);
@@ -34,3 +39,6 @@ app.use("/api/v1/report", reportRoute);
 app.use("/api/v1/loan", loanRoute);
 app.use("/api/v1/tax", taxRoute);
 app.use("/api/v1/snnit", snnitRoute);
+// app.get("/",(req,res)=>{
+//     res.sendFile()
+// })

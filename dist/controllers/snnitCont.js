@@ -32,17 +32,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getAllTax = exports.createTax = void 0;
-const taxModel_1 = __importStar(require("../model/taxModel"));
+exports.getAllSnnit = exports.createSnnit = void 0;
+const snnitModel_1 = __importStar(require("../model/snnitModel"));
 const payrollModel_1 = __importStar(require("../model/payrollModel"));
 const employeeModel_1 = __importStar(require("../model/employeeModel"));
 const errorUtils_1 = require("../utils/errorUtils");
 const Database_1 = require("../Database");
-const createTax = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const createSnnit = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         (0, payrollModel_1.PayrollMap)(Database_1.Database);
         (0, employeeModel_1.EmployeeMap)(Database_1.Database);
-        (0, taxModel_1.TaxMap)(Database_1.Database);
+        (0, snnitModel_1.SnnitMap)(Database_1.Database);
         const { name, date } = req.body;
         const emp = yield employeeModel_1.default.findOne({
             where: {
@@ -61,22 +61,20 @@ const createTax = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         if (!empPayroll) {
             throw new Error("employee has no payroll record!");
         }
-        console.log(empPayroll === null || empPayroll === void 0 ? void 0 : empPayroll.date);
         if ((empPayroll === null || empPayroll === void 0 ? void 0 : empPayroll.date) !== date) {
             throw new Error("There is not payroll for this month!");
         }
-        const relief = (empPayroll === null || empPayroll === void 0 ? void 0 : empPayroll.teir_one) + (empPayroll === null || empPayroll === void 0 ? void 0 : empPayroll.teir_two);
-        const net_taxable_pay = empPayroll.basic_wage - relief;
-        const empTax = {
+        const total_snnit_contribution = (empPayroll === null || empPayroll === void 0 ? void 0 : empPayroll.teir_one) + (empPayroll === null || empPayroll === void 0 ? void 0 : empPayroll.teir_two);
+        const empSnnit = {
             name: empPayroll.name,
             basic_salary: empPayroll.basic_wage,
-            tax_relief: relief,
-            net_taxable_pay: net_taxable_pay,
-            total_tax_deduction: empPayroll.income_tax,
-            tin: emp.tin,
+            tier_one: empPayroll.teir_one,
+            tier_two: empPayroll.teir_two,
+            total_snnit_contribution: total_snnit_contribution,
+            snnit_no: emp.snnit,
             date: date
         };
-        let result = yield taxModel_1.default.create(empTax);
+        let result = yield snnitModel_1.default.create(empSnnit);
         res.status(200).json({
             status: "success",
             pay: result,
@@ -86,19 +84,19 @@ const createTax = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         return res.status(500).send((0, errorUtils_1.getErrorMessage)(error));
     }
 });
-exports.createTax = createTax;
-const getAllTax = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.createSnnit = createSnnit;
+const getAllSnnit = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        (0, taxModel_1.TaxMap)(Database_1.Database);
-        const result = yield taxModel_1.default.findAll();
+        (0, snnitModel_1.SnnitMap)(Database_1.Database);
+        const result = yield snnitModel_1.default.findAll();
         res.status(200).json({
             status: "success",
-            tax: result,
+            snnit: result,
         });
     }
     catch (error) {
         return res.status(500).send((0, errorUtils_1.getErrorMessage)(error));
     }
 });
-exports.getAllTax = getAllTax;
-//# sourceMappingURL=taxCont.js.map
+exports.getAllSnnit = getAllSnnit;
+//# sourceMappingURL=snnitCont.js.map

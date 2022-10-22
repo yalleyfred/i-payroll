@@ -17,12 +17,16 @@ const payrollRoute_1 = __importDefault(require("./routes/payrollRoute"));
 const payslipRoute_1 = __importDefault(require("./routes/payslipRoute"));
 const loanRoute_1 = __importDefault(require("./routes/loanRoute"));
 const taxRoute_1 = __importDefault(require("./routes/taxRoute"));
+const snnitRoute_1 = __importDefault(require("./routes/snnitRoute"));
 const reportRoute_1 = __importDefault(require("./routes/reportRoute"));
 exports.app.enable("trust proxy");
 exports.app.set("trust proxy", 1);
 exports.app.use(body_parser_1.default.json());
 exports.app.use(body_parser_1.default.urlencoded({ extended: true }));
 exports.app.use((0, cors_1.default)());
+// app.use('/', (req:Request, res: Response) => {
+//     res.send("hello");
+// })
 exports.app.use("/api/v1/employees", employeeRoute_1.default);
 exports.app.use("/api/v1/users", userRoute_1.default);
 exports.app.use("/api/v1/payScheme", paySchemeRoute_1.default);
@@ -31,4 +35,8 @@ exports.app.use("/api/v1/payslip", payslipRoute_1.default);
 exports.app.use("/api/v1/report", reportRoute_1.default);
 exports.app.use("/api/v1/loan", loanRoute_1.default);
 exports.app.use("/api/v1/tax", taxRoute_1.default);
+exports.app.use("/api/v1/snnit", snnitRoute_1.default);
+// app.get("/",(req,res)=>{
+//     res.sendFile()
+// })
 //# sourceMappingURL=app.js.map

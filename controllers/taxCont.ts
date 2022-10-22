@@ -3,7 +3,7 @@ import Tax, { TaxMap } from "../model/taxModel";
 import Payroll, {PayrollMap} from "../model/payrollModel";
 import Employee, {EmployeeMap} from "../model/employeeModel";
 import { getErrorMessage } from "../utils/errorUtils";
-import {Database, LocalDB} from "../Database";
+import {Database} from "../Database";
 
 
 
@@ -14,6 +14,10 @@ export const createTax = async (req: Request, res: Response) => {
     TaxMap(Database);
 
     const {name, date} = req.body;
+
+    if(!name || !date) {
+      throw new Error("Please fill all fields");
+    }
 
     const emp = await Employee.findOne({
         where: {
@@ -29,18 +33,32 @@ export const createTax = async (req: Request, res: Response) => {
         where: {
             name: name,
             date: date
-        }
+      }
     })
-
-    if(!empPayroll) {
+    console.log(empPayroll?.date);
+    
+    if(!empPayroll) { 
         throw new Error("employee has no payroll record!");
     }
-        console.log(empPayroll?.date);
-    if(empPayroll?.date !== date) {
-        throw new Error("There is not payroll for this month!");
-    }
-
     
+      if(empPayroll?.date !== date) {
+          throw new Error("There is no payroll for this month!");
+      }
+
+    const taxes = await Tax.findAll({
+      where: {
+        name: name
+      }
+    });
+
+    for (let i = 0; i < taxes.length; i++) {
+      const mnt = taxes[i].date.toString();
+      console.log(mnt);
+      
+      if (mnt == date) {
+        throw new Error("this tax has been created already");
+      }
+    }
 
     const relief = empPayroll?.teir_one + empPayroll?.teir_two; 
     const net_taxable_pay = empPayroll.basic_wage - relief;

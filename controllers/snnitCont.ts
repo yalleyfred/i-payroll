@@ -15,6 +15,10 @@ export const createSnnit = async (req: Request, res: Response) => {
 
     const {name, date} = req.body;
 
+    if(!name || !date) {
+      throw new Error("Please fill all fields");
+    }
+
     const emp = await Employee.findOne({
         where: {
             name: name,
@@ -38,6 +42,21 @@ export const createSnnit = async (req: Request, res: Response) => {
 
     if(empPayroll?.date !== date) {
         throw new Error("There is not payroll for this month!");
+    }
+
+    const snnit = await Snnit.findAll({
+      where: {
+        name: name
+      }
+    });
+
+    for (let i = 0; i < snnit.length; i++) {
+      const mnt = snnit[i].date.toString();
+      console.log(mnt);
+      
+      if (mnt == date) {
+        throw new Error("this snnit has been created already");
+      }
     }
 
     
