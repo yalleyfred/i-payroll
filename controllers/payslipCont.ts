@@ -1,9 +1,8 @@
 import { Request, Response } from "express";
 import Payslip, { PayslipMap } from "../model/payslipModel";
-import {Database, LocalDB} from "../Database";
+import { Database } from "../Database";
 import { getErrorMessage } from "../utils/errorUtils";
 import * as Payservice from "../service/payService";
-import { sendEmail } from "../utils/email";
 
 export const getAllPayslip = async (req: Request, res: Response) => {
   try {
@@ -33,12 +32,6 @@ export const createPayslip = async (req: Request, res: Response) => {
     res.status(201).json({
       status: "success",
       result: payslip.newPayslip,
-    });
-
-    await sendEmail({
-      email: payslip.email,
-      subject: "ipayroll",
-      message: payslip?.output,
     });
   } catch (error) {
     return res.status(500).send(getErrorMessage(error));

@@ -3,10 +3,11 @@ import Employee, { EmployeeMap } from "../model/employeeModel";
 import Payroll, { PayrollMap } from "../model/payrollModel";
 import Pay, { PayMap } from "../model/paySchemeModel";
 import Loan, { LoanMap } from "../model/loanModel";
-import {Database, LocalDB} from "../Database";
+import { Database } from "../Database";
 
 import { incomeTax, bonusTax, tierOne, tierTwo, loan } from "../utils/payUtil";
-import {slip} from "../utils/payslip";
+import { slip } from "../utils/payslip";
+import { sendEmail } from "../utils/email";
 
 type detail = {
   name: string;
@@ -28,21 +29,26 @@ type payDetail = { basic: number; allowance: number; bonus: number };
 
 type payroll = { name: string; job_title: string; month_year: Date };
 
-export const makePayslip = async (employee: { name: string }) => {
+export const makePayslip = async (employee: { name: string; date: string }) => {
   try {
     PayrollMap(Database);
     PayslipMap(Database);
     EmployeeMap(Database);
 
-    if (!employee.name) {
-      throw new Error("Please provide employee name");
+    if (!employee.name || !employee.date) {
+      throw new Error("Please provide all details");
     }
 
     const empPayroll = await Payroll.findOne({
       where: {
         name: employee.name,
+        date: employee.date,
       },
     });
+
+    if (!empPayroll?.name) {
+      throw new Error("Employee payroll does not exist");
+    }
 
     const emp = await Employee.findOne({
       where: {
@@ -50,9 +56,20 @@ export const makePayslip = async (employee: { name: string }) => {
       },
     });
 
+    if (!emp?.name) {
+      throw new Error("Employee does not exist");
+    }
+
     if (emp?.name !== empPayroll?.name) {
       throw new Error("Employee doesnt exist");
     }
+
+    const date = empPayroll?.date.toString();
+
+    if (date !== employee.date) {
+      throw new Error("This month payroll does not exist");
+    }
+
     const snnit_deduction: number = empPayroll!.teir_one + empPayroll!.teir_two;
 
     const newPayslip: detail = {
@@ -71,14 +88,32 @@ export const makePayslip = async (employee: { name: string }) => {
       net_salary: empPayroll!.net_salary,
     };
 
-
     const out = slip(employee);
-    const output = (await out).output
-   
+    const output = (await out).output;
+
+    const payslip = await Payslip.findAll({
+      where: {
+        name: employee.name,
+        date: employee.date,
+      },
+    });
+
+    for (let i = 0; i < payslip.length; i++) {
+      const mnt = payslip[i].date.toString();
+      console.log(mnt);
+      if (mnt == employee.date) {
+        throw new Error("this payslip already exist");
+      }
+    }
 
     await Payslip.create(newPayslip);
+    await sendEmail({
+      email: newPayslip.email,
+      subject: "ipayroll",
+      message: output,
+    });
 
-    return { newPayslip: newPayslip, output: output, email: newPayslip.email };
+    return { newPayslip: newPayslip };
   } catch (error) {
     throw error;
   }
