@@ -72,9 +72,9 @@ export const makePayslip = async (employee: { name: string }) => {
     };
 
 
-    const out = String(slip(employee))
-
-    const output = out;
+    const out = slip(employee);
+    const output = (await out).output
+   
 
     await Payslip.create(newPayslip);
 

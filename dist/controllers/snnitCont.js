@@ -44,6 +44,9 @@ const createSnnit = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         (0, employeeModel_1.EmployeeMap)(Database_1.Database);
         (0, snnitModel_1.SnnitMap)(Database_1.Database);
         const { name, date } = req.body;
+        if (!name || !date) {
+            throw new Error("Please fill all fields");
+        }
         const emp = yield employeeModel_1.default.findOne({
             where: {
                 name: name,
@@ -63,6 +66,18 @@ const createSnnit = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         }
         if ((empPayroll === null || empPayroll === void 0 ? void 0 : empPayroll.date) !== date) {
             throw new Error("There is not payroll for this month!");
+        }
+        const snnit = yield snnitModel_1.default.findAll({
+            where: {
+                name: name
+            }
+        });
+        for (let i = 0; i < snnit.length; i++) {
+            const mnt = snnit[i].date.toString();
+            console.log(mnt);
+            if (mnt == date) {
+                throw new Error("this snnit has been created already");
+            }
         }
         const total_snnit_contribution = (empPayroll === null || empPayroll === void 0 ? void 0 : empPayroll.teir_one) + (empPayroll === null || empPayroll === void 0 ? void 0 : empPayroll.teir_two);
         const empSnnit = {

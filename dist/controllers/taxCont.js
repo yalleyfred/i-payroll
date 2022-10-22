@@ -44,6 +44,9 @@ const createTax = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         (0, employeeModel_1.EmployeeMap)(Database_1.Database);
         (0, taxModel_1.TaxMap)(Database_1.Database);
         const { name, date } = req.body;
+        if (!name || !date) {
+            throw new Error("Please fill all fields");
+        }
         const emp = yield employeeModel_1.default.findOne({
             where: {
                 name: name,
@@ -58,12 +61,24 @@ const createTax = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                 date: date
             }
         });
+        console.log(empPayroll === null || empPayroll === void 0 ? void 0 : empPayroll.date);
         if (!empPayroll) {
             throw new Error("employee has no payroll record!");
         }
-        console.log(empPayroll === null || empPayroll === void 0 ? void 0 : empPayroll.date);
         if ((empPayroll === null || empPayroll === void 0 ? void 0 : empPayroll.date) !== date) {
-            throw new Error("There is not payroll for this month!");
+            throw new Error("There is no payroll for this month!");
+        }
+        const taxes = yield taxModel_1.default.findAll({
+            where: {
+                name: name
+            }
+        });
+        for (let i = 0; i < taxes.length; i++) {
+            const mnt = taxes[i].date.toString();
+            console.log(mnt);
+            if (mnt == date) {
+                throw new Error("this tax has been created already");
+            }
         }
         const relief = (empPayroll === null || empPayroll === void 0 ? void 0 : empPayroll.teir_one) + (empPayroll === null || empPayroll === void 0 ? void 0 : empPayroll.teir_two);
         const net_taxable_pay = empPayroll.basic_wage - relief;

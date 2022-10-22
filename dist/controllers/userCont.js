@@ -106,7 +106,7 @@ const forgotPassword = (req, res) => __awaiter(void 0, void 0, void 0, function*
         const user = yield userServices.forgotPassword(req.body);
         console.log(user);
         const resetURL = `${req.protocol}://${req.get("host")}/admin/resetpassword/`;
-        const message = `Forgot your password? cPlease follow this link to set your new password: ${resetURL}.\nIf you did'nt forget your password, please ignore this email!`;
+        const message = `Forgot your password? Please follow this link to set your new password: ${resetURL}.\nIf you did'nt forget your password, please ignore this email!`;
         yield (0, email_1.sendEmail)({
             email: req.body.email,
             subject: "ipayroll",
