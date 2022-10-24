@@ -91,7 +91,7 @@ const createSnnit = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         };
         let result = yield snnitModel_1.default.create(empSnnit);
         res.status(200).json({
-            status: "success",
+            message: "success",
             pay: result,
         });
     }
@@ -105,7 +105,7 @@ const getAllSnnit = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         (0, snnitModel_1.SnnitMap)(Database_1.Database);
         const result = yield snnitModel_1.default.findAll();
         res.status(200).json({
-            status: "success",
+            message: "success",
             snnit: result,
         });
     }

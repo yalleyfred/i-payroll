@@ -10,23 +10,23 @@ const PayslipMap = (sequelize) => {
         id: {
             type: sequelize_1.DataTypes.BIGINT,
             autoIncrement: true,
-            primaryKey: true,
+            primaryKey: true
         },
         name: {
-            type: sequelize_1.DataTypes.STRING,
-            allowNull: false,
+            type: sequelize_1.DataTypes.STRING(255),
+            allowNull: false
         },
         job_title: {
-            type: sequelize_1.DataTypes.STRING,
-            allowNull: false,
+            type: sequelize_1.DataTypes.STRING(255),
+            allowNull: false
         },
         email: {
-            type: sequelize_1.DataTypes.STRING,
-            allowNull: false,
+            type: sequelize_1.DataTypes.STRING(255),
+            allowNull: false
         },
         date: {
-            type: sequelize_1.DataTypes.DATE,
-            allowNull: false,
+            type: sequelize_1.DataTypes.DATEONLY(),
+            allowNull: false
         },
         basic_wage: {
             type: sequelize_1.DataTypes.DOUBLE || sequelize_1.DataTypes.INTEGER,
@@ -34,40 +34,40 @@ const PayslipMap = (sequelize) => {
         },
         allowance: {
             type: sequelize_1.DataTypes.DOUBLE || sequelize_1.DataTypes.INTEGER,
-            allowNull: false,
+            allowNull: false
         },
         bonus: {
             type: sequelize_1.DataTypes.DOUBLE || sequelize_1.DataTypes.INTEGER,
-            allowNull: false,
+            allowNull: false
         },
         income_tax: {
             type: sequelize_1.DataTypes.DOUBLE || sequelize_1.DataTypes.INTEGER,
-            allowNull: false,
+            allowNull: false
         },
         bonus_tax: {
             type: sequelize_1.DataTypes.DOUBLE || sequelize_1.DataTypes.INTEGER,
-            allowNull: false,
+            allowNull: false
         },
         snnit_deduction: {
             type: sequelize_1.DataTypes.DOUBLE || sequelize_1.DataTypes.INTEGER,
-            allowNull: false,
+            allowNull: false
         },
         loan_deduction: {
             type: sequelize_1.DataTypes.DOUBLE || sequelize_1.DataTypes.INTEGER,
-            allowNull: false,
+            allowNull: false
         },
         total_deduction: {
             type: sequelize_1.DataTypes.DOUBLE || sequelize_1.DataTypes.INTEGER,
-            allowNull: false,
+            allowNull: false
         },
         net_salary: {
             type: sequelize_1.DataTypes.DOUBLE || sequelize_1.DataTypes.INTEGER,
-            allowNull: false,
-        },
+            allowNull: false
+        }
     }, {
         sequelize,
-        tableName: "Payslips",
-        timestamps: true,
+        tableName: 'Payslips',
+        timestamps: true
     });
     Payslip.sync();
 };

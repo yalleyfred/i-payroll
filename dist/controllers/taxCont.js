@@ -93,7 +93,7 @@ const createTax = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         };
         let result = yield taxModel_1.default.create(empTax);
         res.status(200).json({
-            status: "success",
+            message: "success",
             pay: result,
         });
     }
@@ -107,7 +107,7 @@ const getAllTax = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         (0, taxModel_1.TaxMap)(Database_1.Database);
         const result = yield taxModel_1.default.findAll();
         res.status(200).json({
-            status: "success",
+            message: "success",
             tax: result,
         });
     }

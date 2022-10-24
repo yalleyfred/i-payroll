@@ -96,7 +96,7 @@ export async function login(user: loginU) {
     });
 
     if (!foundUser) {
-      throw new Error("Email of user is not correct");
+      throw new Error("Invalid Email, You are not a user!");
     }
 
     const isMatch = bcrypt.compareSync(user.password, foundUser?.password);
@@ -110,7 +110,7 @@ export async function login(user: loginU) {
         cookie: userCredentials.cookieOptions,
       };
     } else {
-      throw new Error("Password is not correct");
+      throw new Error("Wrong password");
     }
   } catch (error) {
     throw error;

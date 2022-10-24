@@ -74,7 +74,7 @@ export const createTax = async (req: Request, res: Response) => {
     let result = await Tax.create(empTax);
 
     res.status(200).json({
-      status: "success",
+      message: "success",
       pay: result,
     });
   } catch (error) {
@@ -87,7 +87,7 @@ export const getAllTax = async (req: Request, res: Response) => {
     TaxMap(Database);
     const result = await Tax.findAll();
     res.status(200).json({
-      status: "success",
+      message: "success",
       tax: result,
     });
   } catch (error) {

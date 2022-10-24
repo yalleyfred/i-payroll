@@ -91,7 +91,7 @@ const logIn = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const foundUser = yield userServices.login(req.body);
         res.cookie("jwt", foundUser.token, foundUser.cookie);
         res.status(200).json({
-            status: "Login successful",
+            message: "Login successful",
             token: foundUser.token,
             cookie: foundUser.cookie,
         });
@@ -106,14 +106,14 @@ const forgotPassword = (req, res) => __awaiter(void 0, void 0, void 0, function*
         const user = yield userServices.forgotPassword(req.body);
         console.log(user);
         const resetURL = `${req.protocol}://${req.get("host")}/admin/resetpassword/`;
-        const message = `Forgot your password? Please follow this link to set your new password: ${resetURL}.\nIf you did'nt forget your password, please ignore this email!`;
+        const message = `Forgot your password? Please follow this link to set your new password: ${resetURL}\nIf you did'nt forget your password, please ignore this email!`;
         yield (0, email_1.sendEmail)({
             email: req.body.email,
             subject: "ipayroll",
             message: message,
         });
         res.status(200).json({
-            status: "success",
+            message: "success",
             result: resetURL,
         });
     }
@@ -162,7 +162,7 @@ const resetPassword = (req, res, next) => __awaiter(void 0, void 0, void 0, func
             },
         });
         (0, createToken_1.createSendToken)(user);
-        next(res.send("success"));
+        next(res.status(200).json({ message: "success" }));
     }
     catch (error) {
         return res.status(500).send((0, errorUtils_1.getErrorMessage)(error));

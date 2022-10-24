@@ -52,7 +52,7 @@ const createPayroll = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     try {
         const payroll = yield payService.makePayroll(req.body);
         res.status(200).json({
-            status: "success",
+            message: "success",
             result: payroll.payrollData,
         });
     }

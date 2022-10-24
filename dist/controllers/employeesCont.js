@@ -83,7 +83,10 @@ const createEmployee = (req, res) => __awaiter(void 0, void 0, void 0, function*
             throw new Error("Employee already exist!");
         }
         const result = yield employeeModel_1.default.create(employee);
-        res.status(201).json({ employee: result });
+        res.status(201).json({
+            message: "Employee added",
+            employee: result
+        });
     }
     catch (error) {
         return res.status(500).send((0, errorUtils_1.getErrorMessage)(error));

@@ -66,7 +66,10 @@ export const createEmployee = async (req: Request, res: Response) => {
     }
 
     const result = await Employee.create(employee);
-    res.status(201).json({ employee: result });
+    res.status(201).json({ 
+      message: "Employee added",
+      employee: result 
+    });
   } catch (error) {
     return res.status(500).send(getErrorMessage(error));
   }

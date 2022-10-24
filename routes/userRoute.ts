@@ -14,6 +14,7 @@ const router = Router();
 router.route("/register").post(register);
 router.route("/login").post(logIn);
 router.route("/forgotPassword").post(forgotPassword);
+router.route("/resetUserPassword").patch(resetPassword);
 
 router.route("/resetPassword").patch(resetPassword);
 

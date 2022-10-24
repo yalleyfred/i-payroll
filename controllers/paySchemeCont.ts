@@ -31,7 +31,7 @@ export const getAllPay = async (req: Request, res: Response) => {
     PayMap(Database);
     const result = await Pay.findAll();
     res.status(200).json({
-      status: "success",
+      message: "success",
       pay: result,
     });
   } catch (error) {

@@ -9,8 +9,8 @@
     "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/server.js\"",
     "client": "cd client && npm start",
     "start:prod": "concurrently -n 'client,server' -c 'yellow,blue' \"npm run client\" \"npm run dev\"",
-    "test": "jest --watch",
-    "cover": "jest --coverage"
+    "test": "jest -c ./jest.unit.json",
+    "test:coverage": "jest --coverage -c ./jest.unit.json"
   },
   "author": "",
   "license": "ISC",

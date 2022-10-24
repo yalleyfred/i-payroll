@@ -65,7 +65,7 @@ const createLoan = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         const newLoan = req.body;
         yield loanModel_1.default.create(newLoan);
         res.status(200).json({
-            status: "success",
+            message: "success",
             result: newLoan,
         });
     }

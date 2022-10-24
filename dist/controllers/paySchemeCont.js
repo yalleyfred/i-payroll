@@ -56,7 +56,7 @@ const getAllPay = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         (0, paySchemeModel_1.PayMap)(Database_1.Database);
         const result = yield paySchemeModel_1.default.findAll();
         res.status(200).json({
-            status: "success",
+            message: "success",
             pay: result,
         });
     }

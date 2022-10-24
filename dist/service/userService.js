@@ -101,7 +101,7 @@ function login(user) {
                 },
             });
             if (!foundUser) {
-                throw new Error("Email of user is not correct");
+                throw new Error("Invalid Email, You are not a user!");
             }
             const isMatch = bcrypt_1.default.compareSync(user.password, foundUser === null || foundUser === void 0 ? void 0 : foundUser.password);
             if (isMatch) {
@@ -113,7 +113,7 @@ function login(user) {
                 };
             }
             else {
-                throw new Error("Password is not correct");
+                throw new Error("Wrong password");
             }
         }
         catch (error) {

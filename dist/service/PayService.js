@@ -41,26 +41,38 @@ const loanModel_1 = __importStar(require("../model/loanModel"));
 const Database_1 = require("../Database");
 const payUtil_1 = require("../utils/payUtil");
 const payslip_1 = require("../utils/payslip");
+const email_1 = require("../utils/email");
 const makePayslip = (employee) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         (0, payrollModel_1.PayrollMap)(Database_1.Database);
         (0, payslipModel_1.PayslipMap)(Database_1.Database);
         (0, employeeModel_1.EmployeeMap)(Database_1.Database);
-        if (!employee.name) {
-            throw new Error("Please provide employee name");
+        if (!employee.name || !employee.date) {
+            throw new Error("Please provide all details");
         }
         const empPayroll = yield payrollModel_1.default.findOne({
             where: {
                 name: employee.name,
+                date: employee.date,
             },
         });
+        if (!(empPayroll === null || empPayroll === void 0 ? void 0 : empPayroll.name)) {
+            throw new Error("Employee payroll does not exist");
+        }
         const emp = yield employeeModel_1.default.findOne({
             where: {
                 name: employee.name,
             },
         });
+        if (!(emp === null || emp === void 0 ? void 0 : emp.name)) {
+            throw new Error("Employee does not exist");
+        }
         if ((emp === null || emp === void 0 ? void 0 : emp.name) !== (empPayroll === null || empPayroll === void 0 ? void 0 : empPayroll.name)) {
             throw new Error("Employee doesnt exist");
+        }
+        const date = empPayroll === null || empPayroll === void 0 ? void 0 : empPayroll.date.toString();
+        if (date !== employee.date) {
+            throw new Error("This month payroll does not exist");
         }
         const snnit_deduction = empPayroll.teir_one + empPayroll.teir_two;
         const newPayslip = {
@@ -78,10 +90,28 @@ const makePayslip = (employee) => __awaiter(void 0, void 0, void 0, function* ()
             total_deduction: empPayroll.total_deduction,
             net_salary: empPayroll.net_salary,
         };
-        const out = String((0, payslip_1.slip)(employee));
-        const output = out;
+        const out = (0, payslip_1.slip)(employee);
+        const output = (yield out).output;
+        const payslip = yield payslipModel_1.default.findAll({
+            where: {
+                name: employee.name,
+                date: employee.date,
+            },
+        });
+        for (let i = 0; i < payslip.length; i++) {
+            const mnt = payslip[i].date.toString();
+            console.log(mnt);
+            if (mnt == employee.date) {
+                throw new Error("this payslip already exist");
+            }
+        }
         yield payslipModel_1.default.create(newPayslip);
-        return { newPayslip: newPayslip, output: output, email: newPayslip.email };
+        yield (0, email_1.sendEmail)({
+            email: newPayslip.email,
+            subject: "ipayroll",
+            message: output,
+        });
+        return { newPayslip: newPayslip };
     }
     catch (error) {
         throw error;

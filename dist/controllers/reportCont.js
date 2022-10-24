@@ -91,7 +91,7 @@ const createReport = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         };
         exportPayrollToExcel(payrollList, workSheetColumnName, workSheetName, filePath);
         console.log(exportPayrollToExcel);
-        res.send("Report Created!");
+        res.status(200).json({ message: "Report Created!" });
     }
     catch (error) {
         return res.status(500).send((0, errorUtils_1.getErrorMessage)(error));

@@ -30,7 +30,7 @@ export const createPayslip = async (req: Request, res: Response) => {
     const payslip = await Payservice.makePayslip(req.body);
 
     res.status(201).json({
-      status: "success",
+      message: "success",
       result: payslip.newPayslip,
     });
   } catch (error) {

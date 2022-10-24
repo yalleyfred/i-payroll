@@ -19,7 +19,7 @@ export const createPayroll = async (req: Request, res: Response) => {
     const payroll = await payService.makePayroll(req.body);
 
     res.status(200).json({
-      status: "success",
+      message: "success",
       result: payroll.payrollData,
     });
   } catch (error) {

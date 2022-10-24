@@ -37,7 +37,6 @@ const payslipModel_1 = __importStar(require("../model/payslipModel"));
 const Database_1 = require("../Database");
 const errorUtils_1 = require("../utils/errorUtils");
 const Payservice = __importStar(require("../service/payService"));
-const email_1 = require("../utils/email");
 const getAllPayslip = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         (0, payslipModel_1.PayslipMap)(Database_1.Database);
@@ -65,13 +64,8 @@ const createPayslip = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     try {
         const payslip = yield Payservice.makePayslip(req.body);
         res.status(201).json({
-            status: "success",
+            message: "success",
             result: payslip.newPayslip,
-        });
-        yield (0, email_1.sendEmail)({
-            email: payslip.email,
-            subject: "ipayroll",
-            message: payslip === null || payslip === void 0 ? void 0 : payslip.output,
         });
     }
     catch (error) {

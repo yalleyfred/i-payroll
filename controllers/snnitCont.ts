@@ -73,7 +73,7 @@ export const createSnnit = async (req: Request, res: Response) => {
     let result = await Snnit.create(empSnnit);
 
     res.status(200).json({
-      status: "success",
+      message: "success",
       pay: result,
     });
   } catch (error) {
@@ -86,7 +86,7 @@ export const getAllSnnit = async (req: Request, res: Response) => {
     SnnitMap(Database);
     const result = await Snnit.findAll();
     res.status(200).json({
-      status: "success",
+      message: "success",
       snnit: result,
     });
   } catch (error) {

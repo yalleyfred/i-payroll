@@ -8,6 +8,7 @@ import { Database } from "../Database";
 import { incomeTax, bonusTax, tierOne, tierTwo, loan } from "../utils/payUtil";
 import { slip } from "../utils/payslip";
 import { sendEmail } from "../utils/email";
+import { DATEONLY } from "sequelize";
 
 type detail = {
   name: string;
@@ -35,40 +36,11 @@ export const makePayslip = async (employee: { name: string; date: string }) => {
     PayslipMap(Database);
     EmployeeMap(Database);
 
-    if (!employee.name || !employee.date) {
-      throw new Error("Please provide all details");
-    }
+    const out = await slip(employee);
+    const output = out.output;
 
-    const empPayroll = await Payroll.findOne({
-      where: {
-        name: employee.name,
-        date: employee.date,
-      },
-    });
-
-    if (!empPayroll?.name) {
-      throw new Error("Employee payroll does not exist");
-    }
-
-    const emp = await Employee.findOne({
-      where: {
-        name: employee.name,
-      },
-    });
-
-    if (!emp?.name) {
-      throw new Error("Employee does not exist");
-    }
-
-    if (emp?.name !== empPayroll?.name) {
-      throw new Error("Employee doesnt exist");
-    }
-
-    const date = empPayroll?.date.toString();
-
-    if (date !== employee.date) {
-      throw new Error("This month payroll does not exist");
-    }
+    const empPayroll = out.empPayroll;
+    const emp = out.emp;
 
     const snnit_deduction: number = empPayroll!.teir_one + empPayroll!.teir_two;
 
@@ -88,9 +60,6 @@ export const makePayslip = async (employee: { name: string; date: string }) => {
       net_salary: empPayroll!.net_salary,
     };
 
-    const out = slip(employee);
-    const output = (await out).output;
-
     const payslip = await Payslip.findAll({
       where: {
         name: employee.name,
@@ -99,7 +68,7 @@ export const makePayslip = async (employee: { name: string; date: string }) => {
     });
 
     for (let i = 0; i < payslip.length; i++) {
-      const mnt = payslip[i].date.toString();
+      const mnt = payslip[i].date.toString().slice(0, 7);
       console.log(mnt);
       if (mnt == employee.date) {
         throw new Error("this payslip already exist");

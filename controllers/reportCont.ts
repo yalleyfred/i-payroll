@@ -87,7 +87,7 @@ export const createReport = async (req: Request, res: Response) => {
       filePath
     );
     console.log(exportPayrollToExcel);
-    res.send("Report Created!");
+    res.status(200).json({message: "Report Created!"});
   } catch (error) {
     return res.status(500).send(getErrorMessage(error));
   }

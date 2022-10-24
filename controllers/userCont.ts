@@ -59,7 +59,7 @@ export const logIn = async (req: Request, res: Response) => {
     res.cookie("jwt", foundUser.token, foundUser.cookie);
 
     res.status(200).json({
-      status: "Login successful",
+      message: "Login successful",
       token: foundUser.token,
       cookie: foundUser.cookie,
     });
@@ -75,9 +75,9 @@ export const forgotPassword = async (req: Request, res: Response) => {
 
     const resetURL = `${req.protocol}://${req.get(
       "host"
-    )}/admin/resetpassword/`;
+    )}/resetuserpassword/`;
 
-    const message = `Forgot your password? Please follow this link to set your new password: ${resetURL}.\nIf you did'nt forget your password, please ignore this email!`;
+    const message = `Forgot your password? Please follow this link to set your new password: ${resetURL}\nIf you did'nt forget your password, please ignore this email!`;
 
     await sendEmail({
       email: req.body.email,
@@ -85,7 +85,7 @@ export const forgotPassword = async (req: Request, res: Response) => {
       message: message,
     });
     res.status(200).json({
-      status: "success",
+      message: "success",
       result: resetURL,
     });
   } catch (error) {
@@ -163,7 +163,7 @@ export const resetPassword = async (
     );
 
     createSendToken(user);
-    next(res.send("success"));
+    next(res.status(200).json({message: "success"}));
   } catch (error) {
     return res.status(500).send(getErrorMessage(error));
   }

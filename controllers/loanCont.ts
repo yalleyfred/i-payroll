@@ -31,7 +31,7 @@ export const createLoan = async (req: Request, res: Response) => {
     const newLoan = req.body;
     await Loan.create(newLoan);
     res.status(200).json({
-      status: "success",
+      message: "success",
       result: newLoan,
     });
   } catch (error) {

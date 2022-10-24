@@ -1,28 +1,42 @@
 import Employee, { EmployeeMap } from "../model/employeeModel";
 import Payroll, { PayrollMap } from "../model/payrollModel";
-import {Database} from "../Database";
+import { Database } from "../Database";
 
+export const slip = async (employee: { name: string; date: string }) => {
+  EmployeeMap(Database);
+  PayrollMap(Database);
+  console.log(employee);
 
-export const slip = async(employee: { name: string }) => {
-    EmployeeMap(Database);
-    PayrollMap(Database);
-    
-    const empPayroll = await Payroll.findOne({
-        where: {
-          name: employee.name,
-        },
-      });
-  
-      const emp = await Employee.findOne({
-        where: {
-          name: employee.name,
-        },
-      });
+  if (!employee.name || !employee.date) {
+    throw new Error("Please provide all details");
+  }
 
-      const snnit_deduction: number = empPayroll!.teir_one + empPayroll!.teir_two;
-    const earning: number =
-      empPayroll!.basic_wage + empPayroll!.allowance + empPayroll!.bonus;
-    const output =  `
+  const emp = await Employee.findOne({
+    where: {
+      name: employee.name,
+    },
+  });
+
+  if (!emp?.name) {
+    throw new Error("Employee does not exist");
+  }
+  const empPayroll = await Payroll.findOne({
+    where: {
+      name: employee.name,
+      date: employee.date,
+    },
+  });
+
+  const date = empPayroll?.date.toString().slice(0, 7);
+
+  if (date !== employee.date) {
+    throw new Error("This month payroll does not exist");
+  }
+
+  const snnit_deduction: number = empPayroll!.teir_one + empPayroll!.teir_two;
+  const earning: number =
+    empPayroll!.basic_wage + empPayroll!.allowance + empPayroll!.bonus;
+  const output = `
     <style>
     table tr td {
     padding: 10px;
@@ -74,8 +88,6 @@ export const slip = async(employee: { name: string }) => {
     <body style="background-color: #fff">
     <section style="margin:80px; width: 90%; background-color: #fff;">
     <h1 style="font-size: 60px; text-align:center; margin-bottom: 0;">Employee Payslip</h1>
-    <h6 style="text-align: center; margin-top: 0; font-size: 18px;">For The Period Of <span>{Date Here}</span>
-    </h6>
     <!-- <hr /> -->
     <section>
     <div style="display: flex; border-top: 2px solid #000;">
@@ -197,5 +209,5 @@ export const slip = async(employee: { name: string }) => {
     
     </body>
     `;
-return {output: output}
-}
+  return { output: output, emp: emp, empPayroll: empPayroll };
+};
