@@ -25,6 +25,8 @@ type T = {
 export const createReport = async (req: Request, res: Response) => {
   try {
     PayrollMap(Database);
+    const {date} = req.body;
+    
     const workSheetColumnName = [
       "name",
       "job_title",
@@ -43,9 +45,18 @@ export const createReport = async (req: Request, res: Response) => {
     ];
 
     const workSheetName = "Payroll";
-    const filePath = "./report/payroll.xlsx";
+    const filePath = `../report/payroll.xlsx`;
 
-    const payrollList: Array<T> = await Payroll.findAll();
+    const payrollList: Array<T> = await Payroll.findAll({
+      where: {
+        date: date
+      }
+    });
+
+    if(payrollList.length < 1) {
+      throw new Error("There is no payroll with for this date")
+    }
+
 
     const exportPayrollToExcel = (
       payrollList: Array<T>,
@@ -87,7 +98,8 @@ export const createReport = async (req: Request, res: Response) => {
       filePath
     );
     console.log(exportPayrollToExcel);
-    res.status(200).json({message: "Report Created!"});
+    res.download(filePath);
+    // res.send("ok");
   } catch (error) {
     return res.status(500).send(getErrorMessage(error));
   }

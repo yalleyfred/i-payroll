@@ -44,6 +44,7 @@ const errorUtils_1 = require("../utils/errorUtils");
 const createReport = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         (0, payrollModel_1.PayrollMap)(Database_1.Database);
+        const { date } = req.body;
         const workSheetColumnName = [
             "name",
             "job_title",
@@ -61,8 +62,15 @@ const createReport = (req, res) => __awaiter(void 0, void 0, void 0, function* (
             "net_salary",
         ];
         const workSheetName = "Payroll";
-        const filePath = "./report/payroll.xlsx";
-        const payrollList = yield payrollModel_1.default.findAll();
+        const filePath = `../report/payroll.xlsx`;
+        const payrollList = yield payrollModel_1.default.findAll({
+            where: {
+                date: date
+            }
+        });
+        if (payrollList.length < 1) {
+            throw new Error("There is no payroll with for this date");
+        }
         const exportPayrollToExcel = (payrollList, workSheetColumnName, workSheetName, filePath) => {
             const data = payrollList.map((payroll) => {
                 return [
@@ -91,7 +99,8 @@ const createReport = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         };
         exportPayrollToExcel(payrollList, workSheetColumnName, workSheetName, filePath);
         console.log(exportPayrollToExcel);
-        res.status(200).json({ message: "Report Created!" });
+        // res.download(filePath);
+        res.send("ok");
     }
     catch (error) {
         return res.status(500).send((0, errorUtils_1.getErrorMessage)(error));

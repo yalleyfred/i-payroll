@@ -39,16 +39,28 @@ const Database_1 = require("../Database");
 const slip = (employee) => __awaiter(void 0, void 0, void 0, function* () {
     (0, employeeModel_1.EmployeeMap)(Database_1.Database);
     (0, payrollModel_1.PayrollMap)(Database_1.Database);
-    const empPayroll = yield payrollModel_1.default.findOne({
-        where: {
-            name: employee.name,
-        },
-    });
+    console.log(employee);
+    if (!employee.name || !employee.date) {
+        throw new Error("Please provide all details");
+    }
     const emp = yield employeeModel_1.default.findOne({
         where: {
             name: employee.name,
         },
     });
+    if (!(emp === null || emp === void 0 ? void 0 : emp.name)) {
+        throw new Error("Employee does not exist");
+    }
+    const empPayroll = yield payrollModel_1.default.findOne({
+        where: {
+            name: employee.name,
+            date: employee.date,
+        },
+    });
+    const date = empPayroll === null || empPayroll === void 0 ? void 0 : empPayroll.date.toString().slice(0, 7);
+    if (date !== employee.date) {
+        throw new Error("This month payroll does not exist");
+    }
     const snnit_deduction = empPayroll.teir_one + empPayroll.teir_two;
     const earning = empPayroll.basic_wage + empPayroll.allowance + empPayroll.bonus;
     const output = `
@@ -103,8 +115,6 @@ const slip = (employee) => __awaiter(void 0, void 0, void 0, function* () {
     <body style="background-color: #fff">
     <section style="margin:80px; width: 90%; background-color: #fff;">
     <h1 style="font-size: 60px; text-align:center; margin-bottom: 0;">Employee Payslip</h1>
-    <h6 style="text-align: center; margin-top: 0; font-size: 18px;">For The Period Of <span>{Date Here}</span>
-    </h6>
     <!-- <hr /> -->
     <section>
     <div style="display: flex; border-top: 2px solid #000;">
@@ -226,7 +236,7 @@ const slip = (employee) => __awaiter(void 0, void 0, void 0, function* () {
     
     </body>
     `;
-    return { output: output };
+    return { output: output, emp: emp, empPayroll: empPayroll };
 });
 exports.slip = slip;
 //# sourceMappingURL=payslip.js.map

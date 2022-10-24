@@ -47,33 +47,10 @@ const makePayslip = (employee) => __awaiter(void 0, void 0, void 0, function* ()
         (0, payrollModel_1.PayrollMap)(Database_1.Database);
         (0, payslipModel_1.PayslipMap)(Database_1.Database);
         (0, employeeModel_1.EmployeeMap)(Database_1.Database);
-        if (!employee.name || !employee.date) {
-            throw new Error("Please provide all details");
-        }
-        const empPayroll = yield payrollModel_1.default.findOne({
-            where: {
-                name: employee.name,
-                date: employee.date,
-            },
-        });
-        if (!(empPayroll === null || empPayroll === void 0 ? void 0 : empPayroll.name)) {
-            throw new Error("Employee payroll does not exist");
-        }
-        const emp = yield employeeModel_1.default.findOne({
-            where: {
-                name: employee.name,
-            },
-        });
-        if (!(emp === null || emp === void 0 ? void 0 : emp.name)) {
-            throw new Error("Employee does not exist");
-        }
-        if ((emp === null || emp === void 0 ? void 0 : emp.name) !== (empPayroll === null || empPayroll === void 0 ? void 0 : empPayroll.name)) {
-            throw new Error("Employee doesnt exist");
-        }
-        const date = empPayroll === null || empPayroll === void 0 ? void 0 : empPayroll.date.toString();
-        if (date !== employee.date) {
-            throw new Error("This month payroll does not exist");
-        }
+        const out = yield (0, payslip_1.slip)(employee);
+        const output = out.output;
+        const empPayroll = out.empPayroll;
+        const emp = out.emp;
         const snnit_deduction = empPayroll.teir_one + empPayroll.teir_two;
         const newPayslip = {
             name: empPayroll.name,
@@ -90,8 +67,6 @@ const makePayslip = (employee) => __awaiter(void 0, void 0, void 0, function* ()
             total_deduction: empPayroll.total_deduction,
             net_salary: empPayroll.net_salary,
         };
-        const out = (0, payslip_1.slip)(employee);
-        const output = (yield out).output;
         const payslip = yield payslipModel_1.default.findAll({
             where: {
                 name: employee.name,
@@ -99,7 +74,7 @@ const makePayslip = (employee) => __awaiter(void 0, void 0, void 0, function* ()
             },
         });
         for (let i = 0; i < payslip.length; i++) {
-            const mnt = payslip[i].date.toString();
+            const mnt = payslip[i].date.toString().slice(0, 7);
             console.log(mnt);
             if (mnt == employee.date) {
                 throw new Error("this payslip already exist");
