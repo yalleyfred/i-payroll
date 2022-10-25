@@ -2,7 +2,7 @@ import * as XLSX from "xlsx";
 import { NextFunction, Request, Response } from "express";
 import path from "path";
 import Payroll, { PayrollMap } from "../model/payrollModel";
-import {Database, LocalDB} from "../Database";
+import {Database} from "../Database";
 import { getErrorMessage } from "../utils/errorUtils";
 
 type T = {
@@ -25,7 +25,10 @@ type T = {
 export const createReport = async (req: Request, res: Response) => {
   try {
     PayrollMap(Database);
-    const {date} = req.body;
+    const period: {
+      date: string
+    } = req.body;
+    console.log(period.date);
     
     const workSheetColumnName = [
       "name",
@@ -45,14 +48,15 @@ export const createReport = async (req: Request, res: Response) => {
     ];
 
     const workSheetName = "Payroll";
-    const filePath = `../report/payroll.xlsx`;
+    const filePath = "./payroll.xlsx";
 
     const payrollList: Array<T> = await Payroll.findAll({
       where: {
-        date: date
+        date: period.date
       }
     });
 
+    
     if(payrollList.length < 1) {
       throw new Error("There is no payroll with for this date")
     }
@@ -97,7 +101,7 @@ export const createReport = async (req: Request, res: Response) => {
       workSheetName,
       filePath
     );
-    console.log(exportPayrollToExcel);
+    // console.log(exportPayrollToExcel);
     res.download(filePath);
     // res.send("ok");
   } catch (error) {

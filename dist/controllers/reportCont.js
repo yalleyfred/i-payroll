@@ -44,7 +44,8 @@ const errorUtils_1 = require("../utils/errorUtils");
 const createReport = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         (0, payrollModel_1.PayrollMap)(Database_1.Database);
-        const { date } = req.body;
+        const period = req.body;
+        console.log(period.date);
         const workSheetColumnName = [
             "name",
             "job_title",
@@ -62,10 +63,10 @@ const createReport = (req, res) => __awaiter(void 0, void 0, void 0, function* (
             "net_salary",
         ];
         const workSheetName = "Payroll";
-        const filePath = `../report/payroll.xlsx`;
+        const filePath = "./payroll.xlsx";
         const payrollList = yield payrollModel_1.default.findAll({
             where: {
-                date: date
+                date: period.date
             }
         });
         if (payrollList.length < 1) {
@@ -98,9 +99,9 @@ const createReport = (req, res) => __awaiter(void 0, void 0, void 0, function* (
             return true;
         };
         exportPayrollToExcel(payrollList, workSheetColumnName, workSheetName, filePath);
-        console.log(exportPayrollToExcel);
-        // res.download(filePath);
-        res.send("ok");
+        // console.log(exportPayrollToExcel);
+        res.download(filePath);
+        // res.send("ok");
     }
     catch (error) {
         return res.status(500).send((0, errorUtils_1.getErrorMessage)(error));
