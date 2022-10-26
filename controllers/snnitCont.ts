@@ -40,8 +40,9 @@ export const createSnnit = async (req: Request, res: Response) => {
         throw new Error("employee has no payroll record!");
     }
 
-    if(empPayroll?.date !== date) {
-        throw new Error("There is not payroll for this month!");
+    const payDate = empPayroll?.date.toString().slice(0, 7)
+    if(payDate !== date) {
+        throw new Error("There is no payroll for this month!");
     }
 
     const snnit = await Snnit.findAll({
@@ -51,7 +52,7 @@ export const createSnnit = async (req: Request, res: Response) => {
     });
 
     for (let i = 0; i < snnit.length; i++) {
-      const mnt = snnit[i].date.toString();
+      const mnt = snnit[i].date.toString().slice(0, 7);
       console.log(mnt);
       
       if (mnt == date) {
@@ -86,7 +87,7 @@ export const getAllSnnit = async (req: Request, res: Response) => {
     SnnitMap(Database);
     const result = await Snnit.findAll();
     res.status(200).json({
-      message: "success",
+      status: "success",
       snnit: result,
     });
   } catch (error) {

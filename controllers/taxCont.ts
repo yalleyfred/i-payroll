@@ -3,7 +3,7 @@ import Tax, { TaxMap } from "../model/taxModel";
 import Payroll, {PayrollMap} from "../model/payrollModel";
 import Employee, {EmployeeMap} from "../model/employeeModel";
 import { getErrorMessage } from "../utils/errorUtils";
-import {Database} from "../Database";
+import {Database }from "../Database";
 
 
 
@@ -40,8 +40,9 @@ export const createTax = async (req: Request, res: Response) => {
     if(!empPayroll) { 
         throw new Error("employee has no payroll record!");
     }
+    const payDate = empPayroll?.date.toString().slice(0, 7)
     
-      if(empPayroll?.date !== date) {
+      if(payDate !== date) {
           throw new Error("There is no payroll for this month!");
       }
 
@@ -52,7 +53,7 @@ export const createTax = async (req: Request, res: Response) => {
     });
 
     for (let i = 0; i < taxes.length; i++) {
-      const mnt = taxes[i].date.toString();
+      const mnt = taxes[i].date.toString().slice(0, 7);
       console.log(mnt);
       
       if (mnt == date) {
@@ -87,7 +88,7 @@ export const getAllTax = async (req: Request, res: Response) => {
     TaxMap(Database);
     const result = await Tax.findAll();
     res.status(200).json({
-      message: "success",
+      status: "success",
       tax: result,
     });
   } catch (error) {

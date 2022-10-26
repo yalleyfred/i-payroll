@@ -18,7 +18,7 @@ export const createPay = async (req: Request, res: Response) => {
     let result = await Pay.create(newPay);
 
     res.status(200).json({
-      status: "success",
+      message: "success",
       pay: result,
     });
   } catch (error) {

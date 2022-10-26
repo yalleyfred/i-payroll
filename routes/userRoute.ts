@@ -7,6 +7,7 @@ import {
   logIn,
   forgotPassword,
   resetPassword,
+  resetUserPassword
 } from "../controllers/userCont";
 
 const router = Router();
@@ -14,7 +15,7 @@ const router = Router();
 router.route("/register").post(register);
 router.route("/login").post(logIn);
 router.route("/forgotPassword").post(forgotPassword);
-router.route("/resetUserPassword").patch(resetPassword);
+router.route('/resetUserPassword').patch(resetUserPassword);
 
 router.route("/resetPassword").patch(resetPassword);
 

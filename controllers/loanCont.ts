@@ -28,7 +28,17 @@ export const createLoan = async (req: Request, res: Response) => {
   try {
     LoanMap(Database);
 
-    const newLoan = req.body;
+    const newLoan: {
+      name: string;
+      amount: string;
+      date: string;
+    } = req.body;
+
+    if(!newLoan.name || !newLoan.name || !newLoan.name) {
+      throw new Error("Please fill all fields");
+    }
+
+
     await Loan.create(newLoan);
     res.status(200).json({
       message: "success",

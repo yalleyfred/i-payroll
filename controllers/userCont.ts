@@ -72,10 +72,10 @@ export const forgotPassword = async (req: Request, res: Response) => {
   try {
     const user = await userServices.forgotPassword(req.body);
     console.log(user);
-
+    const token = user.resetToken === "secret"
     const resetURL = `${req.protocol}://${req.get(
       "host"
-    )}/resetuserpassword/`;
+    )}/resetuserpassword/${token}`;
 
     const message = `Forgot your password? Please follow this link to set your new password: ${resetURL}\nIf you did'nt forget your password, please ignore this email!`;
 
@@ -85,7 +85,7 @@ export const forgotPassword = async (req: Request, res: Response) => {
       message: message,
     });
     res.status(200).json({
-      message: "success",
+      message: 'Check your email for link to reset your password',
       result: resetURL,
     });
   } catch (error) {
@@ -123,6 +123,10 @@ export const resetPassword = async (
 
     if (newUser.newPassword !== newUser.confirmPassword) {
       throw new Error("password does not match");
+    }
+
+    if (newUser.newPassword.length < 6) {
+      throw new Error("Password is too short");
     }
 
     const user = await User.findOne({
@@ -168,3 +172,72 @@ export const resetPassword = async (
     return res.status(500).send(getErrorMessage(error));
   }
 };
+
+export const resetUserPassword = async(req:Request, res: Response, next: NextFunction) => {
+  try {
+
+    UserMap(Database);
+
+
+  type T = {
+    newPassword: string;
+    confirmPassword: string
+  }
+
+  const newUser: T = req.body;
+ 
+
+  if(!newUser.newPassword || !newUser.confirmPassword) {
+    throw new Error("Please provide all fields");
+  }
+
+  if (newUser.newPassword.length < 6) {
+    throw new Error("Password is too short");
+  }
+  if(newUser.newPassword !== newUser.confirmPassword) {
+    throw new Error("password does not match");
+  }
+
+  const user = await User.findOne({
+    where: {
+      active: true
+     
+    }
+  })
+
+  console.log(user);
+  
+  
+  if((!user) || user == null) {
+    return new Error('Token is invalid or has expired');
+    
+  };
+
+  const salt: number = 10
+  console.log(newUser.newPassword);
+  
+  const hashedPassword = await bcrypt.hash(newUser.newPassword, salt);
+  console.log(hashedPassword);
+
+ await User.update({
+    passwordResetExpires: null,
+    passwordResetToken: null,
+    password: hashedPassword,
+    active: false
+  }, {
+    where: {
+      email: user.email
+    }
+  }); 
+
+
+  const credentials = createSendToken(user)
+         console.log(credentials);
+          
+        next(res.send("success"));
+
+  }catch (error) {
+    return res.status(500).send(getErrorMessage(error));
+  };
+}
+
