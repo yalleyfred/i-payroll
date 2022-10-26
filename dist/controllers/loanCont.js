@@ -63,6 +63,9 @@ const createLoan = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     try {
         (0, loanModel_1.LoanMap)(Database_1.Database);
         const newLoan = req.body;
+        if (!newLoan.name || !newLoan.name || !newLoan.name) {
+            throw new Error("Please fill all fields");
+        }
         yield loanModel_1.default.create(newLoan);
         res.status(200).json({
             message: "success",

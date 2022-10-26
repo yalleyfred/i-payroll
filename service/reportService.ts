@@ -1,6 +1,6 @@
 import path from "path";
 import Payroll, { PayrollMap } from "../model/payrollModel";
-import Database from "../Database";
+import {Database} from "../Database";
 import * as XLSX from "xlsx";
 
 

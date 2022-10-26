@@ -65,7 +65,8 @@ const createTax = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         if (!empPayroll) {
             throw new Error("employee has no payroll record!");
         }
-        if ((empPayroll === null || empPayroll === void 0 ? void 0 : empPayroll.date) !== date) {
+        const payDate = empPayroll === null || empPayroll === void 0 ? void 0 : empPayroll.date.toString().slice(0, 7);
+        if (payDate !== date) {
             throw new Error("There is no payroll for this month!");
         }
         const taxes = yield taxModel_1.default.findAll({
@@ -74,7 +75,7 @@ const createTax = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             }
         });
         for (let i = 0; i < taxes.length; i++) {
-            const mnt = taxes[i].date.toString();
+            const mnt = taxes[i].date.toString().slice(0, 7);
             console.log(mnt);
             if (mnt == date) {
                 throw new Error("this tax has been created already");
@@ -107,7 +108,7 @@ const getAllTax = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         (0, taxModel_1.TaxMap)(Database_1.Database);
         const result = yield taxModel_1.default.findAll();
         res.status(200).json({
-            message: "success",
+            status: "success",
             tax: result,
         });
     }

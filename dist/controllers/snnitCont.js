@@ -64,8 +64,9 @@ const createSnnit = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         if (!empPayroll) {
             throw new Error("employee has no payroll record!");
         }
-        if ((empPayroll === null || empPayroll === void 0 ? void 0 : empPayroll.date) !== date) {
-            throw new Error("There is not payroll for this month!");
+        const payDate = empPayroll === null || empPayroll === void 0 ? void 0 : empPayroll.date.toString().slice(0, 7);
+        if (payDate !== date) {
+            throw new Error("There is no payroll for this month!");
         }
         const snnit = yield snnitModel_1.default.findAll({
             where: {
@@ -73,7 +74,7 @@ const createSnnit = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
             }
         });
         for (let i = 0; i < snnit.length; i++) {
-            const mnt = snnit[i].date.toString();
+            const mnt = snnit[i].date.toString().slice(0, 7);
             console.log(mnt);
             if (mnt == date) {
                 throw new Error("this snnit has been created already");
@@ -105,7 +106,7 @@ const getAllSnnit = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         (0, snnitModel_1.SnnitMap)(Database_1.Database);
         const result = yield snnitModel_1.default.findAll();
         res.status(200).json({
-            message: "success",
+            status: "success",
             snnit: result,
         });
     }

@@ -35,7 +35,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.resetPassword = exports.forgotPassword = exports.logIn = exports.register = exports.getUser = exports.getAllUsers = exports.SECRET_KEY = void 0;
+exports.resetUserPassword = exports.resetPassword = exports.forgotPassword = exports.logIn = exports.register = exports.getUser = exports.getAllUsers = exports.SECRET_KEY = void 0;
 const errorUtils_1 = require("../utils/errorUtils");
 const userModel_1 = __importStar(require("../model/userModel"));
 const userServices = __importStar(require("../service/userService"));
@@ -105,7 +105,8 @@ const forgotPassword = (req, res) => __awaiter(void 0, void 0, void 0, function*
     try {
         const user = yield userServices.forgotPassword(req.body);
         console.log(user);
-        const resetURL = `${req.protocol}://${req.get("host")}/resetuserpassword/`;
+        const token = user.resetToken === "secret";
+        const resetURL = `${req.protocol}://${req.get("host")}/resetuserpassword/${token}`;
         const message = `Forgot your password? Please follow this link to set your new password: ${resetURL}\nIf you did'nt forget your password, please ignore this email!`;
         yield (0, email_1.sendEmail)({
             email: req.body.email,
@@ -113,7 +114,7 @@ const forgotPassword = (req, res) => __awaiter(void 0, void 0, void 0, function*
             message: message,
         });
         res.status(200).json({
-            message: "success",
+            message: 'Check your email for link to reset your password',
             result: resetURL,
         });
     }
@@ -136,6 +137,9 @@ const resetPassword = (req, res, next) => __awaiter(void 0, void 0, void 0, func
         }
         if (newUser.newPassword !== newUser.confirmPassword) {
             throw new Error("password does not match");
+        }
+        if (newUser.newPassword.length < 6) {
+            throw new Error("Password is too short");
         }
         const user = yield userModel_1.default.findOne({
             where: {
@@ -169,4 +173,51 @@ const resetPassword = (req, res, next) => __awaiter(void 0, void 0, void 0, func
     }
 });
 exports.resetPassword = resetPassword;
+const resetUserPassword = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        (0, userModel_1.UserMap)(Database_1.Database);
+        const newUser = req.body;
+        if (!newUser.newPassword || !newUser.confirmPassword) {
+            throw new Error("Please provide all fields");
+        }
+        if (newUser.newPassword.length < 6) {
+            throw new Error("Password is too short");
+        }
+        if (newUser.newPassword !== newUser.confirmPassword) {
+            throw new Error("password does not match");
+        }
+        const user = yield userModel_1.default.findOne({
+            where: {
+                active: true
+            }
+        });
+        console.log(user);
+        if ((!user) || user == null) {
+            return new Error('Token is invalid or has expired');
+        }
+        ;
+        const salt = 10;
+        console.log(newUser.newPassword);
+        const hashedPassword = yield bcrypt_1.default.hash(newUser.newPassword, salt);
+        console.log(hashedPassword);
+        yield userModel_1.default.update({
+            passwordResetExpires: null,
+            passwordResetToken: null,
+            password: hashedPassword,
+            active: false
+        }, {
+            where: {
+                email: user.email
+            }
+        });
+        const credentials = (0, createToken_1.createSendToken)(user);
+        console.log(credentials);
+        next(res.send("success"));
+    }
+    catch (error) {
+        return res.status(500).send((0, errorUtils_1.getErrorMessage)(error));
+    }
+    ;
+});
+exports.resetUserPassword = resetUserPassword;
 //# sourceMappingURL=userCont.js.map
