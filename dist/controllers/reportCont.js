@@ -1,4 +1,27 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -8,37 +31,234 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.download = exports.createReport = void 0;
+exports.createSnnitReport = exports.createGraReport = exports.createPayReport = void 0;
 const errorUtils_1 = require("../utils/errorUtils");
-const reportService_1 = require("../service/reportService");
-const createReport = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const path_1 = __importDefault(require("path"));
+const payrollModel_1 = __importStar(require("../model/payrollModel"));
+const taxModel_1 = __importStar(require("../model/taxModel"));
+const snnitModel_1 = __importStar(require("../model/snnitModel"));
+const Database_1 = require("../Database");
+const XLSX = __importStar(require("xlsx"));
+const createCsvWriter = require("csv-writer").createCsvWriter;
+const createPayReport = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const excel = yield (0, reportService_1.downloadExcel)(req.body);
+        console.log("DATE:", req.params);
+        const date = { date: req.params.month };
+        console.log(date.date);
+        (0, payrollModel_1.PayrollMap)(Database_1.Database);
+        // const payroll = await Payroll.findAll({
+        //   where: {
+        //     date: date.date
+        //   }
+        // })
+        // console.log(payroll);
+        // // {
+        // //   name: payroll.name,
+        // //   job_title: payroll.job_title,
+        // //    email:   payroll.email,
+        // //     date:  payroll.date,
+        // //     basic_wage:  payroll.basic_wage,
+        // //     allowance:   payroll.allowance,
+        // //    bonus:    payroll.bonus,
+        // //    income_tax:   payroll.income_tax,
+        // //   bonus_tax:    payroll.bonus_tax,
+        // //   teir_one:    payroll.teir_one,
+        // //   teir_two:   payroll.teir_two,
+        // //   loan_deduction:    payroll.loan_deduction,
+        // //  total_deduction:     payroll.total_deduction,
+        // //  net_salary:     payroll.net_salary,
+        // // }
+        // const csvWriter = createCsvWriter({
+        //   path: '../report/payroll.cvs',
+        //   header: [
+        //     {id: payroll.name, title: "Name"},
+        //     {id: payroll.job_title, title: "Job_title"},
+        //     {id: payroll.email, title: "Email"},
+        //     {id: payroll.date, title: "Date"},
+        //     {id: payroll.basic_salary, title: "Basic Salary"},
+        //   ]
+        // });
+        // csvWriter.writeFile
+        //   const file = path.join(__dirname, '../../report/payroll.xlsx');
+        // console.log(file)
+        console.log(date);
+        const workSheetColumnName = [
+            "name",
+            "job_title",
+            "email",
+            "date",
+            "basic_wage",
+            "allowance",
+            "bonus",
+            "income_tax",
+            "bonus_tax",
+            "teir_one",
+            "teir_two",
+            "loan_deduction",
+            "total_deduction",
+            "net_salary",
+        ];
+        const workSheetName = "Payroll";
+        const filePath = path_1.default.join(__dirname, '../../report/payroll.xlsx');
+        const payrollList = yield payrollModel_1.default.findAll({
+            where: {
+                date: date.date
+            }
+        });
+        if (payrollList.length < 1) {
+            throw new Error("There is no payroll with for this date");
+        }
+        const exportPayrollToExcel = (payrollList, workSheetColumnName, workSheetName, filePath) => {
+            const data = payrollList.map((payroll) => {
+                return [
+                    payroll.name,
+                    payroll.job_title,
+                    payroll.email,
+                    payroll.date,
+                    payroll.basic_wage,
+                    payroll.allowance,
+                    payroll.bonus,
+                    payroll.income_tax,
+                    payroll.bonus_tax,
+                    payroll.teir_one,
+                    payroll.teir_two,
+                    payroll.loan_deduction,
+                    payroll.total_deduction,
+                    payroll.net_salary,
+                ];
+            });
+            const workBook = XLSX.utils.book_new();
+            const workSheetData = [workSheetColumnName, ...data];
+            const workSheet = XLSX.utils.json_to_sheet(workSheetData);
+            XLSX.utils.book_append_sheet(workBook, workSheet, workSheetName);
+            XLSX.writeFile(workBook, path_1.default.resolve(filePath));
+            return workSheet;
+        };
+        exportPayrollToExcel(payrollList, workSheetColumnName, workSheetName, filePath);
+        res.setHeader('Content-disposition', 'attachment; filename=payroll.xlsx');
+        // const excel = await downloadExcel(date)
         // console.log(exportPayrollToExcel);
-        res.download(excel.filePath);
+        res.download(filePath);
         // res.send("ok");
     }
     catch (error) {
         return res.status(500).send((0, errorUtils_1.getErrorMessage)(error));
     }
 });
-exports.createReport = createReport;
-const download = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.createPayReport = createPayReport;
+const createGraReport = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        console.log('file downloaded');
-        const file = "/report/payroll.xlsx";
-        console.log(file);
-        res.download(file, "payroll.xlsx", function (error, result) {
-            if (error) {
-                throw error;
+        const date = { date: req.params.month };
+        console.log(date.date);
+        (0, taxModel_1.TaxMap)(Database_1.Database);
+        // const file = path.join(__dirname, '../../report/taxReport.xlsx');
+        // console.log(file)
+        console.log(date);
+        const workSheetColumnName = [
+            "name",
+            "tin",
+            "date",
+            "basic_salary",
+            "tax_relief",
+            "net_taxable_pay",
+            "total_tax_deduction",
+        ];
+        const workSheetName = "Tax Filling";
+        const filePath = path_1.default.join(__dirname, '../../report/taxReport.xlsx');
+        const TaxList = yield taxModel_1.default.findAll({
+            where: {
+                date: date.date
             }
-            console.log(result);
         });
+        if (TaxList.length < 1) {
+            throw new Error("There is no payroll with for this date");
+        }
+        const exportPayrollToExcel = (payrollList, workSheetColumnName, workSheetName, filePath) => {
+            const data = payrollList.map((tax) => {
+                return [
+                    tax.name,
+                    tax.tin,
+                    tax.date,
+                    tax.basic_salary,
+                    tax.tax_relief,
+                    tax.net_taxable_pay,
+                    tax.total_tax_deduction
+                ];
+            });
+            const workBook = XLSX.utils.book_new();
+            const workSheetData = [workSheetColumnName, ...data];
+            const workSheet = XLSX.utils.json_to_sheet(workSheetData);
+            XLSX.utils.book_append_sheet(workBook, workSheet, workSheetName);
+            XLSX.writeFile(workBook, path_1.default.resolve(filePath));
+            return workSheet;
+        };
+        exportPayrollToExcel(TaxList, workSheetColumnName, workSheetName, filePath);
+        // res.setHeader('Content-disposition', 'attachment; filename=payroll.xlsx');
+        res.send(filePath);
+        console.log(res);
     }
     catch (error) {
         return res.status(500).send((0, errorUtils_1.getErrorMessage)(error));
     }
 });
-exports.download = download;
+exports.createGraReport = createGraReport;
+const createSnnitReport = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const date = { date: req.params.month };
+        console.log(date.date);
+        (0, snnitModel_1.SnnitMap)(Database_1.Database);
+        const file = path_1.default.join(__dirname, '../../report/snnitReport.xlsx');
+        console.log(file);
+        console.log(date);
+        const workSheetColumnName = [
+            "name",
+            "tin",
+            "date",
+            "basic_salary",
+            "tax_relief",
+            "net_taxable_pay",
+            "total_tax_deduction",
+        ];
+        const workSheetName = "Snnit Filling";
+        const filePath = path_1.default.join(__dirname, '../../report/snnitReport.xlsx');
+        const SnnitList = yield snnitModel_1.default.findAll({
+            where: {
+                date: date.date
+            }
+        });
+        if (SnnitList.length < 1) {
+            throw new Error("There is no payroll with for this date");
+        }
+        const exportPayrollToExcel = (payrollList, workSheetColumnName, workSheetName, filePath) => {
+            const data = payrollList.map((snnit) => {
+                return [
+                    snnit.name,
+                    snnit.snnit_no,
+                    snnit.date,
+                    snnit.basic_salary,
+                    snnit.tier_one,
+                    snnit.tier_two,
+                    snnit.total_snnit_contribution
+                ];
+            });
+            const workBook = XLSX.utils.book_new();
+            const workSheetData = [workSheetColumnName, ...data];
+            const workSheet = XLSX.utils.json_to_sheet(workSheetData);
+            XLSX.utils.book_append_sheet(workBook, workSheet, workSheetName);
+            XLSX.writeFile(workBook, path_1.default.resolve(filePath));
+            return workSheet;
+        };
+        exportPayrollToExcel(SnnitList, workSheetColumnName, workSheetName, filePath);
+        res.setHeader('Content-disposition', 'attachment; filename=payroll.xlsx');
+        res.download(file);
+    }
+    catch (error) {
+        return res.status(500).send((0, errorUtils_1.getErrorMessage)(error));
+    }
+});
+exports.createSnnitReport = createSnnitReport;
 //# sourceMappingURL=reportCont.js.map
