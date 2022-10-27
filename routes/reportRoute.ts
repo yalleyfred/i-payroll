@@ -1,12 +1,14 @@
 import { Router } from "express";
-import {createReport, download} from "../controllers/reportCont";
+import {createPayReport, createGraReport, createSnnitReport} from "../controllers/reportCont";
 const router = Router();
 
-router.route("/").post(createReport);
+router.route('/d/:month')
+.get(createPayReport);
 
 
-router.route('/payroll').get(download);
-router.route('/snnit').get(download);
-router.route('/gra').get(download);
+// router.route('/download').get(download);
+router.route('/snnit/:month').get(createSnnitReport);
+router.route('/gra/:month').get(createGraReport);
+
 
 export default router;
