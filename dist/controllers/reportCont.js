@@ -103,7 +103,8 @@ const createPayReport = (req, res) => __awaiter(void 0, void 0, void 0, function
             "net_salary",
         ];
         const workSheetName = "Payroll";
-        const filePath = path_1.default.join(__dirname, '../../report/payroll.xlsx');
+        const filePath = path_1.default.join(__dirname, '../report/payroll.xlsx');
+        console.log(filePath);
         const payrollList = yield payrollModel_1.default.findAll({
             where: {
                 date: date.date
