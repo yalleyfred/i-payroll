@@ -6,7 +6,7 @@ router.route('/d/:month')
 .get(createPayReport);
 
 
-// router.route('/download').get(download);
+
 router.route('/snnit/:month').get(createSnnitReport);
 router.route('/gra/:month').get(createGraReport);
 

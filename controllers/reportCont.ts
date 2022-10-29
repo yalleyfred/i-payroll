@@ -7,7 +7,7 @@ import path from "path";
 import Payroll, { PayrollMap } from "../model/payrollModel";
 import Tax, {TaxMap} from '../model/taxModel';
 import Snnit, {SnnitMap} from "../model/snnitModel";
-import {Database} from "../Database";
+import Database from "../Database";
 import * as XLSX from "xlsx";
 const createCsvWriter = require("csv-writer").createCsvWriter;
 
@@ -50,51 +50,14 @@ type S = {
 
 export const createPayReport = async (req: Request, res: Response) => {
   try {
-    console.log("DATE:", req.params)
+ 
 
     const date = {date:req.params.month};
 
-    console.log(date.date)
     
     PayrollMap(Database);
 
-    // const payroll = await Payroll.findAll({
-    //   where: {
-    //     date: date.date
-    //   }
-    // })
-    // console.log(payroll);
-    // // {
-    // //   name: payroll.name,
-    // //   job_title: payroll.job_title,
-    // //    email:   payroll.email,
-    // //     date:  payroll.date,
-    // //     basic_wage:  payroll.basic_wage,
-    // //     allowance:   payroll.allowance,
-    // //    bonus:    payroll.bonus,
-    // //    income_tax:   payroll.income_tax,
-    // //   bonus_tax:    payroll.bonus_tax,
-    // //   teir_one:    payroll.teir_one,
-    // //   teir_two:   payroll.teir_two,
-    // //   loan_deduction:    payroll.loan_deduction,
-    // //  total_deduction:     payroll.total_deduction,
-    // //  net_salary:     payroll.net_salary,
-    // // }
-    
-    // const csvWriter = createCsvWriter({
-    //   path: '../report/payroll.cvs',
-    //   header: [
-    //     {id: payroll.name, title: "Name"},
-    //     {id: payroll.job_title, title: "Job_title"},
-    //     {id: payroll.email, title: "Email"},
-    //     {id: payroll.date, title: "Date"},
-    //     {id: payroll.basic_salary, title: "Basic Salary"},
-    //   ]
-    // });
-
-    // csvWriter.writeFile
-    //   const file = path.join(__dirname, '../../report/payroll.xlsx');
-    // console.log(file)
+   
    
       console.log(date);
       
@@ -116,8 +79,8 @@ export const createPayReport = async (req: Request, res: Response) => {
       ];
 
       const workSheetName = "Payroll";
-      const filePath = path.join(__dirname, './report/payroll.xlsx');
-      console.log(filePath);
+      const filePath = path.join(__dirname, '../../report/payroll.xlsx');
+  
       const payrollList: Array<P> = await Payroll.findAll({
         where: {
           date: date.date
@@ -159,7 +122,7 @@ export const createPayReport = async (req: Request, res: Response) => {
         const workSheetData = [workSheetColumnName, ...data];
         const workSheet = XLSX.utils.json_to_sheet(workSheetData);
         XLSX.utils.book_append_sheet(workBook, workSheet, workSheetName);
-        XLSX.writeFile(workBook, path.resolve(filePath));
+        XLSX.writeFile(workBook, path.resolve(filePath), {type: "buffer"});
         return workSheet;
       };
   
@@ -170,15 +133,10 @@ export const createPayReport = async (req: Request, res: Response) => {
         filePath
       );
   
+   
 
-    res.setHeader('Content-disposition', 'attachment; filename=payroll.xlsx');
+    res.sendFile(filePath);
 
-
-    // const excel = await downloadExcel(date)
-  
-    // console.log(exportPayrollToExcel);
-    res.download(filePath);
-    // res.send("ok");
   } catch (error) {
     return res.status(500).send(getErrorMessage(error));
   }
@@ -188,13 +146,9 @@ export const createGraReport = async(req:Request, res:Response) => {
   try {
     const date = {date:req.params.month};
 
-    console.log(date.date);
     TaxMap(Database);
-
-    // const file = path.join(__dirname, '../../report/taxReport.xlsx');
-    // console.log(file)
    
-      console.log(date);
+
       
       const workSheetColumnName = [
         "name",
@@ -243,7 +197,7 @@ export const createGraReport = async(req:Request, res:Response) => {
         const workSheetData = [workSheetColumnName, ...data];
         const workSheet = XLSX.utils.json_to_sheet(workSheetData);
         XLSX.utils.book_append_sheet(workBook, workSheet, workSheetName);
-        XLSX.writeFile(workBook, path.resolve(filePath));
+        XLSX.writeFile(workBook, path.resolve(filePath), {type: "buffer"});
         return workSheet;
       };
   
@@ -255,10 +209,8 @@ export const createGraReport = async(req:Request, res:Response) => {
       );
   
 
-    // res.setHeader('Content-disposition', 'attachment; filename=payroll.xlsx');
+    res.sendFile(filePath);
 
-    res.send(filePath);
-        console.log(res);
         
     
   }catch (error) {
@@ -270,13 +222,11 @@ export const createSnnitReport = async(req:Request, res:Response) => {
   try {
     const date = {date:req.params.month};
 
-    console.log(date.date);
+
     SnnitMap(Database);
 
-    const file = path.join(__dirname, '../../report/snnitReport.xlsx');
-    console.log(file)
    
-      console.log(date);
+
       
       const workSheetColumnName = [
         "name",
@@ -325,7 +275,7 @@ export const createSnnitReport = async(req:Request, res:Response) => {
         const workSheetData = [workSheetColumnName, ...data];
         const workSheet = XLSX.utils.json_to_sheet(workSheetData);
         XLSX.utils.book_append_sheet(workBook, workSheet, workSheetName);
-        XLSX.writeFile(workBook, path.resolve(filePath));
+        XLSX.writeFile(workBook, path.resolve(filePath), {type: "buffer"});
         return workSheet;
       };
   
@@ -337,9 +287,8 @@ export const createSnnitReport = async(req:Request, res:Response) => {
       );
   
 
-    res.setHeader('Content-disposition', 'attachment; filename=payroll.xlsx');
 
-    res.download(file);
+    res.sendFile(filePath);
 
     
   }catch (error) {
