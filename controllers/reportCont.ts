@@ -116,8 +116,8 @@ export const createPayReport = async (req: Request, res: Response) => {
       ];
 
       const workSheetName = "Payroll";
-      const filePath = path.join(__dirname, '../report/payroll.xlsx');
-      console.log(filePath)
+      const filePath = path.join(__dirname, './report/payroll.xlsx');
+      console.log(filePath);
       const payrollList: Array<P> = await Payroll.findAll({
         where: {
           date: date.date
