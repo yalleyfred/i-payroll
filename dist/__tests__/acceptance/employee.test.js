@@ -43,13 +43,6 @@ describe('employees', () => {
                 (0, supertest_1.default)(app_1.app).post('/api/v1/employees').expect(500);
             });
         });
-        describe('creating a new employee', () => {
-            it('should return a 201', () => __awaiter(void 0, void 0, void 0, function* () {
-                // const employee = await createEmployees(empPayload)
-                const response = yield (0, supertest_1.default)(app_1.app).post('/api/v1/employees').send(empPayload);
-                expect(response.statusCode).toBe(201);
-            }));
-        });
     });
 });
 //# sourceMappingURL=employee.test.js.map

@@ -9,7 +9,6 @@ import Tax, {TaxMap} from '../model/taxModel';
 import Snnit, {SnnitMap} from "../model/snnitModel";
 import {Database} from "../Database";
 import * as XLSX from "xlsx";
-const createCsvWriter = require("csv-writer").createCsvWriter;
 
 type P = {
   name: string;
@@ -79,7 +78,7 @@ export const createPayReport = async (req: Request, res: Response) => {
       ];
 
       const workSheetName = "Payroll";
-      const filePath = path.join(__dirname, '../report/payroll.xlsx');
+      const filePath = path.join(__dirname, '../../report/payroll.xlsx');
   
       const payrollList: Array<P> = await Payroll.findAll({
         where: {
@@ -88,7 +87,7 @@ export const createPayReport = async (req: Request, res: Response) => {
       });
   
       
-      if(payrollList.length < 1) {
+      if(payrollList.length < 1 || payrollList == undefined) {
         throw new Error("There is no payroll with for this date")
       }
   
@@ -135,7 +134,7 @@ export const createPayReport = async (req: Request, res: Response) => {
   
    
 
-    res.sendFile(filePath);
+    res.status(200).sendFile(filePath);
 
   } catch (error) {
     return res.status(500).send(getErrorMessage(error));
@@ -161,7 +160,7 @@ export const createGraReport = async(req:Request, res:Response) => {
       ];
 
       const workSheetName = "Tax Filling";
-      const filePath = path.join(__dirname, '../report/taxReport.xlsx');
+      const filePath = path.join(__dirname, '../../report/taxReport.xlsx');
   
       const TaxList: Array<T> = await Tax.findAll({
         where: {
@@ -208,8 +207,8 @@ export const createGraReport = async(req:Request, res:Response) => {
         filePath
       );
   
-
-    res.sendFile(filePath);
+       
+    res.status(200).sendFile(filePath);
 
         
     
@@ -239,7 +238,7 @@ export const createSnnitReport = async(req:Request, res:Response) => {
       ];
 
       const workSheetName = "Snnit Filling";
-      const filePath = path.join(__dirname, '../report/snnitReport.xlsx');
+      const filePath = path.join(__dirname, '../../report/snnitReport.xlsx');
   
       const SnnitList: Array<S> = await Snnit.findAll({
         where: {
@@ -249,7 +248,7 @@ export const createSnnitReport = async(req:Request, res:Response) => {
   
       
       if(SnnitList.length < 1) {
-        throw new Error("There is no payroll with for this date")
+        throw new Error("There is no payroll with for this date");
       }
   
   
@@ -288,7 +287,7 @@ export const createSnnitReport = async(req:Request, res:Response) => {
   
 
 
-    res.sendFile(filePath);
+    res.status(200).sendFile(filePath);
 
     
   }catch (error) {

@@ -37,4 +37,3 @@ app.use("/api/v1/loan", loanRoute);
 app.use("/api/v1/tax", taxRoute);
 app.use("/api/v1/snnit", snnitRoute);
 
-

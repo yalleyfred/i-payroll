@@ -43,7 +43,6 @@ const taxModel_1 = __importStar(require("../model/taxModel"));
 const snnitModel_1 = __importStar(require("../model/snnitModel"));
 const Database_1 = require("../Database");
 const XLSX = __importStar(require("xlsx"));
-const createCsvWriter = require("csv-writer").createCsvWriter;
 const createPayReport = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const date = { date: req.params.month };
@@ -66,13 +65,13 @@ const createPayReport = (req, res) => __awaiter(void 0, void 0, void 0, function
             "net_salary",
         ];
         const workSheetName = "Payroll";
-        const filePath = path_1.default.join(__dirname, '../report/payroll.xlsx');
+        const filePath = path_1.default.join(__dirname, '../../report/payroll.xlsx');
         const payrollList = yield payrollModel_1.default.findAll({
             where: {
                 date: date.date
             }
         });
-        if (payrollList.length < 1) {
+        if (payrollList.length < 1 || payrollList == undefined) {
             throw new Error("There is no payroll with for this date");
         }
         const exportPayrollToExcel = (payrollList, workSheetColumnName, workSheetName, filePath) => {
@@ -102,7 +101,7 @@ const createPayReport = (req, res) => __awaiter(void 0, void 0, void 0, function
             return workSheet;
         };
         exportPayrollToExcel(payrollList, workSheetColumnName, workSheetName, filePath);
-        res.sendFile(filePath);
+        res.status(200).sendFile(filePath);
     }
     catch (error) {
         return res.status(500).send((0, errorUtils_1.getErrorMessage)(error));
@@ -123,7 +122,7 @@ const createGraReport = (req, res) => __awaiter(void 0, void 0, void 0, function
             "total_tax_deduction",
         ];
         const workSheetName = "Tax Filling";
-        const filePath = path_1.default.join(__dirname, '../report/taxReport.xlsx');
+        const filePath = path_1.default.join(__dirname, '../../report/taxReport.xlsx');
         const TaxList = yield taxModel_1.default.findAll({
             where: {
                 date: date.date
@@ -152,7 +151,7 @@ const createGraReport = (req, res) => __awaiter(void 0, void 0, void 0, function
             return workSheet;
         };
         exportPayrollToExcel(TaxList, workSheetColumnName, workSheetName, filePath);
-        res.sendFile(filePath);
+        res.status(200).sendFile(filePath);
     }
     catch (error) {
         return res.status(500).send((0, errorUtils_1.getErrorMessage)(error));
@@ -173,7 +172,7 @@ const createSnnitReport = (req, res) => __awaiter(void 0, void 0, void 0, functi
             "total_tax_deduction",
         ];
         const workSheetName = "Snnit Filling";
-        const filePath = path_1.default.join(__dirname, '../report/snnitReport.xlsx');
+        const filePath = path_1.default.join(__dirname, '../../report/snnitReport.xlsx');
         const SnnitList = yield snnitModel_1.default.findAll({
             where: {
                 date: date.date
@@ -202,7 +201,7 @@ const createSnnitReport = (req, res) => __awaiter(void 0, void 0, void 0, functi
             return workSheet;
         };
         exportPayrollToExcel(SnnitList, workSheetColumnName, workSheetName, filePath);
-        res.sendFile(filePath);
+        res.status(200).sendFile(filePath);
     }
     catch (error) {
         return res.status(500).send((0, errorUtils_1.getErrorMessage)(error));

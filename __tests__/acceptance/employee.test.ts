@@ -41,15 +41,6 @@ describe('employees', () => {
              })
          })
 
-         describe('creating a new employee', ()=> {
-            it('should return a 201', async() => {
-                // const employee = await createEmployees(empPayload)
-
-
-               const response = await supertest(app).post('/api/v1/employees').send(empPayload);
-                expect(response.statusCode).toBe(201);
-                
-             })
-         })
+         
     })
 })
