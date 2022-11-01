@@ -65,7 +65,7 @@ const createPayReport = (req, res) => __awaiter(void 0, void 0, void 0, function
             "net_salary",
         ];
         const workSheetName = "Payroll";
-        const filePath = path_1.default.join(__dirname, '../../report/payroll.xlsx');
+        const filePath = path_1.default.join(__dirname, '../report/payroll.xlsx');
         const payrollList = yield payrollModel_1.default.findAll({
             where: {
                 date: date.date
@@ -122,7 +122,7 @@ const createGraReport = (req, res) => __awaiter(void 0, void 0, void 0, function
             "total_tax_deduction",
         ];
         const workSheetName = "Tax Filling";
-        const filePath = path_1.default.join(__dirname, '../../report/taxReport.xlsx');
+        const filePath = path_1.default.join(__dirname, '../report/taxReport.xlsx');
         const TaxList = yield taxModel_1.default.findAll({
             where: {
                 date: date.date
@@ -172,7 +172,7 @@ const createSnnitReport = (req, res) => __awaiter(void 0, void 0, void 0, functi
             "total_tax_deduction",
         ];
         const workSheetName = "Snnit Filling";
-        const filePath = path_1.default.join(__dirname, '../../report/snnitReport.xlsx');
+        const filePath = path_1.default.join(__dirname, '../report/snnitReport.xlsx');
         const SnnitList = yield snnitModel_1.default.findAll({
             where: {
                 date: date.date

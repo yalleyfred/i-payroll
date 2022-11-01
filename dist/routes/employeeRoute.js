@@ -3,7 +3,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const employeesCont_1 = require("../controllers/employeesCont");
 const router = (0, express_1.Router)();
-router.route("/").get(employeesCont_1.getAllEmployees).post(employeesCont_1.createEmployee);
+/**
+ *@swagger
+ * paths:
+ *  /api/v1/employees/:
+ *    get:
+ *      description: Use to get all employees
+ *      responses:
+ *        '200':
+ *          description: All employees that exist
+ */
+router.route("/").get(employeesCont_1.getAllEmployees);
+router.route('/').post(employeesCont_1.createEmployee);
 router
     .route("/:id")
     .get(employeesCont_1.getEmployee)

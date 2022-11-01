@@ -29,7 +29,7 @@ const options = {
             }
         ]
     },
-    apis: ["../model/*.ts", "../routes/*.ts"],
+    apis: ["../dist/model/*.js", "../dist/routes/*.js"],
 };
 const swaggerSpec = (0, swagger_jsdoc_1.default)(options);
 function swaggerDocs(app, port) {

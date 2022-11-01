@@ -7,8 +7,21 @@ import {
   deleteEmployee,
 } from "../controllers/employeesCont";
 const router = Router();
+/**
+ *@swagger
+ * paths:
+ *  /api/v1/employees/:
+ *    get:
+ *      description: Use to get all employees
+ *      responses:
+ *        '200':
+ *          description: All employees that exist
+ */
 
-router.route("/").get(getAllEmployees).post(createEmployee);
+router.route("/").get(getAllEmployees);
+
+
+router.route('/').post(createEmployee);
 
 router
   .route("/:id")

@@ -114,6 +114,11 @@ export async function makePayroll(employee: payroll) {
       throw new Error("Employee does not exist");
     }
 
+    if(emp.hire_date.toString().slice(2, 7) > payDate.slice(2, 7)) {
+      throw new Error("You can not pay an employee before the hire date");
+       
+     }
+
     const employeeEmail = emp?.email;
     const employeeJobtitle = emp?.job_title;
 

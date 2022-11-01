@@ -116,6 +116,9 @@ function makePayroll(employee) {
             if (emp == null) {
                 throw new Error("Employee does not exist");
             }
+            if (emp.hire_date.toString().slice(2, 7) > payDate.slice(2, 7)) {
+                throw new Error("You can not pay an employee before the hire date");
+            }
             const employeeEmail = emp === null || emp === void 0 ? void 0 : emp.email;
             const employeeJobtitle = emp === null || emp === void 0 ? void 0 : emp.job_title;
             const empLoan = yield loanModel_1.default.findOne({

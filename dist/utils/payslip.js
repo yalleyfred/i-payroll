@@ -64,177 +64,168 @@ const slip = (employee) => __awaiter(void 0, void 0, void 0, function* () {
     const snnit_deduction = empPayroll.teir_one + empPayroll.teir_two;
     const earning = empPayroll.basic_wage + empPayroll.allowance + empPayroll.bonus;
     const output = `
-    <style>
-    table tr td {
-    padding: 10px;
-    text-align: left;
-    }
-    
-    table tr td:first-child {
-    width: auto;
-    }
-    
-    table tr td:nth-child(2) {
-    width: 1px;
-    }
-    
-    table {
-    margin: 10px auto;
-    width: 50%;
-    }
-    
-    table thead th:first-child {
-    text-align: left;
-    }
-    
-    table thead th:nth-child(2) {
-    padding-right: 20px;
-    }
-    
-    table tr td:nth-child(2) {
-    padding-right: 20px;
-    text-align: right;
-    }
-    
-    table thead th {
-    padding: 20px 0;
-    border-bottom: 2px solid #000;
-    border-top: 2px solid #000;
-    }
-    
-    #deductions {
-    border-left: 3px solid #000;
-    }
-    
-    body,
-    table {
-    font-family: 'Inter', sans-serif;
-    }
-    </style>
-    
-    <body style="background-color: #fff">
-    <section style="margin:80px; width: 90%; background-color: #fff;">
-    <h1 style="font-size: 60px; text-align:center; margin-bottom: 0;">Employee Payslip</h1>
-    <!-- <hr /> -->
-    <section>
-    <div style="display: flex; border-top: 2px solid #000;">
-    <table>
-        <tr>
-            <td>Employee No.</td>
-            <td>:</td>
-            <td>${emp === null || emp === void 0 ? void 0 : emp.id}</td>
-        </tr>
-        <tr>
-            <td>Department</td>
-            <td>:</td>
-            <td>${emp === null || emp === void 0 ? void 0 : emp.department}</td>
-        </tr>
-        <tr>
-            <td>Date Hired</td>
-            <td>:</td>
-            <td>${emp === null || emp === void 0 ? void 0 : emp.hire_date}</td>
-        </tr>
-    </table>
-    <table>
-        <tr>
-            <td>Name</td>
-            <td>:</td>
-            <td>${empPayroll.name}</td>
-        </tr>
-        <tr>
-            <td>Position</td>
-            <td>:</td>
-            <td>${empPayroll.job_title}</td>
-        </tr>
-        <tr>
-            <td>Pay Date</td>
-            <td>:</td>
-            <td>${empPayroll.date}</td>
-        </tr>
-    </table>
+  <style>
+  @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap");
+
+  * {
+      margin: 0;
+  }
+
+  body {
+      font-family: Inter;
+      font-weight: 400;
+      font-size: 90%;
+      height: auto;
+  }
+
+  .flex-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+  }
+
+  .flex-container>div {
+      width: 45%;
+      border: 1px solid #ccc;
+  }
+
+  .flex-container>div>p {
+      padding: 6px 0;
+  }
+
+  .data_fieldName {
+      width: 10%;
+  }
+
+  .gutter {
+      width: 1%;
+      text-align: center;
+      /* border: 1px solid #ccc; */
+  }
+
+  table tr td {
+      border: unset;
+      border-collapse: collapse;
+      margin: 0;
+  }
+
+  .data_field {
+      text-align: right;
+      /* border: 1px solid #ccc; */
+      padding-right: 20px;
+  }
+
+
+  .headers {
+      text-align: center;
+      padding: 20px 0;
+  }
+
+  table {
+      padding: 20px;
+  }
+
+  #signature {
+      height: 80px;
+  }
+</style>
+<body>
+    <div style="width:100%; height:auto; background-color: #2e69f7; padding-left: 10%; color: #fff;">
+        <h1 style="font-size:6vw; padding: 0.8%;">Employee Payslip</h1>
     </div>
-    <section>
-    
-    <section>
-        <div style="display: flex; display: flex;  ;border-bottom:2px solid #000">
-            <table>
-                <thead>
-                    <th>Earnings</th>
-                    <th>Amount(GHC)</th>
-                </thead>
-                <tr>
-                    <td>Basic Pay</td>
-                    <td>${empPayroll.basic_wage}</td>
-                </tr>
-                <tr>
-                    <td>Allowances</td>
-                    <td>${empPayroll.allowance}</td>
-                </tr>
-                <tr>
-                    <td>Bonus</td>
-                    <td>${empPayroll.bonus}</td>
-                </tr>
-                <tr></tr>
-                <tr>
-                    <td><b>Total Earnings</b></td>
-                    <td>${earning}</td>
-                </tr>
-            </table>
-    
-            <table id="deductions">
-                <thead>
-                    <th>Deductions</th>
-                    <th>Amount(GHC)</th>
-                </thead>
-                <tr>
-                    <td>SNNIT</td>
-                    <td>${snnit_deduction}</td>
-                </tr>
-                <tr>
-                    <td>Income Tax</td>
-                    <td>${empPayroll.income_tax}</td>
-                </tr>
-                <tr>
-                    <td>Bonus Tax</td>
-                    <td>${empPayroll.bonus_tax}</td>
-                </tr>
-                <tr>
-                    <!-- <td>&nbsp;</td>
-                    <td>&nbsp;</td> -->
-                </tr>
-                <tr></tr>
-                <tr>
-                    <td><b>Total Deduction</b></td>
-                    <td>${empPayroll.total_deduction}</td>
-                </tr>
-            </table>
-        </div>
-    </section>
-    <section>
-        <div style="display: flex; border-top:2px solid #000 ;border-bottom:2px solid #000">
-            <table></table>
-            <table>
-    
-                <tr>
-                    <td><b>Net Earning</b></td>
-                    <td>${empPayroll.net_salary}</td>
-                </tr>
-            </table>
-        </div>
-    </section>
-    </section>
-    <section>
-    <div style="display: flex;">
-        <table>
+    <div class="flex-container">
+        <table style="width: 80%">
             <tr>
-                <td>Employer Signature: &nbsp;<b>APPROVED</b></td>
+                <td class="data_fieldName">Employee no.</td>
+                <td class="gutter">:</td>
+                <td class="data_field">${emp === null || emp === void 0 ? void 0 : emp.id}</td>
+
+                <td class="data_fieldName">Name</td>
+                <td class="gutter">:</td>
+                <td class="data_field">${empPayroll.name}</td>
+            </tr>
+            <tr>
+                <td class="data_fieldName">Department</td>
+                <td class="gutter">:</td>
+                <td class="data_field">${emp === null || emp === void 0 ? void 0 : emp.department}</td>
+
+                <td class="data_fieldName">Position</td>
+                <td class="gutter">:</td>
+                <td class="data_field">${empPayroll.job_title}</td>
+            </tr>
+            <tr>
+                <td class="data_fieldName">Date Hired</td>
+                <td class="gutter">:</td>
+                <td class="data_field">${emp === null || emp === void 0 ? void 0 : emp.hire_date}</td>
+
+                <td class="data_fieldName">Pay date</td>
+                <td class="gutter">:</td>
+                <td class="data_field">${empPayroll.date}</td>
+            </tr>
+            <tr>
+            </tr>
+            <th>
+                <tr>
+                    <td class="headers"><b>Earnings</b></td>
+                    <td colspan="2" class="headers"><b>Amount (GHC)</b></td>
+                    <td class="headers"><b>Deductions</b></td>
+                    <td colspan="2" class="headers"><b>Amount (GHC)</b></td>
+                </tr>
+            </th>
+            <tr>
+                <td class="data_fieldName">Basic Pay</td>
+                <td class="gutter">:</td>
+                <td class="data_field">${empPayroll.basic_wage}</td>
+
+                <td class="data_fieldName">SNNIT</td>
+                <td class="gutter">:</td>
+                <td class="data_field">${snnit_deduction}</td>
+            </tr>
+            <tr>
+                <td class="data_fieldName">Allowance</td>
+                <td class="gutter">:</td>
+                <td class="data_field">${empPayroll.allowance}</td>
+
+                <td class="data_fieldName">Income Tax</td>
+                <td class="gutter">:</td>
+                <td class="data_field">${empPayroll.income_tax}</td>
+            </tr>
+            <tr>
+                <td class="data_fieldName">Bonus Tax</td>
+                <td class="gutter">:</td>
+                <td class="data_field">${empPayroll.bonus_tax}</td>
+            </tr>
+
+            <tr>
+                <td class="data_fieldName">Bonus</td>
+                <td class="gutter">:</td>
+                <td class="data_field">${empPayroll.bonus}</td>
+            </tr>
+
+            <tr>
+                <td class="data_fieldName" class="headers"><b>Total Earnings</b></td>
+                <td class="gutter">:</td>
+                <td class="data_field">${earning}</td>
+
+                <td class="data_fieldName" class="headers"><b>Total Deduction</b></td>
+                <td class="gutter">:</td>
+                <td class="data_field">${empPayroll.total_deduction}</td>
+            </tr>
+
+            <tr>
+                <td class="data_fieldName" class="headers"><b>Net Earnings</b></td>
+                <td class="gutter">:</td>
+                <td class="data_field">${empPayroll.net_salary}</td>
+
+            </tr>
+            <tr id="signature">
+                <td colspan="3">
+                    Employer Signature: <small>APPROVED</small>
+                </td>
             </tr>
         </table>
-        <table></table>
     </div>
-    </section>
-    
-    </body>
+</body>
     `;
     return { output: output, emp: emp, empPayroll: empPayroll };
 });
