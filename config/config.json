@@ -1,0 +1,41 @@
+{
+  "development": {
+    "username": "ipayroll_user",
+    "password": "oN24LOPde2eKUbgi2D6umVMCkA1YLqqu",
+    "database": "ipayroll",
+    "host": "dpg-cd7g3lpgp3jgp4hhh5a0-a.ohio-postgres.render.com",
+    "dialect": "postgres",
+    "dialectOptions": {
+      "ssl": {
+        "require": false,
+        "rejectUnauthorized": false
+      }
+    }
+  },
+  "test": {
+    "username": "ipayroll_user",
+    "password": "oN24LOPde2eKUbgi2D6umVMCkA1YLqqu",
+    "database": "ipayroll",
+    "host": "dpg-cd7g3lpgp3jgp4hhh5a0-a.ohio-postgres.render.com",
+    "dialect": "postgres",
+    "dialectOptions": {
+      "ssl": {
+        "require": false,
+        "rejectUnauthorized": false
+      }
+    }
+  },
+  "production": {
+    "username": "ipayroll_user",
+    "password": "oN24LOPde2eKUbgi2D6umVMCkA1YLqqu",
+    "database": "ipayroll",
+    "host": "dpg-cd7g3lpgp3jgp4hhh5a0-a.ohio-postgres.render.com",
+    "dialect": "postgres",
+    "dialectOptions": {
+      "ssl": {
+        "require": false,
+        "rejectUnauthorized": false
+      }
+    }
+  }
+}
