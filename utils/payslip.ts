@@ -164,15 +164,14 @@ export const slip = async (employee: { name: string; date: string }) => {
                 <td class="data_field">${empPayroll!.income_tax}</td>
             </tr>
             <tr>
-                <td class="data_fieldName">Bonus Tax</td>
-                <td class="gutter">:</td>
-                <td class="data_field">${empPayroll!.bonus_tax}</td>
-            </tr>
-
-            <tr>
                 <td class="data_fieldName">Bonus</td>
                 <td class="gutter">:</td>
                 <td class="data_field">${empPayroll!.bonus}</td>
+            </tr>
+            <tr>
+                <td class="data_fieldName">Bonus Tax</td>
+                <td class="gutter">:</td>
+                <td class="data_field">${empPayroll!.bonus_tax}</td>
             </tr>
 
             <tr>
