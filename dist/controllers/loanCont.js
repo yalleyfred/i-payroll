@@ -34,11 +34,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createLoan = exports.getLoan = exports.getAllLoan = void 0;
 const loanModel_1 = __importStar(require("../model/loanModel"));
+const employeeModel_1 = __importStar(require("../model/employeeModel"));
 const Database_1 = require("../Database");
 const errorUtils_1 = require("../utils/errorUtils");
 const getAllLoan = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         (0, loanModel_1.LoanMap)(Database_1.Database);
+        console.log("hello");
         const loans = yield loanModel_1.default.findAll();
         res.status(200).json({ result: loans });
     }
@@ -62,14 +64,39 @@ exports.getLoan = getLoan;
 const createLoan = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         (0, loanModel_1.LoanMap)(Database_1.Database);
+        (0, employeeModel_1.EmployeeMap)(Database_1.Database);
         const newLoan = req.body;
-        if (!newLoan.name || !newLoan.name || !newLoan.name) {
+        console.log(newLoan.date.slice(2, 7));
+        if (!newLoan.name || !newLoan.amount || !newLoan.date) {
             throw new Error("Please fill all fields");
+        }
+        const emp = yield employeeModel_1.default.findOne({
+            where: {
+                name: newLoan.name,
+            }
+        });
+        if (!emp) {
+            throw new Error("Employee does not exist!");
+        }
+        if (emp.hire_date.toString().slice(2, 7) > newLoan.date.slice(2, 7)) {
+            throw new Error("You cant give an employee loan before hire date");
+        }
+        const loan = yield loanModel_1.default.findAll({
+            where: {
+                name: newLoan.name
+            }
+        });
+        for (let i = 0; i < loan.length; i++) {
+            const mnt = loan[i].date.toString().slice(2, 7);
+            console.log(mnt);
+            if (mnt == newLoan.date.slice(2, 7)) {
+                throw new Error("this loan has been created already");
+            }
         }
         yield loanModel_1.default.create(newLoan);
         res.status(200).json({
-            message: "success",
-            result: newLoan,
+            message: 'success',
+            result: newLoan
         });
     }
     catch (error) {

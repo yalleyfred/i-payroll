@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import Employee, { EmployeeMap } from "../model/employeeModel";
 import { getErrorMessage } from "../utils/errorUtils";
-import {Database, LocalDB} from "../Database";
+import {Database} from "../Database";
 
 type E = {
   name: string;
