@@ -1,7 +1,7 @@
 import { Response, Request } from "express";
 import Payroll, { PayrollMap } from "../model/payrollModel";
 import { getErrorMessage } from "../utils/errorUtils";
-import {Database, LocalDB} from "../Database";
+import {Database} from "../Database";
 import * as payService from "../service/payService";
 
 export const getAllPayroll = async (req: Request, res: Response) => {

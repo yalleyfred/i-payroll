@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { getErrorMessage } from "../utils/errorUtils";
 import User, { UserMap } from "../model/userModel";
 import * as userServices from "../service/userService";
-import {Database, LocalDB} from "../Database";
+import { Database } from "../Database";
 import * as dotenv from "dotenv";
 import { sendEmail } from "../utils/email";
 import jwt, { Secret } from "jsonwebtoken";
@@ -38,7 +38,6 @@ export const getUser = async (req: Request, res: Response) => {
 export const register = async (req: Request, res: Response) => {
   try {
     const user = await userServices.register(req.body);
-    console.log(req.body);
 
     res.cookie("jwt", user.token, user.cookie);
 
@@ -71,8 +70,7 @@ export const logIn = async (req: Request, res: Response) => {
 export const forgotPassword = async (req: Request, res: Response) => {
   try {
     const user = await userServices.forgotPassword(req.body);
-    console.log(user);
-    const token = user.resetToken === "secret"
+    const token = user.resetToken === "secret";
     const resetURL = `${req.protocol}://${req.get(
       "host"
     )}/resetuserpassword/${token}`;
@@ -85,7 +83,7 @@ export const forgotPassword = async (req: Request, res: Response) => {
       message: message,
     });
     res.status(200).json({
-      message: 'Check your email for link to reset your password',
+      message: "Check your email for link to reset your password",
       result: resetURL,
     });
   } catch (error) {
@@ -167,77 +165,66 @@ export const resetPassword = async (
     );
 
     createSendToken(user);
-    next(res.status(200).json({message: "success"}));
+    next(res.status(200).json({ message: "success" }));
   } catch (error) {
     return res.status(500).send(getErrorMessage(error));
   }
 };
 
-export const resetUserPassword = async(req:Request, res: Response, next: NextFunction) => {
+export const resetUserPassword = async (req: Request, res: Response) => {
   try {
-
     UserMap(Database);
 
+    type T = {
+      newPassword: string;
+      confirmPassword: string;
+    };
 
-  type T = {
-    newPassword: string;
-    confirmPassword: string
-  }
+    const newUser: T = req.body;
 
-  const newUser: T = req.body;
- 
-
-  if(!newUser.newPassword || !newUser.confirmPassword) {
-    throw new Error("Please provide all fields");
-  }
-
-  if (newUser.newPassword.length < 6) {
-    throw new Error("Password is too short");
-  }
-  if(newUser.newPassword !== newUser.confirmPassword) {
-    throw new Error("password does not match");
-  }
-
-  const user = await User.findOne({
-    where: {
-      active: true
-     
+    if (!newUser.newPassword || !newUser.confirmPassword) {
+      throw new Error("Please provide all fields");
     }
-  })
 
-  console.log(user);
-  
-  
-  if((!user) || user == null) {
-    return new Error('Token is invalid or has expired');
-    
-  };
-
-  const salt: number = 10
-  console.log(newUser.newPassword);
-  
-  const hashedPassword = await bcrypt.hash(newUser.newPassword, salt);
-  console.log(hashedPassword);
-
- await User.update({
-    passwordResetExpires: null,
-    passwordResetToken: null,
-    password: hashedPassword,
-    active: false
-  }, {
-    where: {
-      email: user.email
+    if (newUser.newPassword.length < 6) {
+      throw new Error("Password is too short");
     }
-  }); 
+    if (newUser.newPassword !== newUser.confirmPassword) {
+      throw new Error("password does not match");
+    }
 
+    const user = await User.findOne({
+      where: {
+        active: true,
+      },
+    });
 
-  const credentials = createSendToken(user)
-         console.log(credentials);
-          
-        next(res.send("success"));
+    if (!user || user == null) {
+      return new Error("Token is invalid or has expired");
+    }
 
-  }catch (error) {
+    const salt: number = 10;
+
+    const hashedPassword = await bcrypt.hash(newUser.newPassword, salt);
+
+    await User.update(
+      {
+        passwordResetExpires: null,
+        passwordResetToken: null,
+        password: hashedPassword,
+        active: false,
+      },
+      {
+        where: {
+          email: user.email,
+        },
+      }
+    );
+
+    const credentials = createSendToken(user);
+
+    res.send("success");
+  } catch (error) {
     return res.status(500).send(getErrorMessage(error));
-  };
-}
-
+  }
+};
