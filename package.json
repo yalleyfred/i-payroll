@@ -6,9 +6,8 @@
   "scripts": {
     "build": "npx tsc",
     "start": "node dist/server.js",
+    "pm2": "pm2 start dist/server.js --watch -i max",
     "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/server.js\"",
-    "client": "cd client && npm start",
-    "start:prod": "concurrently -n 'client,server' -c 'yellow,blue' \"npm run client\" \"npm run dev\"",
     "test": "jest",
     "test:coverage": "jest --coverage -c ./jest.unit.json"
   },
@@ -25,6 +24,7 @@
     "moment": "^2.29.4",
     "nodemailer": "^6.8.0",
     "pg": "^8.8.0",
+    "pm2": "^5.2.2",
     "sequelize": "^6.24.0",
     "swagger-jsdoc": "^6.2.5",
     "swagger-ui-express": "^4.5.0",
