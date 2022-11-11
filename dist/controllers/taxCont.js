@@ -50,7 +50,7 @@ const createTax = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const emp = yield employeeModel_1.default.findOne({
             where: {
                 name: name,
-            }
+            },
         });
         if (!emp) {
             throw new Error("Employee does not exist!");
@@ -58,10 +58,9 @@ const createTax = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const empPayroll = yield payrollModel_1.default.findOne({
             where: {
                 name: name,
-                date: date
-            }
+                date: date,
+            },
         });
-        console.log(empPayroll === null || empPayroll === void 0 ? void 0 : empPayroll.date);
         if (!empPayroll) {
             throw new Error("employee has no payroll record!");
         }
@@ -71,12 +70,11 @@ const createTax = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         }
         const taxes = yield taxModel_1.default.findAll({
             where: {
-                name: name
-            }
+                name: name,
+            },
         });
         for (let i = 0; i < taxes.length; i++) {
             const mnt = taxes[i].date.toString().slice(0, 7);
-            console.log(mnt);
             if (mnt == date) {
                 throw new Error("this tax has been created already");
             }
@@ -90,7 +88,7 @@ const createTax = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             net_taxable_pay: net_taxable_pay,
             total_tax_deduction: empPayroll.income_tax,
             tin: emp.tin,
-            date: date
+            date: date,
         };
         let result = yield taxModel_1.default.create(empTax);
         res.status(200).json({

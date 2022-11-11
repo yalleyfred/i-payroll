@@ -50,7 +50,7 @@ const createSnnit = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         const emp = yield employeeModel_1.default.findOne({
             where: {
                 name: name,
-            }
+            },
         });
         if (!emp) {
             throw new Error("Employee does not exist!");
@@ -58,8 +58,8 @@ const createSnnit = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         const empPayroll = yield payrollModel_1.default.findOne({
             where: {
                 name: name,
-                date: date
-            }
+                date: date,
+            },
         });
         if (!empPayroll) {
             throw new Error("employee has no payroll record!");
@@ -70,12 +70,11 @@ const createSnnit = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         }
         const snnit = yield snnitModel_1.default.findAll({
             where: {
-                name: name
-            }
+                name: name,
+            },
         });
         for (let i = 0; i < snnit.length; i++) {
             const mnt = snnit[i].date.toString().slice(0, 7);
-            console.log(mnt);
             if (mnt == date) {
                 throw new Error("this snnit has been created already");
             }
@@ -88,7 +87,7 @@ const createSnnit = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
             tier_two: empPayroll.teir_two,
             total_snnit_contribution: total_snnit_contribution,
             snnit_no: emp.snnit,
-            date: date
+            date: date,
         };
         let result = yield snnitModel_1.default.create(empSnnit);
         res.status(200).json({

@@ -66,14 +66,13 @@ const createLoan = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         (0, loanModel_1.LoanMap)(Database_1.Database);
         (0, employeeModel_1.EmployeeMap)(Database_1.Database);
         const newLoan = req.body;
-        console.log(newLoan.date.slice(2, 7));
         if (!newLoan.name || !newLoan.amount || !newLoan.date) {
             throw new Error("Please fill all fields");
         }
         const emp = yield employeeModel_1.default.findOne({
             where: {
                 name: newLoan.name,
-            }
+            },
         });
         if (!emp) {
             throw new Error("Employee does not exist!");
@@ -83,20 +82,19 @@ const createLoan = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         }
         const loan = yield loanModel_1.default.findAll({
             where: {
-                name: newLoan.name
-            }
+                name: newLoan.name,
+            },
         });
         for (let i = 0; i < loan.length; i++) {
             const mnt = loan[i].date.toString().slice(2, 7);
-            console.log(mnt);
             if (mnt == newLoan.date.slice(2, 7)) {
                 throw new Error("this loan has been created already");
             }
         }
         yield loanModel_1.default.create(newLoan);
         res.status(200).json({
-            message: 'success',
-            result: newLoan
+            message: "success",
+            result: newLoan,
         });
     }
     catch (error) {

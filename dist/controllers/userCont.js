@@ -73,7 +73,6 @@ exports.getUser = getUser;
 const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const user = yield userServices.register(req.body);
-        console.log(req.body);
         res.cookie("jwt", user.token, user.cookie);
         res.status(200).json({
             message: "successfully registered",
@@ -104,7 +103,6 @@ exports.logIn = logIn;
 const forgotPassword = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const user = yield userServices.forgotPassword(req.body);
-        console.log(user);
         const token = user.resetToken === "secret";
         const resetURL = `${req.protocol}://${req.get("host")}/resetuserpassword/${token}`;
         const message = `Forgot your password? Please follow this link to set your new password: ${resetURL}\nIf you did'nt forget your password, please ignore this email!`;
@@ -114,7 +112,7 @@ const forgotPassword = (req, res) => __awaiter(void 0, void 0, void 0, function*
             message: message,
         });
         res.status(200).json({
-            message: 'Check your email for link to reset your password',
+            message: "Check your email for link to reset your password",
             result: resetURL,
         });
     }
@@ -173,7 +171,7 @@ const resetPassword = (req, res, next) => __awaiter(void 0, void 0, void 0, func
     }
 });
 exports.resetPassword = resetPassword;
-const resetUserPassword = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const resetUserPassword = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         (0, userModel_1.UserMap)(Database_1.Database);
         const newUser = req.body;
@@ -188,36 +186,30 @@ const resetUserPassword = (req, res, next) => __awaiter(void 0, void 0, void 0, 
         }
         const user = yield userModel_1.default.findOne({
             where: {
-                active: true
-            }
+                active: true,
+            },
         });
-        console.log(user);
-        if ((!user) || user == null) {
-            return new Error('Token is invalid or has expired');
+        if (!user || user == null) {
+            return new Error("Token is invalid or has expired");
         }
-        ;
         const salt = 10;
-        console.log(newUser.newPassword);
         const hashedPassword = yield bcrypt_1.default.hash(newUser.newPassword, salt);
-        console.log(hashedPassword);
         yield userModel_1.default.update({
             passwordResetExpires: null,
             passwordResetToken: null,
             password: hashedPassword,
-            active: false
+            active: false,
         }, {
             where: {
-                email: user.email
-            }
+                email: user.email,
+            },
         });
         const credentials = (0, createToken_1.createSendToken)(user);
-        console.log(credentials);
-        next(res.send("success"));
+        res.send("success");
     }
     catch (error) {
         return res.status(500).send((0, errorUtils_1.getErrorMessage)(error));
     }
-    ;
 });
 exports.resetUserPassword = resetUserPassword;
 //# sourceMappingURL=userCont.js.map
