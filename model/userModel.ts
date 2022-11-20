@@ -10,6 +10,45 @@ export default class User extends Model {
   public active!: Boolean;
 }
 
+/**
+ * @openapi 
+ * components:
+ *   schemas:
+ *     CreateUserInput:
+ *       type: object
+ *       required:
+ *         -name
+ *         -email
+ *         -password
+ *         -password2
+ *       properties:
+ *         name:
+ *            type: string
+ *            default: john Doe
+ *         email:
+ *            type: string
+ *            default: johnDoe@email.com
+ *         password:
+ *            type: string
+ *            default: password123
+ *         password2:
+ *            type: string
+ *            default: password123
+ *     CreateUserResponse:
+ *       type: object
+ *       properties:
+ *         id:
+ *            type: string
+ *         name:
+ *            type: string
+ *         email:
+ *            type: string
+ *         createdAt:
+ *            type: string
+ *         updatedAt:
+ *            type: string
+ */
+
 export const UserMap = (sequelize: Sequelize) => {
   User.init(
     {

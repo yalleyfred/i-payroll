@@ -5,6 +5,40 @@ const sequelize_1 = require("sequelize");
 class Loan extends sequelize_1.Model {
 }
 exports.default = Loan;
+/**
+ * @openapi
+ * components:
+ *   schemas:
+ *     CreateLoanInput:
+ *       type: object
+ *       required:
+ *         -name
+ *         -amount
+ *         -date
+ *       properties:
+ *         name:
+ *            type: string
+ *            default: john Doe
+ *         amount:
+ *            type: string
+ *            default: 100
+ *         date:
+ *            type: Date
+ *            default: 2022-10-20
+ *     CreateLoanResponse:
+ *       type: object
+ *       properties:
+ *         id:
+ *            type: string
+ *         name:
+ *            type: string
+ *         amount:
+ *            type: string
+ *         createdAt:
+ *            type: string
+ *         updatedAt:
+ *            type: string
+ */
 const LoanMap = (sequelize) => {
     Loan.init({
         id: {

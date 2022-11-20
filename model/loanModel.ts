@@ -7,6 +7,41 @@ export default class Loan extends Model {
   public date!: string;
 }
 
+/**
+ * @openapi 
+ * components:
+ *   schemas:
+ *     CreateLoanInput:
+ *       type: object
+ *       required:
+ *         -name
+ *         -amount
+ *         -date
+ *       properties:
+ *         name:
+ *            type: string
+ *            default: john Doe
+ *         amount:
+ *            type: string
+ *            default: 100
+ *         date:
+ *            type: Date
+ *            default: 2022-10-20
+ *     CreateLoanResponse:
+ *       type: object
+ *       properties:
+ *         id:
+ *            type: string
+ *         name:
+ *            type: string
+ *         amount:
+ *            type: string
+ *         createdAt:
+ *            type: string
+ *         updatedAt:
+ *            type: string
+ */
+
 export const LoanMap = (sequelize: Sequelize) => {
   Loan.init(
     {

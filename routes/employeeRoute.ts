@@ -8,20 +8,45 @@ import {
 } from "../controllers/employeesCont";
 const router = Router();
 /**
- *@swagger
- * paths:
- *  /api/v1/employees/:
+ *@openapi
+ *  /api/v1/employees:
  *    get:
- *      description: Use to get all employees
+ *      tags:
+ *        - Employees
+ *      summary: Get all employees
  *      responses:
- *        '200':
- *          description: All employees that exist
+ *        200:
+ *          description: All employees that exist     
+ *        500:
+ *          description: Bad request
  */
 
 router.route("/").get(getAllEmployees);
 
-
-router.route('/').post(createEmployee);
+/**
+ * @openapi
+ * '/api/v1/employees':
+ *    post:
+ *      tags:
+ *        - Employees
+ *      summary: Create Employee
+ *      requestBody:
+ *        required: true
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/CreateEmployeeInput'
+ *      responses:
+ *         200:
+ *           description: Success
+ *           content:
+ *              application/json:
+ *                schema:
+ *                  $ref: '#/components/schemas/CreateEmployeeResponse'
+ *         500: 
+ *            description: Bad request
+ */
+router.route("/").post(createEmployee);
 
 router
   .route("/:id")

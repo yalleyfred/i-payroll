@@ -5,6 +5,44 @@ const sequelize_1 = require("sequelize");
 class User extends sequelize_1.Model {
 }
 exports.default = User;
+/**
+ * @openapi
+ * components:
+ *   schemas:
+ *     CreateUserInput:
+ *       type: object
+ *       required:
+ *         -name
+ *         -email
+ *         -password
+ *         -password2
+ *       properties:
+ *         name:
+ *            type: string
+ *            default: john Doe
+ *         email:
+ *            type: string
+ *            default: johnDoe@email.com
+ *         password:
+ *            type: string
+ *            default: password123
+ *         password2:
+ *            type: string
+ *            default: password123
+ *     CreateUserResponse:
+ *       type: object
+ *       properties:
+ *         id:
+ *            type: string
+ *         name:
+ *            type: string
+ *         email:
+ *            type: string
+ *         createdAt:
+ *            type: string
+ *         updatedAt:
+ *            type: string
+ */
 const UserMap = (sequelize) => {
     User.init({
         id: {

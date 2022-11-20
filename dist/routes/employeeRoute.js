@@ -4,17 +4,43 @@ const express_1 = require("express");
 const employeesCont_1 = require("../controllers/employeesCont");
 const router = (0, express_1.Router)();
 /**
- *@swagger
- * paths:
- *  /api/v1/employees/:
+ *@openapi
+ *  /api/v1/employees:
  *    get:
- *      description: Use to get all employees
+ *      tags:
+ *        - Employees
+ *      summary: Get all employees
  *      responses:
- *        '200':
+ *        200:
  *          description: All employees that exist
+ *        500:
+ *          description: Bad request
  */
 router.route("/").get(employeesCont_1.getAllEmployees);
-router.route('/').post(employeesCont_1.createEmployee);
+/**
+ * @openapi
+ * '/api/v1/employees':
+ *    post:
+ *      tags:
+ *        - Employees
+ *      summary: Create Employee
+ *      requestBody:
+ *        required: true
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/CreateEmployeeInput'
+ *      responses:
+ *         200:
+ *           description: Success
+ *           content:
+ *              application/json:
+ *                schema:
+ *                  $ref: '#/components/schemas/CreateEmployeeResponse'
+ *         500:
+ *            description: Bad request
+ */
+router.route("/").post(employeesCont_1.createEmployee);
 router
     .route("/:id")
     .get(employeesCont_1.getEmployee)
