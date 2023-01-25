@@ -12,7 +12,7 @@ export const getAllLoan = async (req: Request, res: Response) => {
     const loans = await Loan.findAll();
     res.status(200).json({ result: loans });
   } catch (error) {
-    return res.status(500).send(getErrorMessage(error));
+    return res.status(400).send(getErrorMessage(error));
   }
 };
 
@@ -23,7 +23,7 @@ export const getLoan = async (req: Request, res: Response) => {
     const result = await Loan.findByPk(id);
     res.status(200).json({ user: result });
   } catch (error) {
-    return res.status(500).send(getErrorMessage(error));
+    return res.status(400).send(getErrorMessage(error));
   }
 };
 
@@ -71,11 +71,11 @@ export const createLoan = async (req: Request, res: Response) => {
     }
 
     await Loan.create(newLoan);
-    res.status(200).json({
+    res.status(201).json({
       message: "success",
       result: newLoan,
     });
   } catch (error) {
-    return res.status(500).send(getErrorMessage(error));
+    return res.status(400).send(getErrorMessage(error));
   }
 };

@@ -41,7 +41,7 @@ export const register = async (req: Request, res: Response) => {
 
     res.cookie("jwt", user.token, user.cookie);
 
-    res.status(200).json({
+    res.status(201).json({
       message: "successfully registered",
       token: user.token,
       data: user.user,
@@ -63,7 +63,7 @@ export const logIn = async (req: Request, res: Response) => {
       cookie: foundUser.cookie,
     });
   } catch (error) {
-    return res.status(500).send(getErrorMessage(error));
+    return res.status(401).send(getErrorMessage(error));
   }
 };
 
@@ -87,7 +87,7 @@ export const forgotPassword = async (req: Request, res: Response) => {
       result: resetURL,
     });
   } catch (error) {
-    return res.status(500).send(getErrorMessage(error));
+    return res.status(400).send(getErrorMessage(error));
   }
 };
 
@@ -167,7 +167,7 @@ export const resetPassword = async (
     createSendToken(user);
     next(res.status(200).json({ message: "success" }));
   } catch (error) {
-    return res.status(500).send(getErrorMessage(error));
+    return res.status(400).send(getErrorMessage(error));
   }
 };
 
@@ -225,6 +225,6 @@ export const resetUserPassword = async (req: Request, res: Response) => {
 
     res.send("success");
   } catch (error) {
-    return res.status(500).send(getErrorMessage(error));
+    return res.status(400).send(getErrorMessage(error));
   }
 };

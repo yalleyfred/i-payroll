@@ -51,13 +51,13 @@ exports.getAllPayroll = getAllPayroll;
 const createPayroll = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const payroll = yield payService.makePayroll(req.body);
-        res.status(200).json({
+        res.status(201).json({
             message: "success",
             result: payroll.payrollData,
         });
     }
     catch (error) {
-        return res.status(500).send((0, errorUtils_1.getErrorMessage)(error));
+        return res.status(400).send((0, errorUtils_1.getErrorMessage)(error));
     }
 });
 exports.createPayroll = createPayroll;
@@ -69,7 +69,7 @@ const getPayroll = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         res.status(200).json({ payInfo: result });
     }
     catch (error) {
-        return res.status(500).send((0, errorUtils_1.getErrorMessage)(error));
+        return res.status(400).send((0, errorUtils_1.getErrorMessage)(error));
     }
 });
 exports.getPayroll = getPayroll;

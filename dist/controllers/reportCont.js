@@ -47,7 +47,6 @@ const createPayReport = (req, res) => __awaiter(void 0, void 0, void 0, function
     try {
         const date = { date: req.params.month };
         (0, payrollModel_1.PayrollMap)(Database_1.Database);
-        console.log(date);
         const workSheetColumnName = [
             "name",
             "job_title",
@@ -204,7 +203,7 @@ const createSnnitReport = (req, res) => __awaiter(void 0, void 0, void 0, functi
         res.status(200).sendFile(filePath);
     }
     catch (error) {
-        return res.status(500).send((0, errorUtils_1.getErrorMessage)(error));
+        return res.status(400).send((0, errorUtils_1.getErrorMessage)(error));
     }
 });
 exports.createSnnitReport = createSnnitReport;

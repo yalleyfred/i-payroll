@@ -43,7 +43,7 @@ const getAllEmployees = (req, res) => __awaiter(void 0, void 0, void 0, function
         res.status(200).json({ employee: result });
     }
     catch (error) {
-        return res.status(500).send((0, errorUtils_1.getErrorMessage)(error));
+        return res.status(400).send((0, errorUtils_1.getErrorMessage)(error));
     }
 });
 exports.getAllEmployees = getAllEmployees;
@@ -89,7 +89,7 @@ const createEmployee = (req, res) => __awaiter(void 0, void 0, void 0, function*
         });
     }
     catch (error) {
-        return res.status(500).send((0, errorUtils_1.getErrorMessage)(error));
+        return res.status(400).send((0, errorUtils_1.getErrorMessage)(error));
     }
 });
 exports.createEmployee = createEmployee;
@@ -97,7 +97,7 @@ const updateEmployee = (req, res) => __awaiter(void 0, void 0, void 0, function*
     try {
     }
     catch (error) {
-        return res.status(500).send((0, errorUtils_1.getErrorMessage)(error));
+        return res.status(400).send((0, errorUtils_1.getErrorMessage)(error));
     }
 });
 exports.updateEmployee = updateEmployee;
@@ -105,7 +105,7 @@ const deleteEmployee = (req, res) => __awaiter(void 0, void 0, void 0, function*
     try {
     }
     catch (error) {
-        return res.status(500).send((0, errorUtils_1.getErrorMessage)(error));
+        return res.status(400).send((0, errorUtils_1.getErrorMessage)(error));
     }
 });
 exports.deleteEmployee = deleteEmployee;

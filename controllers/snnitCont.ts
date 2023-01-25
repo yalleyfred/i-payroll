@@ -70,12 +70,12 @@ export const createSnnit = async (req: Request, res: Response) => {
     };
     let result = await Snnit.create(empSnnit);
 
-    res.status(200).json({
+    res.status(201).json({
       message: "success",
       pay: result,
     });
   } catch (error) {
-    return res.status(500).send(getErrorMessage(error));
+    return res.status(400).send(getErrorMessage(error));
   }
 };
 
@@ -88,6 +88,6 @@ export const getAllSnnit = async (req: Request, res: Response) => {
       snnit: result,
     });
   } catch (error) {
-    return res.status(500).send(getErrorMessage(error));
+    return res.status(400).send(getErrorMessage(error));
   }
 };

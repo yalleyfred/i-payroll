@@ -10,7 +10,7 @@ export const getAllPayslip = async (req: Request, res: Response) => {
     const result = await Payslip.findAll();
     res.status(200).json({ payInfo: result });
   } catch (error) {
-    return res.status(500).send(getErrorMessage(error));
+    return res.status(400).send(getErrorMessage(error));
   }
 };
 
@@ -34,6 +34,6 @@ export const createPayslip = async (req: Request, res: Response) => {
       result: payslip.newPayslip,
     });
   } catch (error) {
-    return res.status(500).send(getErrorMessage(error));
+    return res.status(400).send(getErrorMessage(error));
   }
 };

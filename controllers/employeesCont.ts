@@ -20,7 +20,7 @@ export const getAllEmployees = async (req: Request, res: Response) => {
     const result = await Employee.findAll();
     res.status(200).json({ employee: result });
   } catch (error) {
-    return res.status(500).send(getErrorMessage(error));
+    return res.status(400).send(getErrorMessage(error));
   }
 };
 
@@ -71,20 +71,20 @@ export const createEmployee = async (req: Request, res: Response) => {
       employee: result 
     });
   } catch (error) {
-    return res.status(500).send(getErrorMessage(error));
+    return res.status(400).send(getErrorMessage(error));
   }
 };
 
 export const updateEmployee = async (req: Request, res: Response) => {
   try {
   } catch (error) {
-    return res.status(500).send(getErrorMessage(error));
+    return res.status(400).send(getErrorMessage(error));
   }
 };
 
 export const deleteEmployee = async (req: Request, res: Response) => {
   try {
   } catch (error) {
-    return res.status(500).send(getErrorMessage(error));
+    return res.status(400).send(getErrorMessage(error));
   }
 };

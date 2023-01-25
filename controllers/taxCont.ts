@@ -70,12 +70,12 @@ export const createTax = async (req: Request, res: Response) => {
     };
     let result = await Tax.create(empTax);
 
-    res.status(200).json({
+    res.status(201).json({
       message: "success",
       pay: result,
     });
   } catch (error) {
-    return res.status(500).send(getErrorMessage(error));
+    return res.status(400).send(getErrorMessage(error));
   }
 };
 
@@ -88,6 +88,6 @@ export const getAllTax = async (req: Request, res: Response) => {
       tax: result,
     });
   } catch (error) {
-    return res.status(500).send(getErrorMessage(error));
+    return res.status(400).send(getErrorMessage(error));
   }
 };

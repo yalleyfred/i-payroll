@@ -45,7 +45,7 @@ const getAllLoan = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         res.status(200).json({ result: loans });
     }
     catch (error) {
-        return res.status(500).send((0, errorUtils_1.getErrorMessage)(error));
+        return res.status(400).send((0, errorUtils_1.getErrorMessage)(error));
     }
 });
 exports.getAllLoan = getAllLoan;
@@ -57,7 +57,7 @@ const getLoan = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         res.status(200).json({ user: result });
     }
     catch (error) {
-        return res.status(500).send((0, errorUtils_1.getErrorMessage)(error));
+        return res.status(400).send((0, errorUtils_1.getErrorMessage)(error));
     }
 });
 exports.getLoan = getLoan;
@@ -92,13 +92,13 @@ const createLoan = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             }
         }
         yield loanModel_1.default.create(newLoan);
-        res.status(200).json({
+        res.status(201).json({
             message: "success",
             result: newLoan,
         });
     }
     catch (error) {
-        return res.status(500).send((0, errorUtils_1.getErrorMessage)(error));
+        return res.status(400).send((0, errorUtils_1.getErrorMessage)(error));
     }
 });
 exports.createLoan = createLoan;

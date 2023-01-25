@@ -74,7 +74,7 @@ const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const user = yield userServices.register(req.body);
         res.cookie("jwt", user.token, user.cookie);
-        res.status(200).json({
+        res.status(201).json({
             message: "successfully registered",
             token: user.token,
             data: user.user,
@@ -96,7 +96,7 @@ const logIn = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         });
     }
     catch (error) {
-        return res.status(500).send((0, errorUtils_1.getErrorMessage)(error));
+        return res.status(401).send((0, errorUtils_1.getErrorMessage)(error));
     }
 });
 exports.logIn = logIn;
@@ -117,7 +117,7 @@ const forgotPassword = (req, res) => __awaiter(void 0, void 0, void 0, function*
         });
     }
     catch (error) {
-        return res.status(500).send((0, errorUtils_1.getErrorMessage)(error));
+        return res.status(400).send((0, errorUtils_1.getErrorMessage)(error));
     }
 });
 exports.forgotPassword = forgotPassword;
@@ -167,7 +167,7 @@ const resetPassword = (req, res, next) => __awaiter(void 0, void 0, void 0, func
         next(res.status(200).json({ message: "success" }));
     }
     catch (error) {
-        return res.status(500).send((0, errorUtils_1.getErrorMessage)(error));
+        return res.status(400).send((0, errorUtils_1.getErrorMessage)(error));
     }
 });
 exports.resetPassword = resetPassword;
@@ -208,7 +208,7 @@ const resetUserPassword = (req, res) => __awaiter(void 0, void 0, void 0, functi
         res.send("success");
     }
     catch (error) {
-        return res.status(500).send((0, errorUtils_1.getErrorMessage)(error));
+        return res.status(400).send((0, errorUtils_1.getErrorMessage)(error));
     }
 });
 exports.resetUserPassword = resetUserPassword;

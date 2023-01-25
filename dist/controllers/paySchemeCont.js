@@ -41,13 +41,13 @@ const createPay = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const newPay = req.body;
         (0, paySchemeModel_1.PayMap)(Database_1.Database);
         let result = yield paySchemeModel_1.default.create(newPay);
-        res.status(200).json({
+        res.status(201).json({
             message: "success",
             pay: result,
         });
     }
     catch (error) {
-        return res.status(500).send((0, errorUtils_1.getErrorMessage)(error));
+        return res.status(400).send((0, errorUtils_1.getErrorMessage)(error));
     }
 });
 exports.createPay = createPay;
@@ -61,7 +61,7 @@ const getAllPay = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         });
     }
     catch (error) {
-        return res.status(500).send((0, errorUtils_1.getErrorMessage)(error));
+        return res.status(400).send((0, errorUtils_1.getErrorMessage)(error));
     }
 });
 exports.getAllPay = getAllPay;

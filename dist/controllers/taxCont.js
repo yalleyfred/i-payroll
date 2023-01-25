@@ -91,13 +91,13 @@ const createTax = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             date: date,
         };
         let result = yield taxModel_1.default.create(empTax);
-        res.status(200).json({
+        res.status(201).json({
             message: "success",
             pay: result,
         });
     }
     catch (error) {
-        return res.status(500).send((0, errorUtils_1.getErrorMessage)(error));
+        return res.status(400).send((0, errorUtils_1.getErrorMessage)(error));
     }
 });
 exports.createTax = createTax;
@@ -111,7 +111,7 @@ const getAllTax = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         });
     }
     catch (error) {
-        return res.status(500).send((0, errorUtils_1.getErrorMessage)(error));
+        return res.status(400).send((0, errorUtils_1.getErrorMessage)(error));
     }
 });
 exports.getAllTax = getAllTax;

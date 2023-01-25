@@ -17,12 +17,12 @@ export const createPay = async (req: Request, res: Response) => {
     PayMap(Database);
     let result = await Pay.create(newPay);
 
-    res.status(200).json({
+    res.status(201).json({
       message: "success",
       pay: result,
     });
   } catch (error) {
-    return res.status(500).send(getErrorMessage(error));
+    return res.status(400).send(getErrorMessage(error));
   }
 };
 
@@ -35,6 +35,6 @@ export const getAllPay = async (req: Request, res: Response) => {
       pay: result,
     });
   } catch (error) {
-    return res.status(500).send(getErrorMessage(error));
+    return res.status(400).send(getErrorMessage(error));
   }
 };

@@ -56,8 +56,6 @@ export const createPayReport = async (req: Request, res: Response) => {
     PayrollMap(Database);
 
    
-   
-      console.log(date);
       
       const workSheetColumnName = [
         "name",
@@ -290,6 +288,6 @@ export const createSnnitReport = async(req:Request, res:Response) => {
 
     
   }catch (error) {
-    return res.status(500).send(getErrorMessage(error));
+    return res.status(400).send(getErrorMessage(error));
   }
 }
